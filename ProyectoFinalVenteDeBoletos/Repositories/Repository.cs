@@ -34,4 +34,4 @@ namespace ProyectoFinalVenteDeBoletos.Repositories;
             Ctx.SaveChanges();
         }
     }
-}
+
