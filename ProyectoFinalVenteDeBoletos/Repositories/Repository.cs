@@ -1,16 +1,15 @@
-﻿using ProyectoFinalVentaDeBoletos.Models.Entities;
+﻿using Microsoft.EntityFrameworkCore;
+using ProyectoFinalVentaDeBoletos.Models.Entities;
 
 namespace ProyectoFinalVenteDeBoletos.Repositories
 {
     public class Repository<T> where T : class
     {
+        private readonly CinemaventaboletosContext Ctx;
         public Repository(CinemaventaboletosContext ctx)
         {
             Ctx = ctx;
         }
-
-        public CinemaventaboletosContext Ctx { get; }
-
         public virtual IEnumerable<T> GetAll()
         {
             return Ctx.Set<T>();

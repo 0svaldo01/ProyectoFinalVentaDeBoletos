@@ -1,26 +1,25 @@
-﻿using ProyectoFinalVentaDeBoletos.Models.Entities;
+﻿using Microsoft.EntityFrameworkCore;
+using ProyectoFinalVentaDeBoletos.Models.Entities;
 using ProyectoFinalVenteDeBoletos.Repositories;
 
 namespace ProyectoFinalVentaDeBoletos.Repositories
 {
     public class RepositorioHorario
     {
-        private readonly Repository<Horario> Repositorio;
-
-        public RepositorioHorario(Repository<Horario> repository)
+        private readonly CinemaventaboletosContext Ctx;
+        public RepositorioHorario(CinemaventaboletosContext ctx)
         {
-            Repositorio = repository;
+            Ctx = ctx;
         }
-        public IEnumerable<Horario> GetHorarios()
+
+        public IEnumerable<Horario> GetAll()
         {
-            return Repositorio.GetAll().OrderBy(x=>x.FechaHora);
+            return Ctx.Horario.Include(x => x.IdPeliculaNavigation).Include(x => x.IdSalaNavigation).OrderBy(x=>x.FechaHora);
         }
 
         public Horario? GetHorarioById(int id)
         {
-            return Repositorio.Get(id);
+            return Ctx.Horario.Find(id);
         }
-
-
     }
 }
