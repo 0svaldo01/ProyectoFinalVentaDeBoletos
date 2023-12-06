@@ -13,7 +13,7 @@ namespace ProyectoFinalVentaDeBoletos.Repositories
         }
         public IEnumerable<Horario> GetHorarios()
         {
-            return Repositorio.GetAll();
+            return Repositorio.GetAll().OrderBy(x=>x.FechaHora);
         }
 
         public Horario? GetHorarioById(int id)

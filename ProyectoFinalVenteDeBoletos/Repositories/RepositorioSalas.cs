@@ -14,7 +14,7 @@ namespace ProyectoFinalVentaDeBoletos.Repositories
 
         public IEnumerable<Sala> GetAllSalas()
         {
-            return Repositorio.GetAll();
+            return Repositorio.GetAll().OrderByDescending(x=>x.Capacidad);
         }
 
         public Sala? GetSalaById(int id)

@@ -14,7 +14,7 @@ namespace ProyectoFinalVentaDeBoletos.Repositories
 
         public IEnumerable<Pelicula> GetPeliculasByIdGenero(int genero)
         {
-            return Repositorio.GetAll().Where(x=>x.IdGeneros == genero);
+            return Repositorio.GetAll().Where(x=>x.IdGeneros == genero).OrderBy(x=>x.Nombre);
         }
 
         public Pelicula? GetPeliculaByNombre(string nombre)
