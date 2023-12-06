@@ -1,6 +1,9 @@
-﻿namespace ProyectoFinalVentaDeBoletos.Models.Entities;
+﻿using System;
+using System.Collections.Generic;
 
-public partial class Genero
+namespace ProyectoFinalVentaDeBoletos.Models.Entities;
+
+public partial class Clasificacion
 {
     public int Id { get; set; }
 

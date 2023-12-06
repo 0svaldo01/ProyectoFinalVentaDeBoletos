@@ -1,6 +1,7 @@
-﻿using ProyectoFinalVenteDeBoletos.Models.Entities;
-namespace ProyectoFinalVenteDeBoletos.Repositories;
+﻿using ProyectoFinalVentaDeBoletos.Models.Entities;
 
+namespace ProyectoFinalVenteDeBoletos.Repositories
+{
     public class Repository<T> where T : class
     {
         public Repository(CinemaventaboletosContext ctx)
@@ -34,4 +35,4 @@ namespace ProyectoFinalVenteDeBoletos.Repositories;
             Ctx.SaveChanges();
         }
     }
-
+}

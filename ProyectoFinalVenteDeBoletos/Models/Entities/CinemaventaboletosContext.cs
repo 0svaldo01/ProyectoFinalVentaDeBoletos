@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 
-namespace ProyectoFinalVenteDeBoletos.Models.Entities;
+namespace ProyectoFinalVentaDeBoletos.Models.Entities;
 
 public partial class CinemaventaboletosContext : DbContext
 {
@@ -15,179 +15,125 @@ public partial class CinemaventaboletosContext : DbContext
     {
     }
 
-    public virtual DbSet<Boletosvendidos> Boletosvendidos { get; set; }
-
-    public virtual DbSet<Clasifiacion> Clasifiacion { get; set; }
+    public virtual DbSet<Clasificacion> Clasificacion { get; set; }
 
     public virtual DbSet<Genero> Genero { get; set; }
 
     public virtual DbSet<Horario> Horario { get; set; }
 
-    public virtual DbSet<Peliculas> Peliculas { get; set; }
+    public virtual DbSet<Pelicula> Pelicula { get; set; }
 
-    public virtual DbSet<Salas> Salas { get; set; }
+    public virtual DbSet<Sala> Sala { get; set; }
 
-    public virtual DbSet<Tipousuarios> Tipousuarios { get; set; }
+    public virtual DbSet<Tipopantalla> Tipopantalla { get; set; }
 
-    public virtual DbSet<Transacciones> Transacciones { get; set; }
-
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-        => optionsBuilder.UseMySql("server=localhost;user=root;database=cinemaventaboletos;password=root", Microsoft.EntityFrameworkCore.ServerVersion.Parse("8.0.28-mysql"));
+//    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+//#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
+//        => optionsBuilder.UseMySql("server=localhost;database=cinemaventaboletos;username=root;password=root", Microsoft.EntityFrameworkCore.ServerVersion.Parse("8.0.35-mysql"));
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder
-            .UseCollation("utf8_general_ci")
-            .HasCharSet("utf8");
+            .UseCollation("utf8mb3_general_ci")
+            .HasCharSet("utf8mb3");
 
-        modelBuilder.Entity<Boletosvendidos>(entity =>
+        modelBuilder.Entity<Clasificacion>(entity =>
         {
-            entity.HasKey(e => e.IdBoletosVendidos).HasName("PRIMARY");
+            entity.HasKey(e => e.Id).HasName("PRIMARY");
 
-            entity.ToTable("boletosvendidos");
+            entity.ToTable("clasificacion");
 
-            entity.HasIndex(e => e.IdTransacciones, "fk_BoletosVendidos_Transacciones1_idx");
+            entity.HasIndex(e => e.Nombre, "Nombre").IsUnique();
 
-            entity.Property(e => e.IdBoletosVendidos).HasColumnName("Id_BoletosVendidos");
-            entity.Property(e => e.Estado).HasMaxLength(45);
-            entity.Property(e => e.IdTransacciones).HasColumnName("Id_Transacciones");
-            entity.Property(e => e.NumeroAsientol).HasMaxLength(45);
-
-            entity.HasOne(d => d.IdTransaccionesNavigation).WithMany(p => p.Boletosvendidos)
-                .HasForeignKey(d => d.IdTransacciones)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("fk_BoletosVendidos_Transacciones1");
-        });
-
-        modelBuilder.Entity<Clasifiacion>(entity =>
-        {
-            entity.HasKey(e => e.IdClasifiacion).HasName("PRIMARY");
-
-            entity.ToTable("clasifiacion");
-
-            entity.Property(e => e.IdClasifiacion).HasColumnName("Id_Clasifiacion");
-            entity.Property(e => e.Edad).HasMaxLength(45);
+            entity.Property(e => e.Nombre).HasMaxLength(45);
         });
 
         modelBuilder.Entity<Genero>(entity =>
         {
-            entity.HasKey(e => e.IdGenero).HasName("PRIMARY");
+            entity.HasKey(e => e.Id).HasName("PRIMARY");
 
             entity.ToTable("genero");
 
-            entity.Property(e => e.IdGenero).HasColumnName("Id_Genero");
+            entity.HasIndex(e => e.Nombre, "Nombre").IsUnique();
+
             entity.Property(e => e.Nombre).HasMaxLength(45);
         });
 
         modelBuilder.Entity<Horario>(entity =>
         {
-            entity.HasKey(e => e.IdHorario).HasName("PRIMARY");
+            entity.HasKey(e => e.Id).HasName("PRIMARY");
 
             entity.ToTable("horario");
 
-            entity.HasIndex(e => e.IdPelicula, "fk_Horario_Peliculas_idx");
+            entity.HasIndex(e => e.IdPelicula, "FK_Horario_Pelicula");
 
-            entity.HasIndex(e => e.IdSala, "fk_Horario_Salas1_idx");
+            entity.HasIndex(e => e.IdSala, "FK_Horario_Sala");
 
-            entity.Property(e => e.IdHorario).HasColumnName("Id_Horario");
             entity.Property(e => e.FechaHora)
+                .HasDefaultValueSql("CURRENT_TIMESTAMP")
                 .HasColumnType("datetime")
-                .HasColumnName("Fecha/Hora");
+                .HasColumnName("Fecha_Hora");
             entity.Property(e => e.IdPelicula).HasColumnName("Id_Pelicula");
             entity.Property(e => e.IdSala).HasColumnName("Id_Sala");
-            entity.Property(e => e.Precio).HasPrecision(10);
 
             entity.HasOne(d => d.IdPeliculaNavigation).WithMany(p => p.Horario)
                 .HasForeignKey(d => d.IdPelicula)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("fk_Horario_Peliculas");
+                .HasConstraintName("FK_Horario_Pelicula");
 
             entity.HasOne(d => d.IdSalaNavigation).WithMany(p => p.Horario)
                 .HasForeignKey(d => d.IdSala)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("fk_Horario_Salas1");
+                .HasConstraintName("FK_Horario_Sala");
         });
 
-        modelBuilder.Entity<Peliculas>(entity =>
+        modelBuilder.Entity<Pelicula>(entity =>
         {
             entity.HasKey(e => e.Id).HasName("PRIMARY");
 
-            entity.ToTable("peliculas");
+            entity.ToTable("pelicula");
 
-            entity.HasIndex(e => e.IdClasifiacion, "fk_Peliculas_Clasifiacion1_idx");
+            entity.HasIndex(e => e.IdClasificacion, "IdClasificacion");
 
-            entity.HasIndex(e => e.IdGenero, "fk_Peliculas_Genero1_idx");
+            entity.HasIndex(e => e.IdGeneros, "IdGeneros");
 
-            entity.Property(e => e.Duracion).HasPrecision(45);
-            entity.Property(e => e.IdClasifiacion).HasColumnName("Id_Clasifiacion");
-            entity.Property(e => e.IdGenero).HasColumnName("Id_Genero");
-            entity.Property(e => e.Nombre).HasMaxLength(45);
-            entity.Property(e => e.Sinopsis).HasMaxLength(45);
-            entity.Property(e => e.Trailer).HasMaxLength(45);
+            entity.Property(e => e.Duracion).HasColumnType("time");
+            entity.Property(e => e.Nombre).HasMaxLength(100);
+            entity.Property(e => e.Sinopsis).HasColumnType("text");
+            entity.Property(e => e.Trailer).HasMaxLength(48);
 
-            entity.HasOne(d => d.IdClasifiacionNavigation).WithMany(p => p.Peliculas)
-                .HasForeignKey(d => d.IdClasifiacion)
+            entity.HasOne(d => d.IdClasificacionNavigation).WithMany(p => p.Pelicula)
+                .HasForeignKey(d => d.IdClasificacion)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("fk_Peliculas_Clasifiacion1");
+                .HasConstraintName("pelicula_ibfk_2");
 
-            entity.HasOne(d => d.IdGeneroNavigation).WithMany(p => p.Peliculas)
-                .HasForeignKey(d => d.IdGenero)
+            entity.HasOne(d => d.IdGenerosNavigation).WithMany(p => p.Pelicula)
+                .HasForeignKey(d => d.IdGeneros)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("fk_Peliculas_Genero1");
+                .HasConstraintName("pelicula_ibfk_1");
         });
 
-        modelBuilder.Entity<Salas>(entity =>
+        modelBuilder.Entity<Sala>(entity =>
         {
-            entity.HasKey(e => e.IdSala).HasName("PRIMARY");
+            entity.HasKey(e => e.Id).HasName("PRIMARY");
 
-            entity.ToTable("salas");
+            entity.ToTable("sala");
 
-            entity.Property(e => e.IdSala).HasColumnName("Id_Sala");
-            entity.Property(e => e.IdTipoPantalla).HasColumnName("Id_TipoPantalla");
+            entity.HasIndex(e => e.IdTipoPantalla, "IdTipoPantalla");
+
+            entity.HasOne(d => d.IdTipoPantallaNavigation).WithMany(p => p.Sala)
+                .HasForeignKey(d => d.IdTipoPantalla)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("sala_ibfk_1");
         });
 
-        modelBuilder.Entity<Tipousuarios>(entity =>
+        modelBuilder.Entity<Tipopantalla>(entity =>
         {
-            entity.HasKey(e => e.IdTipoUsuarios).HasName("PRIMARY");
+            entity.HasKey(e => e.Id).HasName("PRIMARY");
 
-            entity.ToTable("tipousuarios");
+            entity.ToTable("tipopantalla");
 
-            entity.Property(e => e.IdTipoUsuarios).HasColumnName("Id_TipoUsuarios");
-        });
+            entity.HasIndex(e => e.Nombre, "Nombre").IsUnique();
 
-        modelBuilder.Entity<Transacciones>(entity =>
-        {
-            entity.HasKey(e => e.IdTransacciones).HasName("PRIMARY");
-
-            entity.ToTable("transacciones");
-
-            entity.HasIndex(e => e.IdHorario, "fk_Transacciones_Horario1_idx");
-
-            entity.HasIndex(e => e.IdSala, "fk_Transacciones_Salas1_idx");
-
-            entity.HasIndex(e => e.IdTipoUsuarios, "fk_Transacciones_TipoUsuarios1_idx");
-
-            entity.Property(e => e.IdTransacciones).HasColumnName("Id_Transacciones");
-            entity.Property(e => e.IdHorario).HasColumnName("Id_Horario");
-            entity.Property(e => e.IdSala).HasColumnName("Id_Sala");
-            entity.Property(e => e.IdTipoUsuarios).HasColumnName("Id_TipoUsuarios");
-            entity.Property(e => e.Total).HasPrecision(10);
-
-            entity.HasOne(d => d.IdHorarioNavigation).WithMany(p => p.Transacciones)
-                .HasForeignKey(d => d.IdHorario)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("fk_Transacciones_Horario1");
-
-            entity.HasOne(d => d.IdSalaNavigation).WithMany(p => p.Transacciones)
-                .HasForeignKey(d => d.IdSala)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("fk_Transacciones_Salas1");
-
-            entity.HasOne(d => d.IdTipoUsuariosNavigation).WithMany(p => p.Transacciones)
-                .HasForeignKey(d => d.IdTipoUsuarios)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("fk_Transacciones_TipoUsuarios1");
+            entity.Property(e => e.Nombre).HasMaxLength(5);
         });
 
         OnModelCreatingPartial(modelBuilder);
