@@ -32,20 +32,24 @@
             </div>
         </div>
     </header>
-
 <section class="movies container">
-
+    @*En caso de no tener ninguna pelicula mostrar el h1*@
+    @{int pelis = 0;}
     @*Verificar si hay alguna clasificacion con peliculas peliculas*@
     @foreach (var clasif in Model.Clasificaciones)
     {
+
         @*Si la clasificacion tiene peliculas mostrar la clasificacion y sus peliculas*@
         if (clasif.Peliculas.Any())
         {
            <h2>@clasif.Nombre</h2>
            <hr>
            <div class="box-container-1">
-               @foreach (var peli in clasif.Peliculas)
-               {
+                @foreach (var peli in clasif.Peliculas)
+                {
+                    //Agregar 1 a las peliculas
+                    pelis++;
+                    //Mostrar la pelicula
                    <div class="box-1">
                        <div class="content">
                            <img src="~/images/@(peli.Id).jpg" alt="">
@@ -55,14 +59,20 @@
                            </p>
                        </div>
                    </div>
-               }
+                }
            </div>
         }
-        @*Mostrar cargar mas si hay mas de 4 peliculas*@
+        @*Mostrar cargar más si hay mas de 4 peliculas*@
         @if (clasif.Peliculas.Count() > 3)
         {
             <div class="load-more" id="load-more-1">Cargar Mas</div>
-        }
+        }    
+    }
+    
+    @*Si no hay peliculas mostrara el texto*@
+    @if (pelis == 0)
+    {
+        <h1>No hay peliculas</h1>
     }
 </section>
 <footer class="footer container">
@@ -74,5 +84,4 @@
         <li><a href="#">Contacto</a></li>
     </ul>
 </footer>
-
 <script src="script.js">  </script>
