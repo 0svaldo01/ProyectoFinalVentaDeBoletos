@@ -33,5 +33,11 @@ namespace ProyectoFinalVenteDeBoletos.Controllers
             };
             return View(vm);
         }
+
+        [HttpGet("/Home/Pelicula")]
+        public IActionResult VerPelicula()
+        {
+            return View();
+        }
     }
 }

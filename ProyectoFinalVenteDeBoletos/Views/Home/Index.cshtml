@@ -8,11 +8,11 @@
             <a href="#" class="logo">cinemax</a>
             <input type="checkbox" id="menu" />
             <label for="menu">
-                <img src="images/menu.png" class="menu-icono" alt="menu">
+                <img src="~/images/menu.png" class="menu-icono" alt="menu">
             </label>
             <nav class="navbar">
                 <ul>
-                    <li><a href="#">inicio</a></li>
+                    <li><a href="#" hidden>inicio</a></li>
                     <li><a href="#">Nosotros</a></li>
                     <li><a href="#">Peliculas</a></li>
                     <li><a href="#">Contacto</a></li>
@@ -38,37 +38,48 @@
     @*Verificar si hay alguna clasificacion con peliculas peliculas*@
     @foreach (var clasif in Model.Clasificaciones)
     {
-
         @*Si la clasificacion tiene peliculas mostrar la clasificacion y sus peliculas*@
         if (clasif.Peliculas.Any())
         {
            <h2>@clasif.Nombre</h2>
            <hr>
-           <div class="box-container-1">
-                @foreach (var peli in clasif.Peliculas)
-                {
+           <div class="box-container-1" >
+                @{
+                    //Numero de peliculas por clasificacion
+                    int pelisClasif = 0; 
+                }
+
+               @foreach (var peli in clasif.Peliculas)
+               {
+                    //Aumentamos 1 a las peliculas en la clasificacion
+                    pelisClasif++;
                     //Agregar 1 a las peliculas
                     pelis++;
                     //Mostrar la pelicula
-                   <div class="box-1">
-                       <div class="content">
-                           <img src="~/images/@(peli.Id).jpg" alt="">
-                           <h3>Pelicula HD</h3>
-                           <p>
-                               @peli.Sinopsis
-                           </p>
-                       </div>
-                   </div>
-                }
+                    <a href="~/Home/Pelicula">
+                        <div class="box-1">
+                            <div class="content">
+                                <img src="~/images/@(peli.Id).jpg" alt="" >
+                                <h3>@peli.Nombre</h3>
+                                <p>
+                                    @peli.Sinopsis
+                                </p>
+                            </div>
+                        </div>
+                    </a>
+               }
            </div>
+            @*
+                Mostrar cargar más si hay mas de 4 peliculas
+                Problemas:
+                - se muestra siempre y no se oculta despues de darle click
+            *@
+            @if (pelisClasif > 4)
+            {
+                <div class="load-more" id="load-more-1">Cargar Mas</div>
+            }   
         }
-        @*Mostrar cargar más si hay mas de 4 peliculas*@
-        @if (clasif.Peliculas.Count() > 3)
-        {
-            <div class="load-more" id="load-more-1">Cargar Mas</div>
-        }    
     }
-    
     @*Si no hay peliculas mostrara el texto*@
     @if (pelis == 0)
     {
