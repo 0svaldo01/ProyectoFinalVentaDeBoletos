@@ -9,9 +9,11 @@ namespace ProyectoFinalVenteDeBoletos.Controllers
     public class HomeController : Controller
     {
         RepositorioClasificaciones ClasificacionRepositorio { get; }
-        public HomeController(RepositorioClasificaciones repositorioPeliculas)
+        public HomeController(
+            RepositorioClasificaciones repositorioClasificaciones
+            )
         {
-            ClasificacionRepositorio = repositorioPeliculas;
+            ClasificacionRepositorio = repositorioClasificaciones;
         }
         public IActionResult Index()
         {
@@ -36,7 +38,7 @@ namespace ProyectoFinalVenteDeBoletos.Controllers
 
         [HttpGet("/Home/Pelicula")]
         public IActionResult VerPelicula()
-        {
+        { 
             return View();
         }
     }

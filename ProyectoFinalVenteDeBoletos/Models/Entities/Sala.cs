@@ -7,7 +7,9 @@ public partial class Sala
 {
     public int Id { get; set; }
 
-    public int Capacidad { get; set; }
+    public int Columnas { get; set; }
+
+    public int Filas { get; set; }
 
     public int IdTipoPantalla { get; set; }
 

@@ -7,6 +7,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 string? Db = builder.Configuration.GetConnectionString("DbConnectionString");
 builder.Services.AddMySql<CinemaventaboletosContext>(Db,ServerVersion.AutoDetect(Db));
+
 builder.Services.AddMvc();
 
 builder.Services.AddTransient<RepositorioClasificaciones>();

@@ -5,33 +5,37 @@ namespace ProyectoFinalVenteDeBoletos.Repositories
 {
     public class Repository<T> where T : class
     {
-        private readonly CinemaventaboletosContext Ctx;
+        private readonly CinemaventaboletosContext context;
         public Repository(CinemaventaboletosContext ctx)
         {
-            Ctx = ctx;
+            context = ctx;
         }
+        //Nota:
+        //Los demas repositorios heredaran los siguentes metodos,
+        //pero pueden ser editados para cambiar el funcionamiento de los metodos con un override
+
         public virtual IEnumerable<T> GetAll()
         {
-            return Ctx.Set<T>();
+            return context.Set<T>();
         }
         public virtual T? Get(object id)
         {
-            return Ctx.Find<T>(id);
+            return context.Find<T>(id);
         }
         public virtual void Insert(T entity)
         {
-            Ctx.Add(entity);
-            Ctx.SaveChanges();
+            context.Add(entity);
+            context.SaveChanges();
         }
         public virtual void Update(T entity)
         {
-            Ctx.Update(entity);
-            Ctx.SaveChanges();
+            context.Update(entity);
+            context.SaveChanges();
         }
         public virtual void Delete(object id)
         {
-            Ctx.Remove(id);
-            Ctx.SaveChanges();
+            context.Remove(id);
+            context.SaveChanges();
         }
     }
 }

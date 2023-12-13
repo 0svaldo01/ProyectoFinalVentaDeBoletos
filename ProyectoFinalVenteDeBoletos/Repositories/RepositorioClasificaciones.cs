@@ -4,16 +4,16 @@ using ProyectoFinalVenteDeBoletos.Repositories;
 
 namespace ProyectoFinalVentaDeBoletos.Repositories
 {
-    public class RepositorioClasificaciones
+    public class RepositorioClasificaciones:Repository<Clasificacion>
     {
-        public CinemaventaboletosContext Ctx { get; }
-        public RepositorioClasificaciones(CinemaventaboletosContext ctx)
+        private readonly CinemaventaboletosContext Context;
+        public RepositorioClasificaciones(CinemaventaboletosContext context) : base(context)
         {
-            Ctx = ctx;
+            this.Context = context;
         }
-        public IEnumerable<Clasificacion> GetAll()
+        public override IEnumerable<Clasificacion> GetAll()
         {
-            return Ctx.Clasificacion.Include(x => x.Pelicula).OrderBy(x=>x.Nombre);
+            return Context.Clasificacion.Include(x => x.Pelicula).OrderBy(x=>x.Nombre);
         }
         public IEnumerable<Clasificacion> GetClasificaciones()
         {
@@ -21,13 +21,11 @@ namespace ProyectoFinalVentaDeBoletos.Repositories
         }
         public Clasificacion? GetClasificacionByNombre(string nombre)
         {
-            return Ctx.Clasificacion.Find(nombre);
+            return Context.Clasificacion.Find(nombre);
         }
-
         public Clasificacion? GetClasificacionById(int id)
         {
-            return Ctx.Clasificacion.Find(id);
+            return Context.Clasificacion.Find(id);
         }
-        
     }
 }
