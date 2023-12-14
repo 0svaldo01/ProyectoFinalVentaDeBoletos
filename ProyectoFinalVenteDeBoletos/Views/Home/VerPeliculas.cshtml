@@ -3,7 +3,9 @@
 @{
     Layout = "_MainLayout";
 }
+
 <script src="~/script.js"></script>
+
 <header class="header">
     <div class="menu container">
         <a href="#" class="logo">cinemax</a>
@@ -59,7 +61,7 @@
                     //Agregar 1 a las peliculas
                     pelis++;
                     //Mostrar la pelicula
-                    <a href="~/Home/Pelicula">
+                    <a href="~/Pelicula/@peli.Nombre.Replace(' ','-')">
                         <div class="box-1">
                             <div class="content">
                                 <img src="~/images/@(peli.Id).jpg" alt="">
@@ -72,11 +74,13 @@
                     </a>
                 }
             </div>
+            
             @*
-    Mostrar cargar más si hay mas de 4 peliculas
-    Problemas:
-    - se muestra siempre y no se oculta despues de darle click
-    *@
+            Mostrar cargar más si hay mas de 4 peliculas
+            Problemas:
+            - se muestra siempre y no se oculta despues de darle click
+            *@
+
             @if (pelisClasif > 4)
             {
                 <div class="load-more" id="load-more-1">Cargar Mas</div>

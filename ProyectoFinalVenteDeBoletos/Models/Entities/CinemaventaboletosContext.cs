@@ -37,12 +37,12 @@ public partial class CinemaventaboletosContext : DbContext
 
     public virtual DbSet<Usuario> Usuario { get; set; }
 
-    #region Conexion a la base de datos comentada(local,no funcional)
-    //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+    #region Inutilizado
+    // Utilizar en caso de que la conexion desde program.cs no funcione
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     //#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-    //    => optionsBuilder.UseMySql("server=localhost;database=cinemaventaboletos;username=root;password=root", Microsoft.EntityFrameworkCore.ServerVersion.Parse("8.0.35-mysql"));
+            => optionsBuilder.UseMySql("server=localhost;database=cinemaventaboletos;username=root;password=root", Microsoft.EntityFrameworkCore.ServerVersion.Parse("8.0.35-mysql"));
     #endregion
-
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder
@@ -240,5 +240,6 @@ public partial class CinemaventaboletosContext : DbContext
 
         OnModelCreatingPartial(modelBuilder);
     }
+
     partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
 }

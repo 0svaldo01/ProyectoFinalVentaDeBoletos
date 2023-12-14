@@ -1,11 +1,9 @@
-﻿using Microsoft.EntityFrameworkCore;
-using ProyectoFinalVentaDeBoletos.Models.Entities;
+﻿using ProyectoFinalVentaDeBoletos.Models.Entities;
 
 namespace ProyectoFinalVentaDeBoletos.Repositories
 {
     public class Repository<T> where T : class
     {
-
         private readonly CinemaventaboletosContext context;
         public Repository(CinemaventaboletosContext ctx)
         {
@@ -13,8 +11,8 @@ namespace ProyectoFinalVentaDeBoletos.Repositories
         }
         //Nota:
         //Los demas repositorios heredaran los siguentes metodos,
-        //pero pueden ser editados para cambiar el funcionamiento de los metodos con un override
-
+        //pero pueden ser editados para cambiar el funcionamiento de los metodos con un override en el repositorio que se desee,
+        //no desde aqui, esto ni se te ocurra moverle XD
         public virtual IEnumerable<T> GetAll()
         {
             return context.Set<T>();

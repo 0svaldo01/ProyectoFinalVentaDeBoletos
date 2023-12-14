@@ -11,6 +11,8 @@ public partial class Pelicula
 
     public TimeOnly Duracion { get; set; }
 
+    public int Año { get; set; }
+
     public string Sinopsis { get; set; } = null!;
 
     public string? Trailer { get; set; }

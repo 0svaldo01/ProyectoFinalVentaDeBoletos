@@ -3,7 +3,7 @@ using ProyectoFinalVentaDeBoletos.Models.Entities;
 
 namespace ProyectoFinalVentaDeBoletos.Repositories
 {
-    public class RepositorioSalas:Repository<Sala>
+    public class RepositorioSalas : Repository<Sala>
     {
         private readonly CinemaventaboletosContext Ctx;
         public RepositorioSalas(CinemaventaboletosContext ctx) : base(ctx)
@@ -12,7 +12,7 @@ namespace ProyectoFinalVentaDeBoletos.Repositories
         }
         public override IEnumerable<Sala> GetAll()
         {
-            return Ctx.Sala.Include(x=>x.IdTipoPantallaNavigation);
+            return Ctx.Sala.Include(x => x.IdTipoPantallaNavigation);
         }
         public IEnumerable<Sala> GetSalasOrdenadasByTipoPantalla()
         {

@@ -1,13 +1,12 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using NuGet.Protocol.Core.Types;
 using ProyectoFinalVentaDeBoletos.Models.Entities;
 
 namespace ProyectoFinalVentaDeBoletos.Repositories
 {
-    public class RepositorioPeliculas: Repository<Pelicula>
+    public class RepositorioPeliculas : Repository<Pelicula>
     {
         private readonly CinemaventaboletosContext Ctx;
-        public RepositorioPeliculas(CinemaventaboletosContext ctx):base(ctx)  
+        public RepositorioPeliculas(CinemaventaboletosContext ctx) : base(ctx)
         {
             Ctx = ctx;
         }
@@ -15,9 +14,9 @@ namespace ProyectoFinalVentaDeBoletos.Repositories
         public override IEnumerable<Pelicula> GetAll()
         {
             return Ctx.Pelicula
-                .Include(x => x.IdClasificacionNavigation).Include(x=>x.PeliculaGenero)
+                .Include(x => x.IdClasificacionNavigation).Include(x => x.PeliculaGenero)
                 //Ordenar por nombre de clasificacion
-                .OrderBy(x => x.PeliculaGenero.First(g=>g.IdGeneroNavigation.Nombre!=null)).ThenBy(x=>x.Nombre);
+                .OrderBy(x => x.PeliculaGenero.First(g => g.IdGeneroNavigation.Nombre != null)).ThenBy(x => x.Nombre);
         }
         public IEnumerable<Pelicula> GetPeliculasByGenero(string genero)
         {
@@ -27,10 +26,9 @@ namespace ProyectoFinalVentaDeBoletos.Repositories
         {
             return Ctx.Pelicula.Find(id);
         }
-        
         public Pelicula? GetPeliculaByNombre(string nombre)
         {
-            return Ctx.Pelicula.Find(nombre);
+            return Ctx.Pelicula.FirstOrDefault(p => p.Nombre == nombre);
         }
     }
 }
