@@ -16,7 +16,7 @@
         public int Id { get; set; }
         public string Nombre { get; set; } = null!;
         public string Informacion { get; set; } = null!;
-        public string Sinapsis { get; set; } = null!;
+        public string Sinopsis { get; set; } = null!;
     }
     public class OtrasPeliculasModel
     {

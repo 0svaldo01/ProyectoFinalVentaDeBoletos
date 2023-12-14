@@ -7,7 +7,9 @@ public partial class Horario
 {
     public int Id { get; set; }
 
-    public DateTime FechaHora { get; set; }
+    public TimeOnly HoraInicio { get; set; }
+
+    public TimeOnly HoraTerminacion { get; set; }
 
     public int IdPelicula { get; set; }
 

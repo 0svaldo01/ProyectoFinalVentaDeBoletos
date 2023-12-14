@@ -10,17 +10,21 @@ namespace ProyectoFinalVentaDeBoletos.Repositories
         {
             Ctx = ctx;
         }
-
         public override IEnumerable<Pelicula> GetAll()
         {
-            return Ctx.Pelicula
-                .Include(x => x.IdClasificacionNavigation).Include(x => x.PeliculaGenero)
-                //Ordenar por nombre de clasificacion
-                .OrderBy(x => x.PeliculaGenero.First(g => g.IdGeneroNavigation.Nombre != null)).ThenBy(x => x.Nombre);
+            return Ctx.Pelicula.Include(x => x.IdClasificacionNavigation).Include(x => x.PeliculaGenero);
+        }
+        public IEnumerable<Pelicula> GetAllOrderByClasificacion()
+        {
+            return GetAll().OrderBy(x=> x.IdClasificacionNavigation.Nombre);
         }
         public IEnumerable<Pelicula> GetPeliculasByGenero(string genero)
         {
             return GetAll().Where(x => x.PeliculaGenero.Any(g => g.IdGeneroNavigation.Nombre == genero));
+        }
+        public IEnumerable<Pelicula> GetPeliculasByClasificacion(string clasificacion)
+        {
+            return GetAll().Where(x => x.IdClasificacionNavigation.Nombre == clasificacion);
         }
         public Pelicula? GetPeliculaById(int id)
         {
@@ -28,7 +32,8 @@ namespace ProyectoFinalVentaDeBoletos.Repositories
         }
         public Pelicula? GetPeliculaByNombre(string nombre)
         {
-            return Ctx.Pelicula.FirstOrDefault(p => p.Nombre == nombre);
+            return Ctx.Pelicula.Include(x=>x.IdClasificacionNavigation).Include(x => x.PeliculaGenero).ThenInclude(pg => pg.IdGeneroNavigation)
+                .Where(x => x.Nombre == nombre).FirstOrDefault();
         }
     }
 }

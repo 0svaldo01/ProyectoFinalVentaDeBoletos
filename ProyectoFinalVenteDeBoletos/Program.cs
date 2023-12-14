@@ -8,7 +8,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 #region Conexion a la base de datos
 //DB es la conexion especificada en appsettings.json
-string? Db = builder.Configuration.GetConnectionString("DbConnectionString");
+string? Db = builder.Configuration.GetConnectionString("DbLocalConnectionString");
 //Esta es la conexion a la base de datos
 builder.Services.AddMySql<CinemaventaboletosContext>(Db, ServerVersion.AutoDetect(Db));
 #endregion
@@ -19,9 +19,10 @@ builder.Services.AddMvc();
 #region Repositorios Utilizando AddTransient
 //Para inyectar los repositorios directamente sin dar contexto
 builder.Services.AddTransient<RepositorioClasificaciones>();
+builder.Services.AddTransient<RepositorioGeneros>();
+builder.Services.AddTransient<RepositorioHorario>();
 builder.Services.AddTransient<RepositorioPeliculas>();
 builder.Services.AddTransient<RepositorioSalas>();
-builder.Services.AddTransient<RepositorioHorario>();
 #endregion
 
 #endregion

@@ -4,15 +4,16 @@ namespace ProyectoFinalVentaDeBoletos.Repositories
 {
     public class Repository<T> where T : class
     {
+
+        //Nota:
+        //Los demas repositorios heredaran los siguentes metodos,
+        //pero pueden ser editados para cambiar el funcionamiento de los metodos con un override en el repositorio que se desee,
+        //no desde aqui, esto ni se te ocurra moverle >:c
         private readonly CinemaventaboletosContext context;
         public Repository(CinemaventaboletosContext ctx)
         {
             context = ctx;
         }
-        //Nota:
-        //Los demas repositorios heredaran los siguentes metodos,
-        //pero pueden ser editados para cambiar el funcionamiento de los metodos con un override en el repositorio que se desee,
-        //no desde aqui, esto ni se te ocurra moverle XD
         public virtual IEnumerable<T> GetAll()
         {
             return context.Set<T>();
