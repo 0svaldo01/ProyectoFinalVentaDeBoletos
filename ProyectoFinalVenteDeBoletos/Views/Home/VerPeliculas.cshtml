@@ -1,0 +1,91 @@
+﻿@using ProyectoFinalVentaDeBoletos.Models.ViewModels
+@model PeliculasViewModel
+@{
+    Layout = "_MainLayout";
+}
+<script src="~/script.js"></script>
+<header class="header">
+    <div class="menu container">
+        <a href="#" class="logo">cinemax</a>
+        <input type="checkbox" id="menu" />
+        <label for="menu">
+            <img src="~/images/menu.png" class="menu-icono" alt="menu">
+        </label>
+        <nav class="navbar">
+            <ul>
+                <li><a href="#" hidden>inicio</a></li>
+                <li><a href="#">Nosotros</a></li>
+                <li><a href="#">Peliculas</a></li>
+                <li><a href="#">Contacto</a></li>
+            </ul>
+        </nav>
+
+        <a href="#" class="btn-1">Login</a>
+    </div>
+    <div class="header-content container">
+        <div class="header-1">
+            <img src="images/venom.png" alt="">
+            <a href="#" class="btn-2">Ver Ahora</a>
+        </div>
+        <div class="header-2">
+            <h1>Las mejores <br> Peliculas</h1>
+            <img src="images/play.png" alt="">
+        </div>
+    </div>
+</header>
+<section class="movies container">
+    @*En caso de no tener ninguna pelicula mostrar el h1*@
+    @{
+        int pelis = 0;
+    }
+    @*Verificar si hay alguna clasificacion con peliculas peliculas*@
+    @foreach (var clasif in Model.Clasificaciones)
+    {
+        @*Si la clasificacion tiene peliculas mostrar la clasificacion y sus peliculas*@
+        if (clasif.Peliculas.Any())
+        {
+            <h2>@clasif.Nombre</h2>
+            <hr>
+            <div class="box-container-1">
+                @{
+                    //Numero de peliculas por clasificacion
+                    int pelisClasif = 0;
+                }
+
+                @foreach (var peli in clasif.Peliculas)
+                {
+                    //Aumentamos 1 a las peliculas en la clasificacion
+                    pelisClasif++;
+                    //Agregar 1 a las peliculas
+                    pelis++;
+                    //Mostrar la pelicula
+                    <a href="~/Home/Pelicula">
+                        <div class="box-1">
+                            <div class="content">
+                                <img src="~/images/@(peli.Id).jpg" alt="">
+                                <h3>@peli.Nombre</h3>
+                                <p>
+                                    @peli.Sinopsis
+                                </p>
+                            </div>
+                        </div>
+                    </a>
+                }
+            </div>
+            @*
+    Mostrar cargar más si hay mas de 4 peliculas
+    Problemas:
+    - se muestra siempre y no se oculta despues de darle click
+    *@
+            @if (pelisClasif > 4)
+            {
+                <div class="load-more" id="load-more-1">Cargar Mas</div>
+            }
+        }
+    }
+    @*Si no hay peliculas mostrara el texto*@
+    @if (pelis == 0)
+    {
+        <h1>No hay peliculas</h1>
+    }
+</section>

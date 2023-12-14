@@ -1,10 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using ProyectoFinalVentaDeBoletos.Models.Entities;
 
-namespace ProyectoFinalVenteDeBoletos.Repositories
+namespace ProyectoFinalVentaDeBoletos.Repositories
 {
     public class Repository<T> where T : class
     {
+
         private readonly CinemaventaboletosContext context;
         public Repository(CinemaventaboletosContext ctx)
         {

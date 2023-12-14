@@ -1,10 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using ProyectoFinalVentaDeBoletos.Models.Entities;
 using ProyectoFinalVentaDeBoletos.Models.ViewModels;
 using ProyectoFinalVentaDeBoletos.Repositories;
-using ProyectoFinalVenteDeBoletos.Repositories;
 
-namespace ProyectoFinalVenteDeBoletos.Controllers
+namespace ProyectoFinalVentaDeBoletos.Controllers
 {
     public class HomeController : Controller
     {
@@ -15,9 +13,16 @@ namespace ProyectoFinalVenteDeBoletos.Controllers
         {
             ClasificacionRepositorio = repositorioClasificaciones;
         }
+
         public IActionResult Index()
         {
-            IndexViewModel vm = new()
+            return View();
+        }
+
+
+        public IActionResult VerPeliculas()
+        {
+            PeliculasViewModel vm = new()
             {
                 Clasificaciones = ClasificacionRepositorio.GetAll().Select(x => new ClasificacionModel
                 {

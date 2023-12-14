@@ -1,7 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using NuGet.Protocol.Core.Types;
 using ProyectoFinalVentaDeBoletos.Models.Entities;
-using ProyectoFinalVenteDeBoletos.Repositories;
 
 namespace ProyectoFinalVentaDeBoletos.Repositories
 {
