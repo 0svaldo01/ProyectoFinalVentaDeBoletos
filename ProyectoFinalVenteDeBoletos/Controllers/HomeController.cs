@@ -1,6 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using ProyectoFinalVentaDeBoletos.Models.Entities;
 using ProyectoFinalVentaDeBoletos.Models.ViewModels;
 using ProyectoFinalVentaDeBoletos.Repositories;
 using System.Text;
@@ -10,29 +8,21 @@ namespace ProyectoFinalVentaDeBoletos.Controllers
     public class HomeController : Controller
     {
         private readonly Random r = new();
+        #region Repositorios
         private RepositorioClasificaciones ClasificacionRepositorio { get; }
         private RepositorioHorario HorarioRepositorio { get; }
         private RepositorioPeliculas PeliculasRepositorio { get; }
-        private RepositorioGeneros Generosrepositorio { get; }
-
-        public HomeController(
-            RepositorioClasificaciones repositorioClasificaciones,
-            RepositorioHorario repositorioHorarios,
-            RepositorioPeliculas repositorioPeliculas,
-            RepositorioGeneros repositorioGeneros
-            )
+        #endregion
+        public HomeController(RepositorioClasificaciones repositorioClasificaciones, RepositorioHorario repositorioHorarios, RepositorioPeliculas repositorioPeliculas)
         {
             ClasificacionRepositorio = repositorioClasificaciones;
             HorarioRepositorio = repositorioHorarios;
             PeliculasRepositorio = repositorioPeliculas;
-            Generosrepositorio = repositorioGeneros;
         }
-
         public IActionResult Index()
         {
             return View();
         }
-
         [Route("/Peliculas")]
         public IActionResult VerPeliculas()
         {
@@ -54,7 +44,6 @@ namespace ProyectoFinalVentaDeBoletos.Controllers
             };
             return View(vm);
         }
-
         [HttpGet("/Pelicula/{nombre}")]
         public IActionResult Pelicula(string nombre)
         {
@@ -68,7 +57,7 @@ namespace ProyectoFinalVentaDeBoletos.Controllers
                 {
                     foreach (var genero in generospeli)
                     {
-                        generos.Append(genero.IdGeneroNavigation.Nombre).Append(' ');
+                        generos.Append(genero.IdGeneroNavigation.Nombre).Append(',');
                     }
                 }
                 var listapeliculas = PeliculasRepositorio.GetAll();
@@ -79,23 +68,28 @@ namespace ProyectoFinalVentaDeBoletos.Controllers
                         Pelicula = new PeliculaModel
                         {
                             Id = peli.Id,
-                            Informacion = $"{peli.IdClasificacionNavigation.Nombre} | {peli.Duracion.Hour:D2}:{peli.Duracion.Minute:D2}:{peli.Duracion.Second:D2} | {generos}",
+                            Informacion = $"{peli.IdClasificacionNavigation.Nombre} | {peli.Duracion.Hour:D2}:{peli.Duracion.Minute:D2}:" +
+                            $"{peli.Duracion.Second:D2} | {generos}",
                             Nombre = peli.Nombre,
                             Sinopsis = peli.Sinopsis
                         },
-                        Horarios = HorarioRepositorio.GetAllOrderByClasificacion().Select(h => new HorariosModel
-                        {
-                            Id = h.Id,
-                            HorarioDisponible = $"{h.HoraInicio} - {h.HoraTerminacion}"
-                        }),
+                        Horarios = HorarioRepositorio
+                            .GetAllOrderByClasificacion()
+                            .Where(x=>x.IdPeliculaNavigation.Id==peli.Id)
+                            .Select(h => new HorariosModel
+                            {
+                                Id = h.Id,
+                                HorarioDisponible = $"{h.HoraInicio} - {h.HoraTerminacion}"
+                            }),
                         OtrasPeliculas = listapeliculas
-                        .OrderBy(x => r.Next(0, listapeliculas.Count())).Take(5)
-                        .Select(op => new OtrasPeliculasModel
-                        {
-                            Id = op.Id,
-                            Año = op.Año,
-                            Nombre = op.Nombre
-                        })
+                            //Ordena aleatoriamente la lista y toma 5 peliculas
+                            .OrderBy(x => r.Next(0, listapeliculas.Count())).Take(5)
+                            .Select(op => new OtrasPeliculasModel
+                            {
+                                Id = op.Id,
+                                Año = op.Año,
+                                Nombre = op.Nombre
+                            })
                     };
                     return View(vm);
                 }
