@@ -13,7 +13,10 @@ namespace ProyectoFinalVentaDeBoletos.Controllers
         private RepositorioHorario HorarioRepositorio { get; }
         private RepositorioPeliculas PeliculasRepositorio { get; }
         #endregion
-        public HomeController(RepositorioClasificaciones repositorioClasificaciones, RepositorioHorario repositorioHorarios, RepositorioPeliculas repositorioPeliculas)
+        public HomeController(
+            RepositorioClasificaciones repositorioClasificaciones, 
+            RepositorioHorario repositorioHorarios, 
+            RepositorioPeliculas repositorioPeliculas)
         {
             ClasificacionRepositorio = repositorioClasificaciones;
             HorarioRepositorio = repositorioHorarios;
@@ -73,8 +76,7 @@ namespace ProyectoFinalVentaDeBoletos.Controllers
                             Nombre = peli.Nombre,
                             Sinopsis = peli.Sinopsis
                         },
-                        Horarios = HorarioRepositorio
-                            .GetAllOrderByClasificacion()
+                        Horarios = HorarioRepositorio.GetAll()
                             .Where(x=>x.IdPeliculaNavigation.Id==peli.Id)
                             .Select(h => new HorariosModel
                             {
@@ -91,6 +93,9 @@ namespace ProyectoFinalVentaDeBoletos.Controllers
                                 Nombre = op.Nombre
                             })
                     };
+                    //Asignacion Compuesta, crea una lista si vm.Horarios esta nula
+                    vm.Horarios ??= new List<HorariosModel>();
+                    
                     return View(vm);
                 }
             }

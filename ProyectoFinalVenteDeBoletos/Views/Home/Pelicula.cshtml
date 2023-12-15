@@ -18,7 +18,7 @@
             <p>@Model.Pelicula.Informacion</p><br><br>
             <p>@Model.Pelicula.Sinopsis</p>
             <br>
-            @if (Model.Horarios.Count()>0)
+            @if (Model.Horarios.Any())
             {
                 <p>Selecciona el horario disponible</p>
                 <select id="horarios">
