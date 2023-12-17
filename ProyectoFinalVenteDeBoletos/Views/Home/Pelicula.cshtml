@@ -3,43 +3,38 @@
 @{
     Layout = "_MainLayout";
 }
-
 <link rel="stylesheet" href="~/Peliculas/estilos.css">
-
-<form>
 <section class="pelicula-info">
-
     @if(Model.Pelicula!=null){
-        <div class="poster">
-            <img src="~/images/@(Model.Pelicula.Id).jpg" alt="@Model.Pelicula.Nombre">
-        </div>
-        <div class="descripcion">
-            <h1>@Model.Pelicula.Nombre</h1><br>
-            <p>@Model.Pelicula.Informacion</p><br><br>
-            <p>@Model.Pelicula.Sinopsis</p>
-            <br>
-            @if (Model.Horarios.Any())
-            {
-                <p>Selecciona el horario disponible</p>
-                <select id="horarios">
-                    @foreach (var h in Model.Horarios)
-                    {
-                        <option value="@h.Id
-                        ">@h.HorarioDisponible
-                        </option>
-                    }
-                </select>
-                <br />
-                <input type="submit" class="comprar-btn" value="Comprar Boletos" />
-            }
-            else
-            {
-                <h1>Lo sentimos, la pelicula no esta disponible en estos momentos</h1>
-            }
-        </div>
+        <form action="~/ComprarBoleto/@Model.Pelicula.Id" method="post">
+            <div class="poster">
+                <img src="~/images/@(Model.Pelicula.Id).jpg" alt="@Model.Pelicula.Nombre">
+            </div>
+            <div class="descripcion">
+                <h1>@Model.Pelicula.Nombre</h1><br>
+                <p>@Model.Pelicula.Informacion</p><br><br>
+                <p>@Model.Pelicula.Sinopsis</p>
+                <br>
+                @if (Model.Horarios.Any())
+                {
+                    <p>Selecciona el horario disponible</p>
+                    <select id="horarios">
+                        @foreach (var h in Model.Horarios)
+                        {
+                            <option value="@h.Id">@h.HorarioDisponible</option>
+                        }
+                    </select>
+                    <br />
+                    <input type="submit" class="comprar-btn" value="Comprar Boletos"/>
+                }
+                else
+                {
+                    <h1>Lo sentimos, la pelicula no esta disponible en estos momentos</h1>
+                }
+            </div>
+        </form>
     }
 </section>
-</form>
 <section class="otras-peliculas">
     <h2>Otras Películas Que Podrían Interesarte:</h2>
     <div class="peliculas-container">
