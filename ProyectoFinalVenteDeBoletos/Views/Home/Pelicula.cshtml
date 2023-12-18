@@ -3,7 +3,9 @@
 @{
     Layout = "_MainLayout";
 }
+
 <link rel="stylesheet" href="~/Peliculas/estilos.css">
+
 <section class="pelicula-info">
     @if(Model.Pelicula!=null){
         <form action="~/ComprarBoleto/@Model.Pelicula.Id" method="post">
@@ -15,7 +17,7 @@
                 <p>@Model.Pelicula.Informacion</p><br><br>
                 <p>@Model.Pelicula.Sinopsis</p>
                 <br>
-                @if (Model.Horarios.Any())
+                @if (Model.Horarios!=null && Model.Horarios.Any())
                 {
                     <p>Selecciona el horario disponible</p>
                     <select id="horarios">
@@ -35,6 +37,7 @@
         </form>
     }
 </section>
+
 <section class="otras-peliculas">
     <h2>Otras Películas Que Podrían Interesarte:</h2>
     <div class="peliculas-container">

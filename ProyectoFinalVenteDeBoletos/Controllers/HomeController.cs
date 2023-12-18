@@ -8,12 +8,17 @@ namespace ProyectoFinalVentaDeBoletos.Controllers
     public class HomeController : Controller
     {
         private readonly Random r = new();
+        
         #region Repositorios
+        
         private RepositorioClasificaciones ClasificacionRepositorio { get; }
         private RepositorioHorario HorarioRepositorio { get; }
         private RepositorioPeliculas PeliculasRepositorio { get; }
+ 
         #endregion
-        public HomeController(
+        
+        public HomeController
+            (
             RepositorioClasificaciones repositorioClasificaciones, 
             RepositorioHorario repositorioHorarios, 
             RepositorioPeliculas repositorioPeliculas)
@@ -22,10 +27,12 @@ namespace ProyectoFinalVentaDeBoletos.Controllers
             HorarioRepositorio = repositorioHorarios;
             PeliculasRepositorio = repositorioPeliculas;
         }
+
         public IActionResult Index()
         {
             return View();
         }
+        
         [Route("/Peliculas")]
         public IActionResult VerPeliculas()
         {
@@ -47,6 +54,7 @@ namespace ProyectoFinalVentaDeBoletos.Controllers
             };
             return View(vm);
         }
+        
         [HttpGet("/Pelicula/{nombre}")]
         public IActionResult Pelicula(string nombre)
         {
@@ -76,13 +84,16 @@ namespace ProyectoFinalVentaDeBoletos.Controllers
                             Nombre = peli.Nombre,
                             Sinopsis = peli.Sinopsis
                         },
-                        Horarios = HorarioRepositorio.GetAll()
-                            .Where(x=>x.IdPeliculaNavigation.Id==peli.Id)
-                            .Select(h => new HorariosModel
-                            {
-                                Id = h.Id,
-                                HorarioDisponible = $"{h.HoraInicio} - {h.HoraTerminacion}"
-                            }),
+
+                        Horarios = HorarioRepositorio
+                        .GetAll()
+                        .Where(x=>x.IdPeliculaNavigation.Id==peli.Id)
+                        .Select(h => new HorariosModel
+                        {
+                            Id = h.Id,
+                            HorarioDisponible = $"{h.HoraInicio} - {h.HoraTerminacion}"
+                        }),
+                        
                         OtrasPeliculas = listapeliculas
                             //Ordena aleatoriamente la lista y toma 5 peliculas
                             .OrderBy(x => r.Next(0, listapeliculas.Count())).Take(5)
@@ -93,9 +104,7 @@ namespace ProyectoFinalVentaDeBoletos.Controllers
                                 Nombre = op.Nombre
                             })
                     };
-                    //Asignacion Compuesta, crea una lista si vm.Horarios esta nula
-                    vm.Horarios ??= new List<HorariosModel>();
-                    
+
                     return View(vm);
                 }
             }
