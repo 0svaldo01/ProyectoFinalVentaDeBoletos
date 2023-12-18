@@ -12,6 +12,7 @@
 
   <ItemGroup>
     <Folder Include="Areas\Admin\Data\" />
+    <Folder Include="wwwroot\pelis\" />
   </ItemGroup>
 
   <ItemGroup>

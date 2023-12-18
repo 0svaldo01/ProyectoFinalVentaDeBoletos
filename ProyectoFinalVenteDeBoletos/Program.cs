@@ -20,24 +20,24 @@ using ProyectoFinalVentaDeBoletos.Repositories;
 
     //Para inyectar los repositorios directamente sin dar contexto
     builder.Services.AddTransient<RepositorioClasificaciones>();
-    builder.Services.AddTransient<RepositorioHorario>();
+    builder.Services.AddTransient<RepositorioHorarios>();
     builder.Services.AddTransient<RepositorioPeliculas>();
     builder.Services.AddTransient<RepositorioSalas>();
 
     #endregion
 
-    #region Autentificacion
-    builder.Services
-        .AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
-        .AddCookie(x =>
-        {
-            x.AccessDeniedPath = "/Home/Denied";
-            x.LoginPath = "/Home/Login";
-            x.LogoutPath = "/Home/Logout";
-            x.ExpireTimeSpan = TimeSpan.FromSeconds(50); //TimeSpan.FromMinutes(5); //Tiempo en la que la cookie esta activa.
-            x.Cookie.Name = "noticiaCookie";
-        });
-    #endregion
+    //#region Autentificacion
+    //builder.Services
+    //    .AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+    //    .AddCookie(x =>
+    //    {
+    //        x.AccessDeniedPath = "/Home/Denied";
+    //        x.LoginPath = "/Home/Login";
+    //        x.LogoutPath = "/Home/Logout";
+    //        x.ExpireTimeSpan = TimeSpan.FromSeconds(50); //TimeSpan.FromMinutes(5); //Tiempo en la que la cookie esta activa.
+    //        x.Cookie.Name = "noticiaCookie";
+    //    });
+    //#endregion
 
 #endregion
 

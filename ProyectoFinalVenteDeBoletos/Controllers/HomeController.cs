@@ -12,7 +12,7 @@ namespace ProyectoFinalVentaDeBoletos.Controllers
         #region Repositorios
         
         private RepositorioClasificaciones ClasificacionRepositorio { get; }
-        private RepositorioHorario HorarioRepositorio { get; }
+        private RepositorioHorarios HorarioRepositorio { get; }
         private RepositorioPeliculas PeliculasRepositorio { get; }
         
         #endregion
@@ -21,7 +21,7 @@ namespace ProyectoFinalVentaDeBoletos.Controllers
         (
             #region Inyeccion de Repositorios
             RepositorioClasificaciones repositorioClasificaciones, 
-            RepositorioHorario repositorioHorarios, 
+            RepositorioHorarios repositorioHorarios, 
             RepositorioPeliculas repositorioPeliculas
         #endregion
         )
@@ -109,6 +109,11 @@ namespace ProyectoFinalVentaDeBoletos.Controllers
                 }
             }
             return RedirectToAction("VerPeliculas");
+        }
+        [HttpGet("/ComprarAsiento")]
+        public IActionResult ComprarAsiento()
+        {
+            return View();
         }
     } 
 }

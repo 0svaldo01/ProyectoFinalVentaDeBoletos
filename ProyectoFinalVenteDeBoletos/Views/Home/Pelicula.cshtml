@@ -8,7 +8,7 @@
 
 <section class="pelicula-info">
     @if(Model.Pelicula!=null){
-        <form action="~/ComprarBoleto/@Model.Pelicula.Id" method="post">
+        <form action="~/ComprarAsiento/@Model.Pelicula.Nombre.Replace(' ','-')" method="post">
             <div class="poster">
                 <img src="~/images/@(Model.Pelicula.Id).jpg" alt="@Model.Pelicula.Nombre">
             </div>

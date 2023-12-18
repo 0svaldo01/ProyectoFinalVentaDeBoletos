@@ -13,7 +13,13 @@ public partial class Sala
 
     public int IdTipoPantalla { get; set; }
 
+    public int IdAsiento { get; set; }
+
+    public virtual ICollection<Boleto> Boleto { get; set; } = new List<Boleto>();
+
     public virtual ICollection<Horario> Horario { get; set; } = new List<Horario>();
+
+    public virtual Asiento IdAsientoNavigation { get; set; } = null!;
 
     public virtual Tipopantalla IdTipoPantallaNavigation { get; set; } = null!;
 }

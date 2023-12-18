@@ -3,10 +3,10 @@ using ProyectoFinalVentaDeBoletos.Models.Entities;
 
 namespace ProyectoFinalVentaDeBoletos.Repositories
 {
-    public class RepositorioHorario : Repository<Horario>
+    public class RepositorioHorarios : Repository<Horario>
     {
         private readonly CinemaventaboletosContext Ctx;
-        public RepositorioHorario(CinemaventaboletosContext ctx) : base(ctx)
+        public RepositorioHorarios(CinemaventaboletosContext ctx) : base(ctx)
         {
             Ctx = ctx;
         }
