@@ -19,8 +19,6 @@ using ProyectoFinalVentaDeBoletos.Repositories;
     #region Repositorios Utilizando AddTransient
 
     //Para inyectar los repositorios directamente sin dar contexto
-    builder.Services.AddTransient<RepositorioClasificaciones>();
-    builder.Services.AddTransient<RepositorioGeneros>();
     builder.Services.AddTransient<RepositorioHorario>();
     builder.Services.AddTransient<RepositorioPeliculas>();
     builder.Services.AddTransient<RepositorioSalas>();

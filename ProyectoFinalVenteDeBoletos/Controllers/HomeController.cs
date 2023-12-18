@@ -14,14 +14,17 @@ namespace ProyectoFinalVentaDeBoletos.Controllers
         private RepositorioClasificaciones ClasificacionRepositorio { get; }
         private RepositorioHorario HorarioRepositorio { get; }
         private RepositorioPeliculas PeliculasRepositorio { get; }
- 
+        
         #endregion
         
         public HomeController
-            (
+        (
+            #region Inyeccion de Repositorios
             RepositorioClasificaciones repositorioClasificaciones, 
             RepositorioHorario repositorioHorarios, 
-            RepositorioPeliculas repositorioPeliculas)
+            RepositorioPeliculas repositorioPeliculas
+        #endregion
+        )
         {
             ClasificacionRepositorio = repositorioClasificaciones;
             HorarioRepositorio = repositorioHorarios;
@@ -32,7 +35,6 @@ namespace ProyectoFinalVentaDeBoletos.Controllers
         {
             return View();
         }
-        
         [Route("/Peliculas")]
         public IActionResult VerPeliculas()
         {
@@ -54,7 +56,6 @@ namespace ProyectoFinalVentaDeBoletos.Controllers
             };
             return View(vm);
         }
-        
         [HttpGet("/Pelicula/{nombre}")]
         public IActionResult Pelicula(string nombre)
         {
@@ -104,7 +105,6 @@ namespace ProyectoFinalVentaDeBoletos.Controllers
                                 Nombre = op.Nombre
                             })
                     };
-
                     return View(vm);
                 }
             }
