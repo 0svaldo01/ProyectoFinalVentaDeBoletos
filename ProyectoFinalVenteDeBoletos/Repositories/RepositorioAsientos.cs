@@ -5,8 +5,8 @@ namespace ProyectoFinalVentaDeBoletos.Repositories
 {
     public class RepositorioAsientos:Repository<Asiento>
     {
-        private readonly CinemaventaboletosContext Context;
-        public RepositorioAsientos(CinemaventaboletosContext Ctx):base(Ctx)
+        private readonly Sistem21VentaboletosdbContext Context;
+        public RepositorioAsientos(Sistem21VentaboletosdbContext Ctx):base(Ctx)
         {
             this.Context = Ctx;
         }

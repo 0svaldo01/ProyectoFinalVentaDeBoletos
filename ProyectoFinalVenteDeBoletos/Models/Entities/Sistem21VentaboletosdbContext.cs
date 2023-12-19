@@ -21,8 +21,6 @@ public partial class Sistem21VentaboletosdbContext : DbContext
 
     public virtual DbSet<Clasificacion> Clasificacion { get; set; }
 
-    public virtual DbSet<Efmigrationshistory> Efmigrationshistory { get; set; }
-
     public virtual DbSet<Genero> Genero { get; set; }
 
     public virtual DbSet<Horario> Horario { get; set; }
@@ -100,19 +98,6 @@ public partial class Sistem21VentaboletosdbContext : DbContext
 
             entity.Property(e => e.Id).HasColumnType("int(11)");
             entity.Property(e => e.Nombre).HasMaxLength(45);
-        });
-
-        modelBuilder.Entity<Efmigrationshistory>(entity =>
-        {
-            entity.HasKey(e => e.MigrationId).HasName("PRIMARY");
-
-            entity
-                .ToTable("__efmigrationshistory")
-                .HasCharSet("utf8mb4")
-                .UseCollation("utf8mb4_general_ci");
-
-            entity.Property(e => e.MigrationId).HasMaxLength(150);
-            entity.Property(e => e.ProductVersion).HasMaxLength(32);
         });
 
         modelBuilder.Entity<Genero>(entity =>

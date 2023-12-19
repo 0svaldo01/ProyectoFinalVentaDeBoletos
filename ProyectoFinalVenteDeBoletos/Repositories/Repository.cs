@@ -9,8 +9,8 @@ namespace ProyectoFinalVentaDeBoletos.Repositories
         //Los demas repositorios heredaran los siguentes metodos,
         //pero pueden ser editados para cambiar el funcionamiento de los metodos con un override en el repositorio que se desee,
         //no desde aqui, esto ni se te ocurra moverle >:c
-        private readonly CinemaventaboletosContext context;
-        public Repository(CinemaventaboletosContext ctx)
+        private readonly Sistem21VentaboletosdbContext context;
+        public Repository(Sistem21VentaboletosdbContext ctx)
         {
             context = ctx;
         }

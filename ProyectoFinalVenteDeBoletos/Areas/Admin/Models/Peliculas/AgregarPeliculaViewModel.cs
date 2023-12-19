@@ -7,7 +7,7 @@ namespace ProyectoFinalVentaDeBoletos.Areas.Admin.Models.Peliculas
         public IEnumerable<ClasificacionModel> Clasificaciones { get; set; } = null!;
         public Pelicula DatosPeli { get; set; } = null!;
         public IFormFile Imagen { get; set; } = null!;
-        public IFormFile Pelicula { get; set; } = null!;
+        //public IFormFile Pelicula { get; set; } = null!;
     }
     public class ClasificacionModel
     {

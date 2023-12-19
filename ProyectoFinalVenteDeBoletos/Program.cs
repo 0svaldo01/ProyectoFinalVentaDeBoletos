@@ -11,7 +11,7 @@ using ProyectoFinalVentaDeBoletos.Repositories;
     //DB es la conexion especificada en appsettings.json
     string? Db = builder.Configuration.GetConnectionString("DbConnectionString");
     //Esta es la conexion a la base de datos
-    builder.Services.AddMySql<CinemaventaboletosContext>(Db, ServerVersion.AutoDetect(Db));
+    builder.Services.AddMySql<Sistem21VentaboletosdbContext>(Db, ServerVersion.AutoDetect(Db));
     
     #endregion
     //Utilizar MVC

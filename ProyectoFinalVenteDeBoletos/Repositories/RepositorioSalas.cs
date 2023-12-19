@@ -5,8 +5,8 @@ namespace ProyectoFinalVentaDeBoletos.Repositories
 {
     public class RepositorioSalas : Repository<Sala>
     {
-        private readonly CinemaventaboletosContext Ctx;
-        public RepositorioSalas(CinemaventaboletosContext ctx) : base(ctx)
+        private readonly Sistem21VentaboletosdbContext Ctx;
+        public RepositorioSalas(Sistem21VentaboletosdbContext ctx) : base(ctx)
         {
             Ctx = ctx;
         }

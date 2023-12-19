@@ -5,8 +5,8 @@ namespace ProyectoFinalVentaDeBoletos.Repositories
 {
     public class RepositorioClasificaciones: Repository<Clasificacion>
     {
-        private readonly CinemaventaboletosContext Context;
-        public RepositorioClasificaciones(CinemaventaboletosContext context) : base(context)
+        private readonly Sistem21VentaboletosdbContext Context;
+        public RepositorioClasificaciones(Sistem21VentaboletosdbContext context) : base(context)
         {
             this.Context = context;
         }

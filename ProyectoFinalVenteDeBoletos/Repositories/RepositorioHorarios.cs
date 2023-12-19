@@ -5,8 +5,8 @@ namespace ProyectoFinalVentaDeBoletos.Repositories
 {
     public class RepositorioHorarios : Repository<Horario>
     {
-        private readonly CinemaventaboletosContext Ctx;
-        public RepositorioHorarios(CinemaventaboletosContext ctx) : base(ctx)
+        private readonly Sistem21VentaboletosdbContext Ctx;
+        public RepositorioHorarios(Sistem21VentaboletosdbContext ctx) : base(ctx)
         {
             Ctx = ctx;
         }
