@@ -1,4 +1,6 @@
-﻿<!DOCTYPE html>
+﻿@using ProyectoFinalVentaDeBoletos.Models.ViewModels;
+@model ComprarAsientoViewModel
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8" />
@@ -9,13 +11,16 @@
 </head>
 <body class="body-boletos">
     <div class="movie-container">
-        <label>Avengers: EndGame</label>
-        <!-- <select id="movie">
-          <option value="10">Avengers: Endgame ($10)</option>
-          <option value="12">Joker ($12)</option>
-          <option value="8">Toy Story 4 ($8)</option>
-          <option value="9">The Lion King ($9)</option>
-        </select> -->
+        @if (Model.Pelicula != null)
+        {
+            <label>@Model.Pelicula.Nombre</label>
+            <!-- <select id="movie">
+            <option value="10">Avengers: Endgame ($10)</option>
+            <option value="12">Joker ($12)</option>
+            <option value="8">Toy Story 4 ($8)</option>
+            <option value="9">The Lion King ($9)</option>
+            </select> -->
+        }
     </div>
 
     <ul class="showcase">
@@ -36,74 +41,31 @@
     <div class="container-boletos">
         <div class="screen"></div>
         <div class="row">
-            <div class="seat"></div>
-            <div class="seat"></div>
-            <div class="seat"></div>
-            <div class="seat"></div>
-            <div class="seat"></div>
-            <div class="seat"></div>
-            <div class="seat"></div>
-            <div class="seat"></div>
-        </div>
-        <div class="row">
-            <div class="seat"></div>
-            <div class="seat"></div>
-            <div class="seat"></div>
-            <div class="seat occupied"></div>
-            <div class="seat occupied"></div>
-            <div class="seat"></div>
-            <div class="seat"></div>
-            <div class="seat"></div>
-        </div>
-
-        <div class="row">
-            <div class="seat"></div>
-            <div class="seat"></div>
-            <div class="seat"></div>
-            <div class="seat"></div>
-            <div class="seat"></div>
-            <div class="seat"></div>
-            <div class="seat occupied"></div>
-            <div class="seat occupied"></div>
-        </div>
-
-        <div class="row">
-            <div class="seat"></div>
-            <div class="seat"></div>
-            <div class="seat"></div>
-            <div class="seat"></div>
-            <div class="seat"></div>
-            <div class="seat"></div>
-            <div class="seat"></div>
-            <div class="seat"></div>
-        </div>
-
-        <div class="row">
-            <div class="seat"></div>
-            <div class="seat"></div>
-            <div class="seat"></div>
-            <div class="seat occupied"></div>
-            <div class="seat occupied"></div>
-            <div class="seat"></div>
-            <div class="seat"></div>
-            <div class="seat"></div>
-        </div>
-
-        <div class="row">
-            <div class="seat"></div>
-            <div class="seat"></div>
-            <div class="seat"></div>
-            <div class="seat"></div>
-            <div class="seat occupied"></div>
-            <div class="seat occupied"></div>
-            <div class="seat occupied"></div>
-            <div class="seat"></div>
+            @foreach (var asiento in Model.Asientos)
+            {
+                if (asiento.Ocupado)
+                {
+                    <div class="seat occupied"></div>
+                }
+                else if (asiento.Seleccionado)
+                {
+                    <div class="seat selected"></div>
+                }
+                else
+                {
+                    <div class="seat"></div>
+                }
+            }
         </div>
     </div>
 
-    <p class="text">
-        Tu Seleccionaste  <span id="count">0</span> asientos <br>para tu pelicula por un precio de: $<span id="total">0</span>
-    </p>
+    @if (Model.Pelicula != null)
+    {
+        <p class="text">
+            Tu Seleccionaste <span id="count">@Model.Asientos.Count()</span> asientos <br>
+            para la pelicula @(Model.Pelicula.Nombre) por un precio de: <span id="total">$@(Model.Pelicula.Precio)</span>
+        </p>
+    }
     <div class="continuar" id="continuar-1">Continuar</div>
     <script src="~/CompraAsiento.js"></script>
 </body>

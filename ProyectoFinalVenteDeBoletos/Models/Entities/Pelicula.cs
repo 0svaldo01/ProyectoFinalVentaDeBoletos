@@ -19,6 +19,8 @@ public partial class Pelicula
 
     public int Año { get; set; }
 
+    public decimal Precio { get; set; }
+
     public virtual ICollection<Horario> Horario { get; set; } = new List<Horario>();
 
     public virtual Clasificacion IdClasificacionNavigation { get; set; } = null!;

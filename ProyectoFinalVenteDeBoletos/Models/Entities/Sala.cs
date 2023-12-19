@@ -19,7 +19,5 @@ public partial class Sala
 
     public virtual ICollection<Horario> Horario { get; set; } = new List<Horario>();
 
-    public virtual Asiento IdAsientoNavigation { get; set; } = null!;
-
     public virtual Tipopantalla IdTipoPantallaNavigation { get; set; } = null!;
 }

@@ -14,6 +14,12 @@ namespace ProyectoFinalVentaDeBoletos.Repositories
         {
             return Ctx.Sala.Include(x => x.IdTipoPantallaNavigation);
         }
+        //public IEnumerable<Asiento>? GetSalaByNombrePelicula(string Nombre)
+        //{
+        //    //busca en la tabla de horario, obtiene la primera 
+        //   // var a = Ctx.Sala.Include(x=>x.)
+        //    return a;
+        //}
         public IEnumerable<Sala> GetSalasOrdenadasByTipoPantalla()
         {
             return GetAll().OrderBy(x => x.IdTipoPantalla);

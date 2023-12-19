@@ -36,7 +36,6 @@ namespace ProyectoFinalVentaDeBoletos.Areas.Admin.Controllers
                     Nombre = x.Nombre
                 }),
                 DatosPeli = new(),
-                Pelicula = null!,
                 Imagen = null!
             };
             return View(vm);
@@ -55,24 +54,6 @@ namespace ProyectoFinalVentaDeBoletos.Areas.Admin.Controllers
             {
                 ModelState.AddModelError("", "La pelicula ya esta registrada");
             }
-            if (vm.Pelicula != null)
-            {
-                //Solo acepta videos mp4 y wav
-                if (vm.Pelicula.ContentType != "video/mp4" && vm.Pelicula.ContentType != "video/wav")
-                {
-                    //La pelicula tiene que durar menos de 3 horas
-                    if (vm.DatosPeli.Duracion <= new TimeOnly(3))
-                    {
-                        ModelState.AddModelError("", "La pelicula es muy larga");
-                    }
-                }
-                if (string.IsNullOrWhiteSpace(vm.DatosPeli.Nombre))
-                {
-                    ModelState.AddModelError("", "La pelicula tiene que tener un nombre");
-                }
-               
-            } 
-
             //Validar
             if (ModelState.IsValid)
             {

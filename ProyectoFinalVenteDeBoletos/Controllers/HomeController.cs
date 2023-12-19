@@ -10,25 +10,27 @@ namespace ProyectoFinalVentaDeBoletos.Controllers
         private readonly Random r = new();
         
         #region Repositorios
-        
         private RepositorioClasificaciones ClasificacionRepositorio { get; }
         private RepositorioHorarios HorarioRepositorio { get; }
         private RepositorioPeliculas PeliculasRepositorio { get; }
-        
+        public RepositorioSalas SalasRepositorio { get; }
+
         #endregion
-        
+
         public HomeController
         (
             #region Inyeccion de Repositorios
             RepositorioClasificaciones repositorioClasificaciones, 
             RepositorioHorarios repositorioHorarios, 
-            RepositorioPeliculas repositorioPeliculas
+            RepositorioPeliculas repositorioPeliculas,
+            RepositorioSalas repositorioSalas
         #endregion
         )
         {
             ClasificacionRepositorio = repositorioClasificaciones;
             HorarioRepositorio = repositorioHorarios;
             PeliculasRepositorio = repositorioPeliculas;
+            SalasRepositorio = repositorioSalas;
         }
 
         public IActionResult Index()
@@ -110,9 +112,15 @@ namespace ProyectoFinalVentaDeBoletos.Controllers
             }
             return RedirectToAction("VerPeliculas");
         }
-        [HttpGet("/ComprarAsiento")]
-        public IActionResult ComprarAsiento()
+        [HttpGet("/ComprarAsiento/{nombre}")]
+        public IActionResult ComprarAsiento(string nombre)
         {
+            ComprarAsientoViewModel vm = new()
+            {
+                // Asientos = SalasRepositorio.GetSalaByNombrePelicula(nombre)
+            };
+
+
             return View();
         }
     } 

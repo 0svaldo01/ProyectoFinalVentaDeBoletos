@@ -15,5 +15,5 @@ public partial class Asiento
 
     public bool? Seleccionado { get; set; }
 
-    public virtual ICollection<Sala> Sala { get; set; } = new List<Sala>();
+    public virtual ICollection<SalaAsiento> SalaAsiento { get; set; } = new List<SalaAsiento>();
 }
