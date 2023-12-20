@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using ProyectoFinalVentaDeBoletos.Models.Entities;
+using ProyectoFinalVentaDeBoletos.Models.ViewModels;
 
 namespace ProyectoFinalVentaDeBoletos.Repositories
 {
@@ -12,8 +13,20 @@ namespace ProyectoFinalVentaDeBoletos.Repositories
         }
         public IEnumerable<Asiento> GetAsientos()
         {
-            var Asientos = Context.Asiento;
+            var Asientos = Context.Asiento.Include(x=>x.SalaAsiento).ThenInclude(s=>s.Sala);
             return Asientos;
+        }
+        public IEnumerable<AsientoModel> GetAsientosByIdSala(int id)
+        {
+            var a = GetAsientos().Select(x=> new AsientoModel()
+            {
+                Columna= x.Columna,
+                Fila = x.Fila,
+                Id = x.Id,
+                Ocupado = x.Ocupado,
+                Seleccionado = x.Seleccionado
+            });
+            return a;
         }
     }
 }

@@ -13,7 +13,7 @@ public partial class Asiento
 
     public bool Ocupado { get; set; }
 
-    public bool? Seleccionado { get; set; }
+    public bool Seleccionado { get; set; }
 
     public virtual ICollection<SalaAsiento> SalaAsiento { get; set; } = new List<SalaAsiento>();
 }

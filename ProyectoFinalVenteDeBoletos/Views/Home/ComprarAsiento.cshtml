@@ -11,7 +11,7 @@
 </head>
 <body class="body-boletos">
     <div class="movie-container">
-        if (Model.Pelicula != null)
+        @if (Model.Pelicula != null)
         {
             <label>@Model.Pelicula.Nombre</label>
             <!-- <select id="movie">
@@ -42,22 +42,30 @@
         <div class="screen"></div>
         <div class="row">
             
-            @if(Model.Sala!=null && Model.Sala.SalaAsientos.Any()){
-                @foreach (var asiento in Model.Sala.SalaAsientos)
+            @if (Model.Sala != null && Model.Sala.SalaAsientos.Any())
+            {
+                for (int i = 0; i < Model.Sala.Filas; i++)
                 {
-                    //Aqui se mostraria la matriz, los datos deberian recibirse, pero por el momento la base de datos no tiene datos
-                    if (asiento.Ocupado)
-                    {
-                        <div class="seat occupied"></div>
-                    }
-                    else if (asiento.Seleccionado)
-                    {
-                        <div class="seat selected"></div>
-                    }
-                    else
-                    {
-                        <div class="seat"></div>
-                    }
+                    <dl>
+                        @foreach (var asiento in Model.Sala.SalaAsientos)
+                        {
+                            if(asiento.Columna<Model.Sala.Columnas){
+                            //Aqui se mostraria la matriz, los datos deberian recibirse, pero por el momento la base de datos no tiene datos
+                                if (asiento.Ocupado)
+                                {
+                                    <div class="seat occupied"></div>
+                                }
+                                else if (asiento.Seleccionado)
+                                {
+                                    <div class="seat selected"></div>
+                                }
+                                else
+                                {
+                                    <div class="seat"></div>
+                                }
+                            }
+                        }    
+                    </dl>
                 }
             }
         </div>

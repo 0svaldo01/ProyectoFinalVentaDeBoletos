@@ -12,7 +12,7 @@ namespace ProyectoFinalVentaDeBoletos.Repositories
         }
         public override IEnumerable<Horario> GetAll()
         {
-            return Ctx.Horario.Include(x => x.IdPeliculaNavigation).Include(x => x.IdSalaNavigation);
+            return Ctx.Horario.Include(x => x.IdPeliculaNavigation).Include(x => x.IdSalaNavigation).ThenInclude(x=>x.IdSalaAsientoNavigation);
         }
         public IEnumerable<Horario> GetAllOrderByNombrePelicula()
         {

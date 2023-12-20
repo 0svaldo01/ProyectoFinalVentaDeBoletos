@@ -39,9 +39,9 @@ public partial class Sistem21VentaboletosdbContext : DbContext
 
     public virtual DbSet<Usuario> Usuario { get; set; }
 
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-        => optionsBuilder.UseMySql("server=sistemas19.com;database=sistem21_ventaboletosdb;username=sistem21_ventaboletos;password=3Otr^53b4", Microsoft.EntityFrameworkCore.ServerVersion.Parse("10.5.20-mariadb"));
+//    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+////#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
+//        => optionsBuilder.UseMySql("server=sistemas19.com;database=sistem21_ventaboletosdb;username=sistem21_ventaboletos;password=3Otr^53b4", Microsoft.EntityFrameworkCore.ServerVersion.Parse("10.5.20-mariadb"));
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -58,7 +58,6 @@ public partial class Sistem21VentaboletosdbContext : DbContext
             entity.Property(e => e.Id).HasColumnType("int(11)");
             entity.Property(e => e.Columna).HasColumnType("int(11)");
             entity.Property(e => e.Fila).HasColumnType("int(11)");
-            entity.Property(e => e.Seleccionado).HasDefaultValueSql("'0'");
         });
 
         modelBuilder.Entity<Boleto>(entity =>

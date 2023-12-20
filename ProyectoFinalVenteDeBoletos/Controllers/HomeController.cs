@@ -10,14 +10,12 @@ namespace ProyectoFinalVentaDeBoletos.Controllers
     {
         private readonly Random r = new();
 
-        public RepositorioAsientos AsientosRepositorio { get; }
-
         #region Repositorios
+        public RepositorioAsientos AsientosRepositorio { get; }
         private RepositorioClasificaciones ClasificacionRepositorio { get; }
         private RepositorioHorarios HorarioRepositorio { get; }
         private RepositorioPeliculas PeliculasRepositorio { get; }
         public RepositorioSalas SalasRepositorio { get; }
-
         #endregion
 
         public HomeController
@@ -118,7 +116,7 @@ namespace ProyectoFinalVentaDeBoletos.Controllers
             }
             return RedirectToAction("VerPeliculas");
         }
-        [HttpGet("/ComprarAsiento")]
+        [HttpGet("/ComprarAsiento/{pelicula}")]
         public IActionResult ComprarAsiento(string pelicula, ComprarAsientoViewModel vm)
         {
             pelicula = pelicula.Replace('-', ' ');
@@ -134,35 +132,14 @@ namespace ProyectoFinalVentaDeBoletos.Controllers
             };
             vm.Sala = HorarioRepositorio.GetAll()
                 .Where(horario => horario.IdPeliculaNavigation.Nombre == pelicula)
-                .Select(CrearSalaModel)
-                .FirstOrDefault() ?? new SalaModel();
-            return View(vm);
-        }
-
-        private SalaModel CrearSalaModel(Horario horario)
-        {
-            var salaNavigation = horario.IdSalaNavigation;
-            return new SalaModel
-            {
-                Columnas = salaNavigation.Columnas,
-                Filas = salaNavigation.Filas,
-                Id = salaNavigation.Id,
-                SalaAsientos = ObtenerAsientosModel(salaNavigation.IdSalaAsiento)
-            };
-        }
-
-        private IEnumerable<AsientoModel> ObtenerAsientosModel(int idSalaAsiento)
-        {
-            return AsientosRepositorio.GetAll()
-                .Where(asiento => asiento.Id == idSalaAsiento)
-                .Select(asiento => new AsientoModel
+                .Select(x => new SalaModel()
                 {
-                    Id = asiento.Id,
-                    Columna = asiento.Columna,
-                    Fila = asiento.Fila,
-                    Ocupado = asiento.Ocupado,
-                    Seleccionado = asiento.Seleccionado ?? true
-                });
+                    Columnas = x.IdSalaNavigation.Columnas,
+                    Filas = x.IdSalaNavigation.Filas,
+                    Id = x.IdSalaNavigation.Id,
+                    SalaAsientos = AsientosRepositorio.GetAsientosByIdSala(x.IdSalaNavigation.IdSalaAsiento)
+                }).First(); 
+            return View(vm);
         }
     }
 }
