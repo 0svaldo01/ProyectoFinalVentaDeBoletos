@@ -12,4 +12,6 @@ public partial class SalaAsiento
     public int IdAsiento { get; set; }
 
     public virtual Asiento IdAsientoNavigation { get; set; } = null!;
+
+    public virtual ICollection<Sala> Sala { get; set; } = new List<Sala>();
 }

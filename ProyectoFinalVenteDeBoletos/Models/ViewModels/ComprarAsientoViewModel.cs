@@ -2,8 +2,15 @@
 {
     public class ComprarAsientoViewModel
     {
-        public IEnumerable<AsientoModel> Asientos { get; set; } = null!;
+        public SalaModel Sala { get; set; } = null!;
         public PeliModel Pelicula { get; set; } = null!;
+    }
+    public class SalaModel
+    {
+        public int Id { get; set; }
+        public int Columnas { get; set; }
+        public int Filas { get; set; }
+        public IEnumerable<AsientoModel> SalaAsientos { get; set; } = null!;
     }
     public class AsientoModel
     {
@@ -15,7 +22,7 @@
     }
     public class PeliModel
     {
-        public int Nombre { get; set; }
+        public string Nombre { get; set; } = null!;
         public decimal Precio { get; set; }
     }
 }

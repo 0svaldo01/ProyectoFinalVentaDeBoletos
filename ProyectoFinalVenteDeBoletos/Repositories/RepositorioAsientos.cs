@@ -10,7 +10,6 @@ namespace ProyectoFinalVentaDeBoletos.Repositories
         {
             this.Context = Ctx;
         }
-
         public IEnumerable<Asiento> GetAsientos()
         {
             var Asientos = Context.Asiento;

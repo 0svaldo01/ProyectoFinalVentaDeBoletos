@@ -8,7 +8,9 @@ namespace ProyectoFinalVentaDeBoletos.Controllers
     public class HomeController : Controller
     {
         private readonly Random r = new();
-        
+
+        public RepositorioAsientos AsientosRepositorio { get; }
+
         #region Repositorios
         private RepositorioClasificaciones ClasificacionRepositorio { get; }
         private RepositorioHorarios HorarioRepositorio { get; }
@@ -19,18 +21,21 @@ namespace ProyectoFinalVentaDeBoletos.Controllers
 
         public HomeController
         (
-            #region Inyeccion de Repositorios
-            RepositorioClasificaciones repositorioClasificaciones, 
-            RepositorioHorarios repositorioHorarios, 
+        #region Inyeccion de Repositorios
+            RepositorioClasificaciones repositorioClasificaciones,
+            RepositorioHorarios repositorioHorarios,
             RepositorioPeliculas repositorioPeliculas,
-            RepositorioSalas repositorioSalas
+            RepositorioSalas repositorioSalas,
+            RepositorioAsientos repositorioAsientos
         #endregion
         )
         {
+            AsientosRepositorio = repositorioAsientos;
             ClasificacionRepositorio = repositorioClasificaciones;
             HorarioRepositorio = repositorioHorarios;
             PeliculasRepositorio = repositorioPeliculas;
             SalasRepositorio = repositorioSalas;
+
         }
 
         public IActionResult Index()
@@ -61,13 +66,13 @@ namespace ProyectoFinalVentaDeBoletos.Controllers
         [HttpGet("/Pelicula/{nombre}")]
         public IActionResult Pelicula(string nombre)
         {
-            nombre = nombre.Replace('-',' ');
+            nombre = nombre.Replace('-', ' ');
             var peli = PeliculasRepositorio.GetPeliculaByNombre(nombre);
             if (peli != null)
             {
                 var generospeli = peli.PeliculaGenero;
                 var generos = new StringBuilder();
-                if (generospeli!=null)
+                if (generospeli != null)
                 {
                     foreach (var genero in generospeli)
                     {
@@ -90,13 +95,13 @@ namespace ProyectoFinalVentaDeBoletos.Controllers
 
                         Horarios = HorarioRepositorio
                         .GetAll()
-                        .Where(x=>x.IdPeliculaNavigation.Id==peli.Id)
+                        .Where(x => x.IdPeliculaNavigation.Id == peli.Id)
                         .Select(h => new HorariosModel
                         {
                             Id = h.Id,
                             HorarioDisponible = $"{h.HoraInicio} - {h.HoraTerminacion}"
                         }),
-                        
+
                         OtrasPeliculas = listapeliculas
                             //Ordena aleatoriamente la lista y toma 5 peliculas
                             .OrderBy(x => r.Next(0, listapeliculas.Count())).Take(5)
@@ -112,16 +117,43 @@ namespace ProyectoFinalVentaDeBoletos.Controllers
             }
             return RedirectToAction("VerPeliculas");
         }
-        [HttpGet("/ComprarAsiento/{nombre}")]
-        public IActionResult ComprarAsiento(string nombre)
+        [HttpGet("/ComprarAsiento")]
+        public IActionResult ComprarAsiento(string pelicula, ComprarAsientoViewModel vm)//(string nombre)
         {
-            ComprarAsientoViewModel vm = new()
+            pelicula = pelicula.Replace('-', ' ');
+            var peli = PeliculasRepositorio.GetPeliculaByNombre(pelicula);
+            if (peli == null)
             {
-                // Asientos = SalasRepositorio.GetSalaByNombrePelicula(nombre)
-            };
-
-
-            return View();
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                vm.Pelicula = new PeliModel()
+                {
+                    Nombre = peli.Nombre ?? "",
+                    Precio = peli.Precio
+                };
+                vm.Sala = HorarioRepositorio.GetAll()
+                    .Where(x => x.IdPeliculaNavigation.Nombre == pelicula).Select(x => 
+                    new SalaModel 
+                    {
+                    Columnas = x.IdSalaNavigation.Columnas,
+                    Filas = x.IdSalaNavigation.Filas,
+                    Id = x.IdSalaNavigation.Id,
+                    SalaAsientos = AsientosRepositorio.GetAll()
+                    .Where(sm =>sm.Id == x.IdSalaNavigation.IdSalaAsiento)
+                    .Select(sm=> 
+                        new AsientoModel
+                        {
+                            Id = sm.Id,
+                            Columna = sm.Columna,
+                            Fila = sm.Fila,
+                            Ocupado = sm.Ocupado,
+                            Seleccionado = sm.Seleccionado??true
+                        })
+                }).First();
+                return View(vm);
+            }
         }
     } 
 }

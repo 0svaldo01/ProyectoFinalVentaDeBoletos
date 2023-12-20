@@ -21,8 +21,6 @@ public partial class Sistem21VentaboletosdbContext : DbContext
 
     public virtual DbSet<Clasificacion> Clasificacion { get; set; }
 
-    public virtual DbSet<Efmigrationshistory> Efmigrationshistory { get; set; }
-
     public virtual DbSet<Genero> Genero { get; set; }
 
     public virtual DbSet<Horario> Horario { get; set; }
@@ -102,19 +100,6 @@ public partial class Sistem21VentaboletosdbContext : DbContext
 
             entity.Property(e => e.Id).HasColumnType("int(11)");
             entity.Property(e => e.Nombre).HasMaxLength(45);
-        });
-
-        modelBuilder.Entity<Efmigrationshistory>(entity =>
-        {
-            entity.HasKey(e => e.MigrationId).HasName("PRIMARY");
-
-            entity
-                .ToTable("__efmigrationshistory")
-                .HasCharSet("utf8mb4")
-                .UseCollation("utf8mb4_general_ci");
-
-            entity.Property(e => e.MigrationId).HasMaxLength(150);
-            entity.Property(e => e.ProductVersion).HasMaxLength(32);
         });
 
         modelBuilder.Entity<Genero>(entity =>
@@ -234,20 +219,24 @@ public partial class Sistem21VentaboletosdbContext : DbContext
 
             entity.ToTable("sala");
 
-            entity.HasIndex(e => e.IdTipoPantalla, "IdTipoPantalla");
+            entity.HasIndex(e => e.IdSalaAsiento, "FK_Sala_SalaAsiento_idx");
 
-            entity.HasIndex(e => e.IdAsiento, "sala_ibfk_2_idx");
+            entity.HasIndex(e => e.IdTipoPantalla, "FK_Sala_TipoPantalla_idx");
 
             entity.Property(e => e.Id).HasColumnType("int(11)");
             entity.Property(e => e.Columnas).HasColumnType("int(11)");
             entity.Property(e => e.Filas).HasColumnType("int(11)");
-            entity.Property(e => e.IdAsiento).HasColumnType("int(11)");
+            entity.Property(e => e.IdSalaAsiento).HasColumnType("int(11)");
             entity.Property(e => e.IdTipoPantalla).HasColumnType("int(11)");
+
+            entity.HasOne(d => d.IdSalaAsientoNavigation).WithMany(p => p.Sala)
+                .HasForeignKey(d => d.IdSalaAsiento)
+                .HasConstraintName("FK_Sala_SalaAsiento");
 
             entity.HasOne(d => d.IdTipoPantallaNavigation).WithMany(p => p.Sala)
                 .HasForeignKey(d => d.IdTipoPantalla)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("sala_ibfk_1");
+                .HasConstraintName("FK_Sala_TipoPantalla");
         });
 
         modelBuilder.Entity<SalaAsiento>(entity =>
@@ -257,8 +246,6 @@ public partial class Sistem21VentaboletosdbContext : DbContext
             entity.ToTable("sala_asiento");
 
             entity.HasIndex(e => e.IdAsiento, "Id_Asiento");
-
-            entity.HasIndex(e => e.IdSala, "sala_asiento_ibfk_2_idx");
 
             entity.Property(e => e.Id).HasColumnType("int(11)");
             entity.Property(e => e.IdAsiento)
