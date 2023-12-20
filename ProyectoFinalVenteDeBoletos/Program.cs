@@ -14,11 +14,13 @@ using ProyectoFinalVentaDeBoletos.Repositories;
     builder.Services.AddMySql<Sistem21VentaboletosdbContext>(Db, ServerVersion.AutoDetect(Db));
     
     #endregion
+
     //Utilizar MVC
     builder.Services.AddMvc();
     #region Repositorios Utilizando AddTransient
 
     //Para inyectar los repositorios directamente sin dar contexto
+    builder.Services.AddTransient<RepositorioAsientos>();
     builder.Services.AddTransient<RepositorioClasificaciones>();
     builder.Services.AddTransient<RepositorioHorarios>();
     builder.Services.AddTransient<RepositorioPeliculas>();
@@ -53,5 +55,4 @@ using ProyectoFinalVentaDeBoletos.Repositories;
     );
 
 #endregion
-
 app.Run();

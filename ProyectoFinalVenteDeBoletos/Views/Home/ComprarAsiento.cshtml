@@ -42,33 +42,39 @@
         <div class="screen"></div>
         <div class="row">
             
-            @foreach (var asiento in Model.Sala.IdSalaAsientoNavigation.IdAsientoNavigation)
-            {
-                if (asiento.Ocupado)
+            @if(Model.Sala!=null && Model.Sala.SalaAsientos.Any()){
+                @foreach (var asiento in Model.Sala.SalaAsientos)
                 {
-                    <div class="seat occupied"></div>
-                }
-                else if (asiento.Seleccionado)
-                {
-                    <div class="seat selected"></div>
-                }
-                else
-                {
-                    <div class="seat"></div>
+                    //Aqui se mostraria la matriz, los datos deberian recibirse, pero por el momento la base de datos no tiene datos
+                    if (asiento.Ocupado)
+                    {
+                        <div class="seat occupied"></div>
+                    }
+                    else if (asiento.Seleccionado)
+                    {
+                        <div class="seat selected"></div>
+                    }
+                    else
+                    {
+                        <div class="seat"></div>
+                    }
                 }
             }
-            *@
         </div>
     </div>
-    @*
-    @if (Model.Pelicula != null)
+    
+    @{
+        int x = 0;
+    }
+
+    @if (Model.Pelicula != null && Model.Sala!=null)
     {
         <p class="text">
-            Tu Seleccionaste <span id="count">@Model.Asientos.Count()</span> asientos <br>
+            Tu Seleccionaste <span id="count">@x</span> asientos <br>
             para la pelicula @(Model.Pelicula.Nombre) por un precio de: <span id="total">$@(Model.Pelicula.Precio)</span>
         </p>
     }
-    *@
+    
     <div class="continuar" id="continuar-1">Continuar</div>
     <script src="~/CompraAsiento.js"></script>
 </body>

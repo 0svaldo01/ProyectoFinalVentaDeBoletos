@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using ProyectoFinalVentaDeBoletos.Models.Entities;
 using ProyectoFinalVentaDeBoletos.Models.ViewModels;
 using ProyectoFinalVentaDeBoletos.Repositories;
 using System.Text;
@@ -118,7 +119,7 @@ namespace ProyectoFinalVentaDeBoletos.Controllers
             return RedirectToAction("VerPeliculas");
         }
         [HttpGet("/ComprarAsiento")]
-        public IActionResult ComprarAsiento(string pelicula, ComprarAsientoViewModel vm)//(string nombre)
+        public IActionResult ComprarAsiento(string pelicula, ComprarAsientoViewModel vm)
         {
             pelicula = pelicula.Replace('-', ' ');
             var peli = PeliculasRepositorio.GetPeliculaByNombre(pelicula);
@@ -126,34 +127,42 @@ namespace ProyectoFinalVentaDeBoletos.Controllers
             {
                 return RedirectToAction("Index");
             }
-            else
+            vm.Pelicula = new PeliModel
             {
-                vm.Pelicula = new PeliModel()
-                {
-                    Nombre = peli.Nombre ?? "",
-                    Precio = peli.Precio
-                };
-                vm.Sala = HorarioRepositorio.GetAll()
-                    .Where(x => x.IdPeliculaNavigation.Nombre == pelicula).Select(x => 
-                    new SalaModel 
-                    {
-                    Columnas = x.IdSalaNavigation.Columnas,
-                    Filas = x.IdSalaNavigation.Filas,
-                    Id = x.IdSalaNavigation.Id,
-                    SalaAsientos = AsientosRepositorio.GetAll()
-                    .Where(sm =>sm.Id == x.IdSalaNavigation.IdSalaAsiento)
-                    .Select(sm=> 
-                        new AsientoModel
-                        {
-                            Id = sm.Id,
-                            Columna = sm.Columna,
-                            Fila = sm.Fila,
-                            Ocupado = sm.Ocupado,
-                            Seleccionado = sm.Seleccionado??true
-                        })
-                }).First();
-                return View(vm);
-            }
+                Nombre = peli.Nombre ?? "",
+                Precio = peli.Precio
+            };
+            vm.Sala = HorarioRepositorio.GetAll()
+                .Where(horario => horario.IdPeliculaNavigation.Nombre == pelicula)
+                .Select(CrearSalaModel)
+                .FirstOrDefault() ?? new SalaModel();
+            return View(vm);
         }
-    } 
+
+        private SalaModel CrearSalaModel(Horario horario)
+        {
+            var salaNavigation = horario.IdSalaNavigation;
+            return new SalaModel
+            {
+                Columnas = salaNavigation.Columnas,
+                Filas = salaNavigation.Filas,
+                Id = salaNavigation.Id,
+                SalaAsientos = ObtenerAsientosModel(salaNavigation.IdSalaAsiento)
+            };
+        }
+
+        private IEnumerable<AsientoModel> ObtenerAsientosModel(int idSalaAsiento)
+        {
+            return AsientosRepositorio.GetAll()
+                .Where(asiento => asiento.Id == idSalaAsiento)
+                .Select(asiento => new AsientoModel
+                {
+                    Id = asiento.Id,
+                    Columna = asiento.Columna,
+                    Fila = asiento.Fila,
+                    Ocupado = asiento.Ocupado,
+                    Seleccionado = asiento.Seleccionado ?? true
+                });
+        }
+    }
 }
