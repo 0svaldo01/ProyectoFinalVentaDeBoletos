@@ -53,6 +53,7 @@ namespace ProyectoFinalVentaDeBoletos.Areas.Admin.Controllers
             {
                 ModelState.AddModelError("", "La pelicula ya esta registrada");
             }
+
             //Validar
             if (ModelState.IsValid)
             {
