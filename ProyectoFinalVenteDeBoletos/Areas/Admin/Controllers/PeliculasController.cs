@@ -89,11 +89,6 @@ namespace ProyectoFinalVentaDeBoletos.Areas.Admin.Controllers
                 }
             }
             //Validar
-            if (ModelState.IsValid)
-            {
-                //Redireccionar si se edito correctamente
-                return RedirectToAction("Index", "Peliculas", new { Area = "Admin" });
-            }
             if (string.IsNullOrWhiteSpace(vm.Pelicula.Nombre))
             {
                 ModelState.AddModelError("","La pelicula debe tener un nombre");
@@ -107,6 +102,12 @@ namespace ProyectoFinalVentaDeBoletos.Areas.Admin.Controllers
 
             }
 
+            if (ModelState.IsValid)
+            {
+                //Redireccionar si se edito correctamente
+                return RedirectToAction("Index", "Peliculas", new { Area = "Admin" });
+            }
+            
             //Regresar el viewmodel si no se edito
             return View(vm);
         }
