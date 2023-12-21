@@ -35,7 +35,7 @@ namespace ProyectoFinalVentaDeBoletos.Areas.Admin.Controllers
                     Id = x.Id,
                     Nombre = x.Nombre
                 }),
-                DatosPeli = new(),
+                Pelicula = new(),
                 Imagen = null!
             };
             return View(vm);
@@ -48,7 +48,7 @@ namespace ProyectoFinalVentaDeBoletos.Areas.Admin.Controllers
                 Id = x.Id,
                 Nombre = x.Nombre
             });
-            var peli = PeliculasRepositorio.GetPeliculaByNombre(vm.DatosPeli.Nombre);
+            var peli = PeliculasRepositorio.GetPeliculaByNombre(vm.Pelicula.Nombre);
             if (peli != null)
             {
                 ModelState.AddModelError("", "La pelicula ya esta registrada");
@@ -63,54 +63,50 @@ namespace ProyectoFinalVentaDeBoletos.Areas.Admin.Controllers
             //Regresar el viewmodel si no se agrego
             return View(vm);
         }
-        //public IActionResult Agregar(AgregarPeliculaViewModel vm)
-        //{
-        //    vm.Clasificaciones = ClasificacionesRepositorio.GetAll().Select(x => new ClasificacionModel
-        //    {
-        //        Id = x.Id,
-        //        Nombre = x.Nombre
-        //    });
-        //    var peli = PeliculasRepositorio.GetPeliculaByNombre(vm.DatosPeli.Nombre);
-        //    if (peli != null)
-        //    {
-        //        ModelState.AddModelError("", "La pelicula ya esta registrada");
-        //    }
-        //    if (vm.Pelicula != null)
-        //    {
-        //        //Solo acepta videos mp4 y wav
-        //        if (vm.Pelicula.ContentType != "video/mp4" && vm.Pelicula.ContentType != "video/wav")
-        //        {
-        //            //La pelicula tiene que durar menos de 3 horas
-        //            if (vm.DatosPeli.Duracion <= new TimeOnly(3))
-        //            {
-        //                ModelState.AddModelError("", "La pelicula es muy larga");
-        //            }
-        //        }
-        //        if (string.IsNullOrWhiteSpace(vm.DatosPeli.Nombre))
-        //        {
-        //            ModelState.AddModelError("", "La pelicula tiene que tener un nombre");
-        //        }
-               
-        //    } 
-
-        //    //Validar
-        //    if (ModelState.IsValid)
-        //    {
-        //        //Redireccionar si se agrego correctamente
-        //        return RedirectToAction("Index", "Peliculas", new { Area = "Admin" });
-        //    }
-        //    //Regresar el viewmodel si no se agrego
-        //    return View(vm);
-        //}
-
-        public IActionResult Editar(AgregarPeliculaViewModel vm)
+        [HttpGet("/HOLA/{id}")]
+        public IActionResult Editar(int id)
         {
+            AgregarPeliculaViewModel vm = new()
+            {
+                Clasificaciones = ClasificacionesRepositorio.GetAll().Select(x => new ClasificacionModel
+                {
+                    Id = x.Id,
+                    Nombre = x.Nombre
+                }),
+                Pelicula = new()
+            };
+            return View(vm);
+        }
+        [HttpPost("/{id}")]
+        public IActionResult Editar(int id,AgregarPeliculaViewModel vm)
+        {
+            //Verificar que el id sea solo numeros
+            foreach(var n in id.ToString())
+            {
+                if (!char.IsNumber(n))
+                {
+                    return RedirectToAction("Index");
+                }
+            }
             //Validar
             if (ModelState.IsValid)
             {
                 //Redireccionar si se edito correctamente
                 return RedirectToAction("Index", "Peliculas", new { Area = "Admin" });
             }
+            if (string.IsNullOrWhiteSpace(vm.Pelicula.Nombre))
+            {
+                ModelState.AddModelError("","La pelicula debe tener un nombre");
+            }
+            if (string.IsNullOrWhiteSpace(vm.Pelicula.Sinopsis))
+            {
+                ModelState.AddModelError("","La pelicula debe tener una sinopsis");
+            }
+            if (string.IsNullOrWhiteSpace(vm.Pelicula.Duracion.ToShortTimeString()))
+            {
+
+            }
+
             //Regresar el viewmodel si no se edito
             return View(vm);
         }

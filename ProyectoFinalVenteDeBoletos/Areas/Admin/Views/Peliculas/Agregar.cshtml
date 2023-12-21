@@ -9,22 +9,22 @@
     <form method="post" enctype="multipart/form-data">
         <h2>Agregar Pelicula</h2>
         <label class="leyendasagregarPelicula">Nombre:</label>
-        <input class="controls" type="text" asp-for="DatosPeli.Nombre" placeholder="Ingrese el nombre"><br />
+        <input class="controls" type="text" asp-for="Pelicula.Nombre" placeholder="Ingrese el nombre"><br />
 
         <label class="leyendasagregarPelicula">Duración:</label>
-        <input class="controls" type="time" asp-for="DatosPeli.Duracion" placeholder="Ingrese la duracion"><br />
+        <input class="controls" type="time" asp-for="Pelicula.Duracion" placeholder="Ingrese la duracion"><br />
 
         <label class="leyendasagregarPelicula">Año:</label>
-        <input class="controls" type="number" asp-for="DatosPeli.Año" placeholder="Ingrese el año"><br />
+        <input class="controls" type="number" asp-for="Pelicula.Año" placeholder="Ingrese el año"><br />
 
         <label class="leyendasagregarImagenPelicula">Imagen:</label>
         <input class="controls" type="file" asp-for="Imagen" accept="image/jpg" placeholder="Ingrese la imagen" /><br />
 
         <label class="leyendasPelicula">Trailer (URL):</label>
-        <input class="controls" type="url" asp-for="DatosPeli.Trailer" placeholder="Ingrese el URL del trailer"><br />
+        <input class="controls" type="url" asp-for="Pelicula.Trailer" placeholder="Ingrese el URL del trailer"><br />
 
         <label class="leyendasagregarPelicula">Sinopsis:</label>
-        <input class="controls" type="text" asp-for="DatosPeli.Sinopsis" placeholder="Ingrese la sinopsis"><br />
+        <input class="controls" type="text" asp-for="Pelicula.Sinopsis" placeholder="Ingrese la sinopsis"><br />
 
         <input class="botons-agregarPelicula" type="submit" value="Agregar" />
         <input class="botons-agregarPelicula1" type="submit" value="Cancelar" action="~/admin"/>
