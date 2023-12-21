@@ -169,15 +169,21 @@ namespace ProyectoFinalVentaDeBoletos.Areas.Admin.Controllers
             //Regresar el viewmodel si no se edito
             return View(vm);
         }
-        public IActionResult Eliminar(int p)
+        public IActionResult Eliminar(int id)
         {
-            return View();
+            var peli = PeliculasRepositorio.GetPeliculaById(id);
+            if (peli == null)
+            {
+                return RedirectToAction("Index");
+            }
+            return View(peli);
         }
         public IActionResult Eliminar(Pelicula p)
         {
-            if (p != null)
+            var peli = PeliculasRepositorio.GetPeliculaById(p.Id);
+            if (peli != null)
             {
-
+                PeliculasRepositorio.Delete(peli);
             }
             return RedirectToAction("Index", "Peliculas", new { Area = "Admin" });
         }
