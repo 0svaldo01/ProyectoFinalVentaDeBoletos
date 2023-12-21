@@ -119,6 +119,10 @@ namespace ProyectoFinalVentaDeBoletos.Controllers
         [HttpGet("/ComprarAsiento/{pelicula}")]
         public IActionResult ComprarAsiento(string pelicula, ComprarAsientoViewModel vm)
         {
+            if (string.IsNullOrWhiteSpace(pelicula))
+            {
+                return RedirectToAction("Index");
+            }
             pelicula = pelicula.Replace('-', ' ');
             var peli = PeliculasRepositorio.GetPeliculaByNombre(pelicula);
             if (peli == null)
@@ -130,16 +134,27 @@ namespace ProyectoFinalVentaDeBoletos.Controllers
                 Nombre = peli.Nombre ?? "",
                 Precio = peli.Precio
             };
-            vm.Sala = HorarioRepositorio.GetAll()
-                .Where(horario => horario.IdPeliculaNavigation.Nombre == pelicula)
-                .Select(x => new SalaModel()
+            var horario = HorarioRepositorio.GetAll().FirstOrDefault(h => h.IdPeliculaNavigation.Nombre == pelicula);
+            if (horario != null)
+            {
+                vm.Sala = new SalaModel()
                 {
-                    Columnas = x.IdSalaNavigation.Columnas,
-                    Filas = x.IdSalaNavigation.Filas,
-                    Id = x.IdSalaNavigation.Id,
-                    SalaAsientos = AsientosRepositorio.GetAsientosByIdSala(x.IdSalaNavigation.IdSalaAsiento)
-                }).First(); 
-            return View(vm);
+                    Columnas = horario.IdSalaNavigation.Columnas,
+                    Filas = horario.IdSalaNavigation.Filas,
+                    Id = horario.IdSalaNavigation.Id,
+                    SalaAsientos = AsientosRepositorio.GetAsientosByIdSala(horario.IdSalaNavigation.IdSalaAsiento)
+                };
+            }
+            else
+            {
+                vm.Sala = new SalaModel() { };   
+                ModelState.AddModelError("Error", "No hay horarios disponibles para esta película");
+            }
+            if (vm.Pelicula == null || vm.Sala == null || vm.Sala.SalaAsientos.Any() || !ModelState.IsValid)
+            {
+                return RedirectToAction("Index");
+            }
+            return View(vm); 
         }
     }
 }
