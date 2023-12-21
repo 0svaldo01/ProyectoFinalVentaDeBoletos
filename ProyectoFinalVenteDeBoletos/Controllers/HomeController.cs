@@ -33,12 +33,10 @@ namespace ProyectoFinalVentaDeBoletos.Controllers
             SalasRepositorio = repositorioSalas;
 
         }
-
         public IActionResult Index()
         {
             return View();
         }
-
         #region Peliculas
         [Route("/Peliculas")]
         public IActionResult VerPeliculas()
@@ -157,7 +155,6 @@ namespace ProyectoFinalVentaDeBoletos.Controllers
             }
             return View(vm);
         }
-
         #endregion
     }
 }
