@@ -126,21 +126,45 @@ namespace ProyectoFinalVentaDeBoletos.Areas.Admin.Controllers
             //Validar
             if (string.IsNullOrWhiteSpace(vm.Pelicula.Nombre))
             {
-                ModelState.AddModelError("","La pelicula debe tener un nombre");
+                ModelState.AddModelError("", "La pelicula debe tener un nombre");
             }
             if (string.IsNullOrWhiteSpace(vm.Pelicula.Sinopsis))
             {
-                ModelState.AddModelError("","La pelicula debe tener una sinopsis");
+                ModelState.AddModelError("", "La pelicula debe tener una sinopsis");
             }
-            if (vm.Pelicula.Duracion.Hour > 23 || vm.Pelicula.Duracion.Hour<0)
+            if (vm.Pelicula.Duracion.Hour > 23 || vm.Pelicula.Duracion.Hour < 0)
             {
-                ModelState.AddModelError("","La pelicula debe durar menos de 23 horas");
+                ModelState.AddModelError("", "La pelicula debe durar menos de 23 horas");
+            }
+            if (vm.Pelicula.Año < 1850)
+            {
+                ModelState.AddModelError("", "No existian peliculas antes de 1850, Ingrese una fecha valida");
+            }
+            if (vm.Pelicula.Año > DateTime.Now.Year)
+            {
+                ModelState.AddModelError("", "No se puedes registrar una pelicula con un año superior al actual");
+            }
+            if (vm.Pelicula.Precio < 0 || vm.Pelicula.Precio > 5000)
+            {
+                ModelState.AddModelError("", "Ingrese un precio entre 0 y 5000");
             }
             if (ModelState.IsValid)
             {
-
-                //Redireccionar si se edito correctamente
-                return RedirectToAction("Index", "Peliculas", new { Area = "Admin" });
+                var anterior = PeliculasRepositorio.Get(id);
+                if (anterior != null)
+                {
+                    anterior.Año = vm.Pelicula.Año;
+                    anterior.Duracion = vm.Pelicula.Duracion;
+                    anterior.IdClasificacion = vm.Pelicula.IdClasificacion;
+                    anterior.Nombre = vm.Pelicula.Nombre;
+                    anterior.Sinopsis = vm.Pelicula.Sinopsis;
+                    anterior.Trailer = vm.Pelicula.Trailer;
+                    anterior.Precio = vm.Pelicula.Precio;
+                    
+                    PeliculasRepositorio.Update(anterior);
+                    //Redireccionar si se edito correctamente
+                    return RedirectToAction("Index", "Peliculas", new { Area = "Admin" });
+                }
             }
             //Regresar el viewmodel si no se edito
             return View(vm);
