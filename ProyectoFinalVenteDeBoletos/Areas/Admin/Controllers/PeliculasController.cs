@@ -25,7 +25,6 @@ namespace ProyectoFinalVentaDeBoletos.Areas.Admin.Controllers
         {
             return View();
         }
-
         [HttpGet]
         public IActionResult Agregar()
         {
@@ -41,22 +40,6 @@ namespace ProyectoFinalVentaDeBoletos.Areas.Admin.Controllers
             };
             return View(vm);
         }
-        //public IActionResult Agregar()
-        //{
-        //    AgregarPeliculaViewModel vm = new()
-        //    {
-        //        Clasificaciones = ClasificacionesRepositorio.GetAll().Select(x => new ClasificacionModel
-        //        {
-        //            Id = x.Id,
-        //            Nombre = x.Nombre
-        //        }),
-        //        DatosPeli = new(),
-        //        Pelicula = null!,
-        //        Imagen = null!
-        //    };
-        //    return View(vm);
-        //}
-
         [HttpPost]
         public IActionResult Agregar(AgregarPeliculaViewModel vm)
         {
@@ -129,9 +112,7 @@ namespace ProyectoFinalVentaDeBoletos.Areas.Admin.Controllers
             }
             //Regresar el viewmodel si no se edito
             return View(vm);
-        
         }
-        
         public IActionResult Eliminar(int p)
         {
             return View();
