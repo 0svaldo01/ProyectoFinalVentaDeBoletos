@@ -2,6 +2,7 @@
 using ProyectoFinalVentaDeBoletos.Areas.Admin.Models.Peliculas;
 using ProyectoFinalVentaDeBoletos.Models.Entities;
 using ProyectoFinalVentaDeBoletos.Repositories;
+using System.Text.RegularExpressions;
 
 namespace ProyectoFinalVentaDeBoletos.Areas.Admin.Controllers
 {
@@ -77,6 +78,10 @@ namespace ProyectoFinalVentaDeBoletos.Areas.Admin.Controllers
         
         }
         
+        public IActionResult Eliminar(int p)
+        {
+            return View();
+        }
         public IActionResult Eliminar(Pelicula p)
         {
             if (p != null)

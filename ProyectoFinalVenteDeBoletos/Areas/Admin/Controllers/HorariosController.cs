@@ -9,13 +9,19 @@ namespace ProyectoFinalVentaDeBoletos.Areas.Admin.Controllers
     [Area("Admin")]
     public class HorariosController : Controller
     {
+        public RepositorioHorarios HorarioRepositorio { get; }
+
+        public HorariosController(RepositorioHorarios repositorioHorarios)
+        {
+            HorarioRepositorio = repositorioHorarios;
+        }
         public IActionResult Index()
         {
             return View();
         }
         public IActionResult Agregar(AgregarHorarioViewModel vm)
         {
-        
+
             //Validar
             if (ModelState.IsValid)
             {
@@ -24,20 +30,32 @@ namespace ProyectoFinalVentaDeBoletos.Areas.Admin.Controllers
             }
             //Regresar el viewmodel si no se agrego
             return View(vm);
-        
+
         }
- 
+
+        [HttpGet("{id}")]
+        public IActionResult Editar(int id)
+        {
+            var horario = HorarioRepositorio.Get(id);
+            if (horario == null)
+            {
+                return RedirectToAction("Index");
+                     
+            }
+            return View();
+        }
         public IActionResult Editar(AgregarHorarioViewModel vm)
         {
 
             //Validar
             if (ModelState.IsValid)
             {
+                
                 //Redireccionar si se edito correctamente
                 return RedirectToAction("Index", "Peliculas", new { Area = "Admin" });
             }
             //Regresar el viewmodel si no se edito
-            return View(vm);
+            return RedirectToAction("Index");
         
         }
         public IActionResult Eliminar(Horario p)
