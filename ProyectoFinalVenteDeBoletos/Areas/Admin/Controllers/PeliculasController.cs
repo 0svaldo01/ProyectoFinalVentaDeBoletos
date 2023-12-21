@@ -53,17 +53,52 @@ namespace ProyectoFinalVentaDeBoletos.Areas.Admin.Controllers
             {
                 ModelState.AddModelError("", "La pelicula ya esta registrada");
             }
-
             //Validar
+            if (string.IsNullOrWhiteSpace(vm.Pelicula.Nombre))
+            {
+                ModelState.AddModelError("", "La pelicula debe tener un nombre");
+            }
+            if (string.IsNullOrWhiteSpace(vm.Pelicula.Sinopsis))
+            {
+                ModelState.AddModelError("", "La pelicula debe tener una sinopsis");
+            }
+            if (vm.Pelicula.Duracion.Hour > 23 || vm.Pelicula.Duracion.Hour < 0)
+            {
+                ModelState.AddModelError("", "La pelicula debe durar menos de 23 horas");
+            }
+            if (vm.Pelicula.Año < 1850)
+            {
+                ModelState.AddModelError("", "No existian peliculas antes de 1850, Ingrese una fecha valida");
+            }
+            if(vm.Pelicula.Año > DateTime.Now.Year)
+            {
+                ModelState.AddModelError("", "No se puedes registrar una pelicula con un año superior al actual");
+            }
+            if (vm.Pelicula.Precio<0 || vm.Pelicula.Precio>5000)
+            {
+                ModelState.AddModelError("", "Ingrese un precio entre 0 y 5000");
+            }
             if (ModelState.IsValid)
             {
+                var p = new Pelicula()
+                {
+                    Id=0,
+                    Año = vm.Pelicula.Año,
+                    Duracion= vm.Pelicula.Duracion,
+                    IdClasificacion = vm.Pelicula.IdClasificacion,
+                    Nombre= vm.Pelicula.Nombre,
+                    Sinopsis = vm.Pelicula.Sinopsis,
+                    Trailer = vm.Pelicula.Trailer,
+                    Precio = vm.Pelicula.Precio,
+                };
+                PeliculasRepositorio.Insert(p);
                 //Redireccionar si se agrego correctamente
                 return RedirectToAction("Index", "Peliculas", new { Area = "Admin" });
             }
             //Regresar el viewmodel si no se agrego
             return View(vm);
         }
-        [HttpGet("/HOLA/{id}")]
+        [HttpGet("/{id}")]
         public IActionResult Editar(int id)
         {
             AgregarPeliculaViewModel vm = new()
