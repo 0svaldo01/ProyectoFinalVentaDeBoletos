@@ -1,0 +1,189 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  body {
+    font-family: Arial, sans-serif;
+    background-color: #f5f5f5;
+    color: #333;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  header {
+    background-color: #000;
+    color: white;
+    padding: 10px 0;
+  }
+  
+  nav ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+  }
+  
+  nav ul li {
+    display: inline;
+    margin-right: 20px;
+  }
+  
+  nav ul li a {
+    color: white;
+    text-decoration: none;
+  }
+  
+  main {
+    width: 80%;
+    margin: 0 auto;
+    padding-top: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex: 1;
+  }
+  
+  .pelicula-info {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    background-color: #fff;
+    padding: 20px;
+    margin-bottom: 20px;
+  }
+  
+  .poster img {
+    width: 300px;
+    height: auto;
+    margin-right: 20px;
+  }
+  
+  .descripcion {
+    flex: 1;
+  }
+  
+  .otras-peliculas {
+    border-top: 1px solid #ccc;
+    padding-top: 20px;
+  }
+  
+  .otras-peliculas .pelicula {
+    margin-bottom: 10px;
+  }
+  
+.peliculas-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+  
+  .pelicula {
+    width: 150px;
+    margin: 10px;
+    text-align: center;
+  }
+  
+  .pelicula img {
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+  }
+
+  .descripcion {
+    flex: 1;
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  
+  .comprar-btn {
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: red;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-left: 20px;
+    transition: background-color 0.3s ease;
+  }
+  
+  .comprar-btn:hover {
+    background-color: red;
+  }
+  
+  #horarios {
+    margin-top: 10px;
+    padding: 8px;
+    font-size: 14px;
+  }
+  /* Estilos */
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+header {
+  background-color: #333;
+  color: white;
+  text-align: center;
+  padding: 20px 0;
+}
+
+main {
+  display: flex;
+  justify-content: space-around;
+  align-items: flex-start;
+  padding: 20px;
+}
+
+.seleccion, .compra {
+  width: 45%;
+}
+
+.seleccion h2, .compra h2 {
+  margin-bottom: 10px;
+}
+
+select, .comprar-btn {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 15px;
+}
+.compra {
+  text-align: center;
+}
+
+.resumen img {
+  width: 150px;
+  height: auto;
+  margin-bottom: 10px;
+}
+
+input[type="number"] {
+  width: 50px;
+  padding: 5px;
+  margin-bottom: 10px;
+}
+.contenedor-formulario {
+  width: 80%;
+  max-width: 600px;
+  margin: 20px auto;
+  background-color: #fff;
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.2);
+}
+
+  footer {
+    text-align: center;
+    padding: 10px 0;
+    background-color: #000;
+    color: white;
+  }
+  
