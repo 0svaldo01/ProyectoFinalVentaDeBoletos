@@ -147,10 +147,9 @@ namespace ProyectoFinalVentaDeBoletos.Controllers
             }
             else
             {
-                vm.Sala = new SalaModel() { };   
                 ModelState.AddModelError("Error", "No hay horarios disponibles para esta película");
             }
-            if (vm.Pelicula == null || vm.Sala == null || vm.Sala.SalaAsientos.Any() || !ModelState.IsValid)
+            if (vm.Pelicula == null || vm.Sala == null || !vm.Sala.SalaAsientos.Any() || !ModelState.IsValid)
             {
                 return RedirectToAction("Index");
             }
