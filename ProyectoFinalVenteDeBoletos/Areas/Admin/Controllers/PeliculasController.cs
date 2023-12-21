@@ -41,6 +41,21 @@ namespace ProyectoFinalVentaDeBoletos.Areas.Admin.Controllers
             };
             return View(vm);
         }
+        //public IActionResult Agregar()
+        //{
+        //    AgregarPeliculaViewModel vm = new()
+        //    {
+        //        Clasificaciones = ClasificacionesRepositorio.GetAll().Select(x => new ClasificacionModel
+        //        {
+        //            Id = x.Id,
+        //            Nombre = x.Nombre
+        //        }),
+        //        DatosPeli = new(),
+        //        Pelicula = null!,
+        //        Imagen = null!
+        //    };
+        //    return View(vm);
+        //}
 
         [HttpPost]
         public IActionResult Agregar(AgregarPeliculaViewModel vm)
@@ -64,6 +79,45 @@ namespace ProyectoFinalVentaDeBoletos.Areas.Admin.Controllers
             //Regresar el viewmodel si no se agrego
             return View(vm);
         }
+        //public IActionResult Agregar(AgregarPeliculaViewModel vm)
+        //{
+        //    vm.Clasificaciones = ClasificacionesRepositorio.GetAll().Select(x => new ClasificacionModel
+        //    {
+        //        Id = x.Id,
+        //        Nombre = x.Nombre
+        //    });
+        //    var peli = PeliculasRepositorio.GetPeliculaByNombre(vm.DatosPeli.Nombre);
+        //    if (peli != null)
+        //    {
+        //        ModelState.AddModelError("", "La pelicula ya esta registrada");
+        //    }
+        //    if (vm.Pelicula != null)
+        //    {
+        //        //Solo acepta videos mp4 y wav
+        //        if (vm.Pelicula.ContentType != "video/mp4" && vm.Pelicula.ContentType != "video/wav")
+        //        {
+        //            //La pelicula tiene que durar menos de 3 horas
+        //            if (vm.DatosPeli.Duracion <= new TimeOnly(3))
+        //            {
+        //                ModelState.AddModelError("", "La pelicula es muy larga");
+        //            }
+        //        }
+        //        if (string.IsNullOrWhiteSpace(vm.DatosPeli.Nombre))
+        //        {
+        //            ModelState.AddModelError("", "La pelicula tiene que tener un nombre");
+        //        }
+               
+        //    } 
+
+        //    //Validar
+        //    if (ModelState.IsValid)
+        //    {
+        //        //Redireccionar si se agrego correctamente
+        //        return RedirectToAction("Index", "Peliculas", new { Area = "Admin" });
+        //    }
+        //    //Regresar el viewmodel si no se agrego
+        //    return View(vm);
+        //}
 
         public IActionResult Editar(AgregarPeliculaViewModel vm)
         {
