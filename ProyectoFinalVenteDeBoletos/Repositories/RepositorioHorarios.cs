@@ -26,5 +26,9 @@ namespace ProyectoFinalVentaDeBoletos.Repositories
         {
             return Ctx.Horario.Find(id);
         }
+        public Horario? GetHorarioByNombrePelicula(string nombre)
+        {
+            return Ctx.Horario.FirstOrDefault(x=>x.IdPeliculaNavigation.Nombre == nombre);
+        }
     }
 }

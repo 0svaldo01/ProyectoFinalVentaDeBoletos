@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using ProyectoFinalVentaDeBoletos.Models.Entities;
 using ProyectoFinalVentaDeBoletos.Models.ViewModels;
 using ProyectoFinalVentaDeBoletos.Repositories;
 using System.Text;
@@ -9,7 +8,6 @@ namespace ProyectoFinalVentaDeBoletos.Controllers
     public class HomeController : Controller
     {
         private readonly Random r = new();
-
         #region Repositorios
         public RepositorioAsientos AsientosRepositorio { get; }
         private RepositorioClasificaciones ClasificacionRepositorio { get; }
@@ -17,7 +15,6 @@ namespace ProyectoFinalVentaDeBoletos.Controllers
         private RepositorioPeliculas PeliculasRepositorio { get; }
         public RepositorioSalas SalasRepositorio { get; }
         #endregion
-
         public HomeController
         (
         #region Inyeccion de Repositorios
@@ -41,6 +38,8 @@ namespace ProyectoFinalVentaDeBoletos.Controllers
         {
             return View();
         }
+
+        #region Peliculas
         [Route("/Peliculas")]
         public IActionResult VerPeliculas()
         {
@@ -116,6 +115,9 @@ namespace ProyectoFinalVentaDeBoletos.Controllers
             }
             return RedirectToAction("VerPeliculas");
         }
+        #endregion
+
+        #region Boletos
         [HttpGet("/ComprarAsiento/{pelicula}")]
         public IActionResult ComprarAsiento(string pelicula, ComprarAsientoViewModel vm)
         {
@@ -134,7 +136,7 @@ namespace ProyectoFinalVentaDeBoletos.Controllers
                 Nombre = peli.Nombre ?? "",
                 Precio = peli.Precio
             };
-            var horario = HorarioRepositorio.GetAll().FirstOrDefault(h => h.IdPeliculaNavigation.Nombre == pelicula);
+            var horario = HorarioRepositorio.GetHorarioByNombrePelicula(pelicula);
             if (horario != null)
             {
                 vm.Sala = new SalaModel()
@@ -153,7 +155,9 @@ namespace ProyectoFinalVentaDeBoletos.Controllers
             {
                 return RedirectToAction("Index");
             }
-            return View(vm); 
+            return View(vm);
         }
+
+        #endregion
     }
 }
