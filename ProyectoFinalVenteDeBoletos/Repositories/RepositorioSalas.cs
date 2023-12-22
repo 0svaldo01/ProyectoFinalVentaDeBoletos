@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using ProyectoFinalVentaDeBoletos.Models.Entities;
+using ProyectoFinalVentaDeBoletos.Models.ViewModels;
 
 namespace ProyectoFinalVentaDeBoletos.Repositories
 {
@@ -29,5 +30,6 @@ namespace ProyectoFinalVentaDeBoletos.Repositories
         {
             return GetAll().OrderBy(x => x.IdTipoPantalla);
         }
+       
     }
 }

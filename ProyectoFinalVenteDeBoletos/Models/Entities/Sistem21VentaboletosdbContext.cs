@@ -29,6 +29,8 @@ public partial class Sistem21VentaboletosdbContext : DbContext
 
     public virtual DbSet<PeliculaGenero> PeliculaGenero { get; set; }
 
+    public virtual DbSet<PeliculaHorario> PeliculaHorario { get; set; }
+
     public virtual DbSet<Rol> Rol { get; set; }
 
     public virtual DbSet<Sala> Sala { get; set; }
@@ -40,7 +42,7 @@ public partial class Sistem21VentaboletosdbContext : DbContext
     public virtual DbSet<Usuario> Usuario { get; set; }
 
 //    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-////#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
+//#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
 //        => optionsBuilder.UseMySql("server=sistemas19.com;database=sistem21_ventaboletosdb;username=sistem21_ventaboletos;password=3Otr^53b4", Microsoft.EntityFrameworkCore.ServerVersion.Parse("10.5.20-mariadb"));
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -198,6 +200,35 @@ public partial class Sistem21VentaboletosdbContext : DbContext
                 .HasForeignKey(d => d.IdPelicula)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("pelicula_genero_Pelicula");
+        });
+
+        modelBuilder.Entity<PeliculaHorario>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PRIMARY");
+
+            entity.ToTable("pelicula_horario");
+
+            entity.HasIndex(e => e.IdPelicula, "pelicula_peliculahorario_Pelicula");
+
+            entity.HasIndex(e => e.IdHorario, "pelicula_peliculahorario_horario");
+
+            entity.Property(e => e.Id).HasColumnType("int(11)");
+            entity.Property(e => e.IdHorario)
+                .HasColumnType("int(11)")
+                .HasColumnName("Id_Horario");
+            entity.Property(e => e.IdPelicula)
+                .HasColumnType("int(11)")
+                .HasColumnName("Id_Pelicula");
+
+            entity.HasOne(d => d.IdHorarioNavigation).WithMany(p => p.PeliculaHorario)
+                .HasForeignKey(d => d.IdHorario)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("pelicula_peliculahorario_horario");
+
+            entity.HasOne(d => d.IdPeliculaNavigation).WithMany(p => p.PeliculaHorario)
+                .HasForeignKey(d => d.IdPelicula)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("pelicula_peliculahorario_Pelicula");
         });
 
         modelBuilder.Entity<Rol>(entity =>

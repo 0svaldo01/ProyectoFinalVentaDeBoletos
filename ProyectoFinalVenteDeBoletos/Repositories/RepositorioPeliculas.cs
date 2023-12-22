@@ -32,8 +32,12 @@ namespace ProyectoFinalVentaDeBoletos.Repositories
         }
         public Pelicula? GetPeliculaByNombre(string nombre)
         {
-            return Ctx.Pelicula.Include(x=>x.IdClasificacionNavigation).Include(x => x.PeliculaGenero).ThenInclude(pg => pg.IdGeneroNavigation)
-                .Where(x => x.Nombre == nombre).FirstOrDefault();
+            return Ctx.Pelicula
+                .Include(x => x.IdClasificacionNavigation).Include(x => x.PeliculaGenero)
+                .ThenInclude(pg => pg.IdGeneroNavigation)
+                .FirstOrDefault(x => x.Nombre == nombre)
+                ;
+                
         }
     }
 }

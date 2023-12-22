@@ -20,4 +20,6 @@ public partial class Horario
     public virtual Pelicula IdPeliculaNavigation { get; set; } = null!;
 
     public virtual Sala IdSalaNavigation { get; set; } = null!;
+
+    public virtual ICollection<PeliculaHorario> PeliculaHorario { get; set; } = new List<PeliculaHorario>();
 }

@@ -26,4 +26,6 @@ public partial class Pelicula
     public virtual Clasificacion IdClasificacionNavigation { get; set; } = null!;
 
     public virtual ICollection<PeliculaGenero> PeliculaGenero { get; set; } = new List<PeliculaGenero>();
+
+    public virtual ICollection<PeliculaHorario> PeliculaHorario { get; set; } = new List<PeliculaHorario>();
 }

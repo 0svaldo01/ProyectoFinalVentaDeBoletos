@@ -62,11 +62,12 @@
                                     {
                                         if (asiento.Ocupado)
                                         {
-                                            <div class="seat occupied"></div>
-                                        }
-                                        else if (asiento.Seleccionado)
-                                        {
-                                            <div class="seat selected"></div>
+                                        <div class="seat occupied"></div>
+                                    }
+                                    else if (asiento.Seleccionado)
+                                    {
+                                        ++x;
+                                        <div class="seat selected"></div>
                                         }
                                     }
                                     else
