@@ -11,7 +11,6 @@ namespace ProyectoFinalVentaDeBoletos.Controllers
         #region Repositorios
         public RepositorioAsientos AsientosRepositorio { get; }
         private RepositorioClasificaciones ClasificacionRepositorio { get; }
-        private RepositorioHorarios HorarioRepositorio { get; }
         private RepositorioPeliculas PeliculasRepositorio { get; }
         public RepositorioSalas SalasRepositorio { get; }
         #endregion
@@ -28,7 +27,6 @@ namespace ProyectoFinalVentaDeBoletos.Controllers
         {
             AsientosRepositorio = repositorioAsientos;
             ClasificacionRepositorio = repositorioClasificaciones;
-            HorarioRepositorio = repositorioHorarios;
             PeliculasRepositorio = repositorioPeliculas;
             SalasRepositorio = repositorioSalas;
 
@@ -72,44 +70,37 @@ namespace ProyectoFinalVentaDeBoletos.Controllers
                 {
                     foreach (var genero in generospeli)
                     {
-                        generos.Append(genero.IdGeneroNavigation.Nombre).Append(',');
+                        if (genero != null)
+                        {
+                            generos.Append(genero.IdGeneroNavigation.Nombre).Append(',');
+                        }
                     }
                 }
-                var listapeliculas = PeliculasRepositorio.GetAll();
-                if (peli?.Id != null)
+
+                PeliculaViewModel vm = new()
                 {
-                    PeliculaViewModel vm = new()
+                    Pelicula = new PeliculaModel()
                     {
-                        Pelicula = new PeliculaModel
-                        {
-                            Id = peli.Id,
-                            Informacion = $"{peli.IdClasificacionNavigation.Nombre} | {peli.Duracion.Hour:D2}:{peli.Duracion.Minute:D2}:" +
-                            $"{peli.Duracion.Second:D2} | {generos}",
-                            Nombre = peli.Nombre,
-                            Sinopsis = peli.Sinopsis
-                        },
+                        Id = peli.Id,
+                        Informacion = $"{peli.IdClasificacionNavigation.Nombre} | {peli.Duracion} | {generos}",
+                        Nombre = peli.Nombre,
+                        Sinopsis = peli.Nombre
+                    },
+                    Horarios = peli.PeliculaHorario.Select(h=> new HorariosModel
+                    {
+                        Id = h.IdHorarioNavigation.Id,
+                        HorarioDisponible = $"{h.IdHorarioNavigation.HoraInicio} - {h.IdHorarioNavigation.HoraTerminacion}",
+                    }),
+                    OtrasPeliculas = PeliculasRepositorio.GetAll().Select(p => new OtrasPeliculasModel
+                    {
+                        Id = p.Id,
+                        Nombre = p.Nombre,
+                        Año = p.Año,
+                    })
+                };
 
-                        Horarios = HorarioRepositorio
-                        .GetAll()
-                        .Where(x => x.IdPeliculaNavigation.Id == peli.Id)
-                        .Select(h => new HorariosModel
-                        {
-                            Id = h.Id,
-                            HorarioDisponible = $"{h.HoraInicio} - {h.HoraTerminacion}"
-                        }),
-
-                        OtrasPeliculas = listapeliculas
-                            //Ordena aleatoriamente la lista y toma 5 peliculas
-                            .OrderBy(x => r.Next(0, listapeliculas.Count())).Take(5)
-                            .Select(op => new OtrasPeliculasModel
-                            {
-                                Id = op.Id,
-                                Año = op.Año,
-                                Nombre = op.Nombre
-                            })
-                    };
-                    return View(vm);
-                }
+                return View(vm);
+                
             }
             return RedirectToAction("VerPeliculas");
         }

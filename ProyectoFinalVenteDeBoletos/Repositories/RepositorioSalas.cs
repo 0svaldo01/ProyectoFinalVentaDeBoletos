@@ -19,11 +19,12 @@ namespace ProyectoFinalVentaDeBoletos.Repositories
         {
             //busca en la tabla de horario, obtiene la primera 
             var a = Ctx.Horario
-                .Include(x=>x.IdPeliculaNavigation)
+                .Include(x=>x.PeliculaHorario)
                 .Include(x=>x.IdSalaNavigation)
                 .ThenInclude(x=>x.IdSalaAsientoNavigation)
                 .ThenInclude(x=>x.IdAsientoNavigation)
-                .FirstOrDefault(x=>x.IdPeliculaNavigation.Nombre == Nombre)?.IdSalaNavigation;
+                .FirstOrDefault(x=>x.PeliculaHorario.Where(x=>x.IdPeliculaNavigation.Id == x.IdPelicula).First()
+                .IdPeliculaNavigation.Nombre == Nombre)?.IdSalaNavigation;
             return a;
         }
         public IEnumerable<Sala> GetSalasOrdenadasByTipoPantalla()

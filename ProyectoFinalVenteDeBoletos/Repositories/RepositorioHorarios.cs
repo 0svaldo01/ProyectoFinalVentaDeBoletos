@@ -12,15 +12,18 @@ namespace ProyectoFinalVentaDeBoletos.Repositories
         }
         public override IEnumerable<Horario> GetAll()
         {
-            return Ctx.Horario.Include(x => x.IdPeliculaNavigation).Include(x => x.IdSalaNavigation).ThenInclude(x=>x.IdSalaAsientoNavigation);
+            return Ctx.Horario
+                .Include(x => x.IdSalaNavigation).ThenInclude(x => x.IdSalaAsientoNavigation).ThenInclude(x=>x.IdAsientoNavigation)
+                .Include(x=>x.PeliculaHorario).ThenInclude(x=>x.IdPeliculaNavigation)
+                .ThenInclude(x=>x.IdClasificacionNavigation);
         }
         public IEnumerable<Horario> GetAllOrderByNombrePelicula()
         {
-            return GetAll().OrderBy(x => x.IdPeliculaNavigation.Nombre);
+            return GetAll().OrderBy(x=>x.PeliculaHorario.OrderBy(p=>p.IdPeliculaNavigation.Nombre));
         }
         public IEnumerable<Horario> GetAllOrderByClasificacion()
         {
-            return GetAll().OrderBy(x => x.IdPeliculaNavigation.IdClasificacionNavigation.Nombre);
+            return GetAll().OrderBy(x => x.PeliculaHorario.OrderBy(p=>p.IdPeliculaNavigation.IdClasificacionNavigation.Nombre));
         }
         public Horario? GetHorarioById(int id)
         {
@@ -28,7 +31,7 @@ namespace ProyectoFinalVentaDeBoletos.Repositories
         }
         public Horario? GetHorarioByNombrePelicula(string nombre)
         {
-            return Ctx.Horario.Include(x=>x.IdSalaNavigation).ThenInclude(x=>x.IdSalaAsientoNavigation).FirstOrDefault(x=>x.IdPeliculaNavigation.Nombre == nombre);
+            return GetAll().FirstOrDefault(x => x.PeliculaHorario.Where(p => p.IdPeliculaNavigation.Nombre == nombre).First().IdPelicula == x.IdPelicula);
         }
     }
 }

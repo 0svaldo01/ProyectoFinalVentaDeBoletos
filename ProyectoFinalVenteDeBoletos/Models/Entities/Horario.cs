@@ -17,8 +17,6 @@ public partial class Horario
 
     public virtual ICollection<Boleto> Boleto { get; set; } = new List<Boleto>();
 
-    public virtual Pelicula IdPeliculaNavigation { get; set; } = null!;
-
     public virtual Sala IdSalaNavigation { get; set; } = null!;
 
     public virtual ICollection<PeliculaHorario> PeliculaHorario { get; set; } = new List<PeliculaHorario>();
