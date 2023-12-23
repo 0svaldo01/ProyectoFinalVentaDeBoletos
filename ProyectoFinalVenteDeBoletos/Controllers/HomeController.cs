@@ -164,6 +164,11 @@ namespace ProyectoFinalVentaDeBoletos.Controllers
             if (ModelState.IsValid) return View(vm);
             return RedirectToAction("Index");
         }
+        [HttpPost("/ComprarAsiento/{pelicula}")]
+        public IActionResult ComprarAsiento(ComprarAsientoViewModel vm)
+        {
+            return RedirectToAction("Index");
+        }
         #endregion
     }
 }

@@ -21,7 +21,6 @@ namespace ProyectoFinalVentaDeBoletos.Areas.Admin.Controllers
         }
         public IActionResult Agregar(AgregarHorarioViewModel vm)
         {
-
             //Validar
             if (ModelState.IsValid)
             {

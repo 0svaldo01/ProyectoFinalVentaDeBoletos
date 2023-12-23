@@ -78,6 +78,14 @@ namespace ProyectoFinalVentaDeBoletos.Areas.Admin.Controllers
             {
                 ModelState.AddModelError("", "Ingrese un precio entre 0 y 5000");
             }
+            if (vm.Imagen == null)
+            {
+                ModelState.AddModelError("", "Seleccione una imagen");
+            }
+            else
+            {
+                if(vm.Imagen.ContentType == "Image/")
+            }
             if (ModelState.IsValid)
             {
                 var p = new Pelicula()
@@ -98,6 +106,7 @@ namespace ProyectoFinalVentaDeBoletos.Areas.Admin.Controllers
             //Regresar el viewmodel si no se agrego
             return View(vm);
         }
+        
         [HttpGet("/{id}")]
         public IActionResult Editar(int id)
         {
@@ -113,7 +122,7 @@ namespace ProyectoFinalVentaDeBoletos.Areas.Admin.Controllers
                     Id = x.Id,
                     Nombre = x.Nombre
                 }),
-                Pelicula = new()
+                Pelicula = peli
             };
             return View(vm);
         }
@@ -174,6 +183,7 @@ namespace ProyectoFinalVentaDeBoletos.Areas.Admin.Controllers
             //Regresar el viewmodel si no se edito
             return View(vm);
         }
+        [HttpGet]
         public IActionResult Eliminar(int id)
         {
             var peli = PeliculasRepositorio.GetPeliculaById(id);
@@ -183,6 +193,7 @@ namespace ProyectoFinalVentaDeBoletos.Areas.Admin.Controllers
             }
             return View(peli);
         }
+        [HttpPost]
         public IActionResult Eliminar(Pelicula p)
         {
             var peli = PeliculasRepositorio.GetPeliculaById(p.Id);
