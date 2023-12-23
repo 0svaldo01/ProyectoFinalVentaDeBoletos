@@ -1,50 +1,37 @@
 ﻿@using ProyectoFinalVentaDeBoletos.Models.ViewModels;
 @model ComprarAsientoViewModel
-<!DOCTYPE html>
-<html lang="en">
-    <head>
-        <meta charset="UTF-8" />
-        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <link rel="stylesheet" href="~/Estilos/estilos.css" />
-        <title>CineTec</title>
-    </head>
-    <body class="body-boletos">
-        
-            <div class="movie-container">
-                @if (Model.Pelicula != null)
-                {
-                    <label>@Model.Pelicula.Nombre</label>
-                    <!-- <select id="movie">
-                    <option value="10">Avengers: Endgame ($10)</option>
-                    <option value="12">Joker ($12)</option>
-                    <option value="8">Toy Story 4 ($8)</option>
-                    <option value="9">The Lion King ($9)</option>
-                    </select> -->
-                }
-            </div>
+@{
+    Layout = "_AdminLayout";
+}
 
-            <ul class="showcase">
-                <li>
-                    <div class="seat"></div>
-                    <small>N/A</small>
-                </li>
-                <li>
-                    <div class="seat selected"></div>
-                    <small>Seleccionado</small>
-                </li>
-                <li>
-                    <div class="seat occupied"></div>
-                    <small>Ocupado</small>
-                </li>
-            </ul>
-        <form method="post" action="AgregarBoleto">
-            <div class="container-boletos">
-       
-                <div class="screen"></div>
-                <div class="row">
-                    @if (Model.Sala != null && Model.Sala.SalaAsientos.Any())
-                    {
+<body class="body-boletos">
+    <div class="movie-container">
+        @if (Model.Pelicula != null)
+        {
+            <label>@Model.Pelicula.Nombre</label>    
+        }
+    </div>
+    <ul class="showcase">
+        <li>
+            <div class="seat"></div>
+            <small>N/A</small>
+        </li>
+        <li>
+            <div class="seat selected"></div>
+            <small>Seleccionado</small>
+        </li>
+        <li>
+            <div class="seat occupied"></div>
+            <small>Ocupado</small>
+        </li>
+    </ul>
+    <form method="post" action="AgregarBoleto">
+    
+        <div class="container-boletos">
+            <div class="screen"></div>            
+            <div class="row">
+                @if (Model.Sala != null && Model.Sala.SalaAsientos.Any())
+                {                
                     @for (int c = 0; c < Model.Sala.Filas; c++)
                     {
                         <dl>
@@ -64,26 +51,22 @@
                                     else
                                     {
                                         <div class="seat"></div>
-                                        
                                     }
                                 }
                             }
                         </dl>
                     }
-                    }
-                </div>
+                }        
             </div>
-
-            @if (Model.Pelicula != null && Model.Sala != null)
-            {
-                <p class="text">
-                    Tu Seleccionaste <span id="count">0</span> asientos <br>
-                    para la pelicula @(Model.Pelicula.Nombre) por un precio de: <span id="total">$@(Model.Pelicula.Precio)</span>
-                </p>
-            }
-            <input type="submit" class="continuar" id="continuar-1" value="Continuar"/>
-        </form>
-        
-        <script src="~/Scripts/CompraAsiento.js"></script>
-    </body>
-</html>
+        </div>
+        @if (Model.Pelicula != null && Model.Sala != null)
+        {
+            <p class="text">
+                Tu Seleccionaste <span id="count">0</span> asientos <br>
+                para la pelicula @(Model.Pelicula.Nombre) por un precio de: <span id="total">$@(Model.Pelicula.Precio)</span>
+            </p>
+        }
+        <input type="submit" class="continuar" id="continuar-1" value="Continuar"/>
+    </form>  
+    <script src="~/Scripts/CompraAsiento.js"></script>
+</body>
