@@ -1,0 +1,41 @@
+﻿@using ProyectoFinalVentaDeBoletos.Areas.Admin.Models.Peliculas
+@model AgregarPeliculaViewModel
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@{
+    Layout = "_AdminLayout";
+}
+<link rel="stylesheet" href="~/Estilos/Style.css" />
+<section class="form-register">
+    <link rel="stylesheet" href="~/Estilos/Style.css" />
+    <form method="post" enctype="multipart/form-data">
+        <h2>Editar Pelicula</h2>
+        <label class="leyendasagregarPelicula">Nombre:</label>
+        <input class="controls" type="text" asp-for="Pelicula.Nombre" placeholder="Ingrese el nombre"><br />
+
+        <label class="leyendasagregarPelicula">Duración:</label>
+        <input class="controls" type="time" asp-for="Pelicula.Duracion" placeholder="Ingrese la duracion"><br />
+
+        <label class="leyendasagregarPelicula">Clasificación:</label>
+        <select class="controls" name="Clasificacion">
+            <option value="A">Terror</option>
+            <option value="B">Suspenso</option>
+            <option value="-">Other</option>
+        </select>
+
+        <label class="leyendasagregarPelicula">Año:</label>
+        <input class="controls" type="number" asp-for="Pelicula.Año" placeholder="Ingrese el año"><br />
+
+        <label class="leyendasagregarImagenPelicula">Imagen:</label>
+        <input class="controls" type="file" asp-for="Imagen" accept="image/jpg" placeholder="Ingrese la imagen" /><br />
+
+        <label class="leyendasPelicula">Trailer (URL):</label>
+        <input class="controls" type="url" asp-for="Pelicula.Trailer" placeholder="Ingrese el URL del trailer"><br />
+
+        <label class="leyendasagregarPelicula">Sinopsis:</label>
+        <input class="controls" type="text" asp-for="Pelicula.Sinopsis" placeholder="Ingrese la sinopsis"><br />
+
+        <input class="botons-agregarPelicula" type="submit" value="Aceptar" />
+        <input class="botons-agregarPelicula1" type="submit" value="Cancelar" action="~/admin" />
+    </form>
+</section>
+
