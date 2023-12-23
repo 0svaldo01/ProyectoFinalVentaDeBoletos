@@ -554,3 +554,58 @@ p.text {
     color: #ffffff;
     font-size: 16px;
 }
+/*Index Horarios*/
+
+.lista ul li:not(:first-of-type) a, .listado .botones input, .listado .botones a {
+    display: block;
+    width: 21px;
+    height: 21px;
+    margin: 2px;
+    border: 0;
+    background-size: contain;
+}
+
+.lista ul li:first-of-type {
+    background: none;
+}
+
+    .lista ul li:first-of-type a {
+        background: none;
+        background: grey;
+        padding: 2px 10px;
+    }
+
+.btnEditar {
+    background-image: url(~/images/editar.png);
+}
+
+.btnBorrar {
+    background-image: url(~/images/borrar.png);
+}
+
+.lista ul, .lista > form {
+    padding: 0;
+    margin: 10px;
+    list-style: none;
+}
+
+.lista select {
+    padding: 5px;
+    width: 100%;
+}
+
+
+.lista ul li {
+    padding: 5px;
+    font-size: 1.5em;
+    margin-bottom: 5px;
+    background: grey;
+    color: white;
+    overflow: hidden;
+}
+
+.lista ul a {
+    color: white;
+    text-decoration: none;
+    float: right;
+}
