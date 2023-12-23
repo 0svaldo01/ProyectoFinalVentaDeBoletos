@@ -35,6 +35,12 @@ namespace ProyectoFinalVentaDeBoletos.Controllers
         {
             return View();
         }
+
+        [Route("/Nosotros")]
+        public IActionResult Nosotros()
+        {
+            return View();
+        }
         #region Peliculas
         [Route("/Peliculas")]
         public IActionResult VerPeliculas()
