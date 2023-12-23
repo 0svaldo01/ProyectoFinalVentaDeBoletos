@@ -41,9 +41,9 @@ public partial class Sistem21VentaboletosdbContext : DbContext
 
     public virtual DbSet<Usuario> Usuario { get; set; }
 
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-        => optionsBuilder.UseMySql("server=sistemas19.com;database=sistem21_ventaboletosdb;username=sistem21_ventaboletos;password=3Otr^53b4", Microsoft.EntityFrameworkCore.ServerVersion.Parse("10.5.20-mariadb"));
+//    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+//#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
+//        => optionsBuilder.UseMySql("server=sistemas19.com;database=sistem21_ventaboletosdb;username=sistem21_ventaboletos;password=3Otr^53b4", Microsoft.EntityFrameworkCore.ServerVersion.Parse("10.5.20-mariadb"));
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -243,8 +243,6 @@ public partial class Sistem21VentaboletosdbContext : DbContext
 
             entity.ToTable("sala");
 
-            entity.HasIndex(e => e.IdSalaAsiento, "FK_Sala_SalaAsiento_idx");
-
             entity.HasIndex(e => e.IdTipoPantalla, "FK_Sala_TipoPantalla_idx");
 
             entity.Property(e => e.Id).HasColumnType("int(11)");
@@ -252,10 +250,6 @@ public partial class Sistem21VentaboletosdbContext : DbContext
             entity.Property(e => e.Filas).HasColumnType("int(11)");
             entity.Property(e => e.IdSalaAsiento).HasColumnType("int(11)");
             entity.Property(e => e.IdTipoPantalla).HasColumnType("int(11)");
-
-            entity.HasOne(d => d.IdSalaAsientoNavigation).WithMany(p => p.Sala)
-                .HasForeignKey(d => d.IdSalaAsiento)
-                .HasConstraintName("FK_Sala_SalaAsiento");
 
             entity.HasOne(d => d.IdTipoPantallaNavigation).WithMany(p => p.Sala)
                 .HasForeignKey(d => d.IdTipoPantalla)
@@ -271,6 +265,8 @@ public partial class Sistem21VentaboletosdbContext : DbContext
 
             entity.HasIndex(e => e.IdAsiento, "Id_Asiento");
 
+            entity.HasIndex(e => e.IdSala, "fk_salaasiento_sala_idx");
+
             entity.Property(e => e.Id).HasColumnType("int(11)");
             entity.Property(e => e.IdAsiento)
                 .HasColumnType("int(11)")
@@ -283,6 +279,11 @@ public partial class Sistem21VentaboletosdbContext : DbContext
                 .HasForeignKey(d => d.IdAsiento)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("sala_asiento_ibfk_1");
+
+            entity.HasOne(d => d.IdSalaNavigation).WithMany(p => p.SalaAsiento)
+                .HasForeignKey(d => d.IdSala)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("fk_salaasiento_sala");
         });
 
         modelBuilder.Entity<Tipopantalla>(entity =>

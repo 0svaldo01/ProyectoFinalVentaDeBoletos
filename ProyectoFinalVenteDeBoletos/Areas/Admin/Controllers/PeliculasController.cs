@@ -101,6 +101,11 @@ namespace ProyectoFinalVentaDeBoletos.Areas.Admin.Controllers
         [HttpGet("/{id}")]
         public IActionResult Editar(int id)
         {
+            var peli = PeliculasRepositorio.Get(id);
+            if (peli == null)
+            {
+                return RedirectToAction("");
+            }
             AgregarPeliculaViewModel vm = new()
             {
                 Clasificaciones = ClasificacionesRepositorio.GetAll().Select(x => new ClasificacionModel

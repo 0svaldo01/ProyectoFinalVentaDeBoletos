@@ -77,6 +77,7 @@ namespace ProyectoFinalVentaDeBoletos.Controllers
                     }
                 }
 
+                var peliculas = PeliculasRepositorio.GetAll();
                 PeliculaViewModel vm = new()
                 {
                     Pelicula = new PeliculaModel()
@@ -86,12 +87,18 @@ namespace ProyectoFinalVentaDeBoletos.Controllers
                         Nombre = peli.Nombre,
                         Sinopsis = peli.Nombre
                     },
-                    Horarios = peli.PeliculaHorario.Select(h=> new HorariosModel
+                    Horarios = peli.PeliculaHorario.Select(h => new HorariosModel
                     {
                         Id = h.IdHorarioNavigation.Id,
                         HorarioDisponible = $"{h.IdHorarioNavigation.HoraInicio} - {h.IdHorarioNavigation.HoraTerminacion}",
                     }),
-                    OtrasPeliculas = PeliculasRepositorio.GetAll().Select(p => new OtrasPeliculasModel
+
+                    OtrasPeliculas = peliculas
+                    //Trae las peliculas que no sean la que se muestra
+                    .Where(p => p.Id != peli.Id)
+                    //Toma 5 al azar
+                    .OrderBy(p => r.Next(0, peliculas.Count())).Take(5)
+                    .Select(p => new OtrasPeliculasModel
                     {
                         Id = p.Id,
                         Nombre = p.Nombre,
@@ -108,43 +115,48 @@ namespace ProyectoFinalVentaDeBoletos.Controllers
 
         #region Boletos
         [HttpGet("/ComprarAsiento/{pelicula}")]
-        public IActionResult ComprarAsiento(string pelicula, ComprarAsientoViewModel vm)
+        public IActionResult ComprarAsiento(string pelicula)
         {
             if (string.IsNullOrWhiteSpace(pelicula))
             {
                 return RedirectToAction("Index");
             }
             pelicula = pelicula.Replace('-', ' ');
+
             var peli = PeliculasRepositorio.GetPeliculaByNombre(pelicula);
-            if (peli == null)
+            var sala = SalasRepositorio.GetSalaByNombrePelicula(pelicula);
+
+            if (peli == null || sala == null)
             {
                 return RedirectToAction("Index");
             }
-            vm.Pelicula = new PeliModel
+            ComprarAsientoViewModel vm = new()
             {
-                Nombre = peli.Nombre ?? "",
-                Precio = peli.Precio
+                Pelicula = new PeliModel
+                {
+                    Nombre = peli.Nombre,
+                    Precio = peli.Precio
+                },
+                Sala = new SalaModel
+                {
+                    Id = sala.Id,
+                    Columnas = sala.Columnas,
+                    Filas = sala.Filas,
+                    SalaAsientos = sala.SalaAsiento
+                    .Where(s => s.IdSalaNavigation.IdSalaAsiento == s.IdSala)
+                    .Select(x => x.IdAsientoNavigation)
+                    .Select(a => new AsientoModel
+                    {
+                        Columna = a.Columna,
+                        Fila = a.Fila,
+                        Id = a.Id,
+                        Ocupado = a.Ocupado,
+                        Seleccionado = a.Seleccionado
+                    })
+                }
             };
-            //if (horario != null)
-            //{
-                
-                //vm.Sala = new()
-                //{
-                //    Columnas = horario.IdSalaNavigation.Columnas,
-                //    Filas = horario.IdSalaNavigation.Filas,
-                //    Id = horario.IdSalaNavigation.Id,
-                //    SalaAsientos = AsientosRepositorio.GetAsientosByIdSala(horario.IdSalaNavigation.IdSalaAsiento)
-                //};
-            //}
-            //else
-            //{
-            //    ModelState.AddModelError("Error", "No hay horarios disponibles para esta película");
-            //}
-            if (vm.Pelicula == null || vm.Sala == null || !vm.Sala.SalaAsientos.Any() || !ModelState.IsValid)
-            {
-                return RedirectToAction("Index");
-            }
-            return View(vm);
+            if (ModelState.IsValid) return View(vm);
+            return RedirectToAction("Index");
         }
         #endregion
     }

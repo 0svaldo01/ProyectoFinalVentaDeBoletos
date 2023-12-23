@@ -46,13 +46,15 @@ namespace ProyectoFinalVentaDeBoletos.Areas.Admin.Controllers
         }
         public IActionResult Editar(AgregarHorarioViewModel vm)
         {
-
-            //Validar
-            if (ModelState.IsValid)
+            if (vm != null)
             {
-                
-                //Redireccionar si se edito correctamente
-                return RedirectToAction("Index", "Peliculas", new { Area = "Admin" });
+                //Validar
+                if (ModelState.IsValid)
+                {
+
+                    //Redireccionar si se edito correctamente
+                    return RedirectToAction("Index", "Peliculas", new { Area = "Admin" });
+                }
             }
             //Regresar el viewmodel si no se edito
             return RedirectToAction("Index");

@@ -50,19 +50,21 @@ function populateUI() {
 }
 
 // Movie select event
-movieSelect.addEventListener('change', (e) => {
-  ticketPrice = +e.target.value;
-  setMovieData(e.target.selectedIndex, e.target.value);
-  updateSelectedCount();
-});
+movieSelect.addEventListener('change', handleMovieChange);
+function handleMovieChange(e) {
+    ticketPrice = +e.target.value;
+    setMovieData(e.target.selectedIndex, e.target.value);
+    updateSelectedCount();
+}
 
 // Seat click event
-container.addEventListener('click', (e) => {
-  if (e.target.classList.contains('seat') && !e.target.classList.contains('occupied')) {
-    e.target.classList.toggle('selected');
-
-    updateSelectedCount();
-  }
+document.querySelectorAll('.row .seat:not(.occupied)').forEach((seat) => {
+    seat.addEventListener('click', (e) => {
+        if (!e.target.classList.contains('occupied')) {
+            e.target.classList.toggle('selected');
+            updateSelectedCount();
+        }
+    });
 });
 
 // intial count and total

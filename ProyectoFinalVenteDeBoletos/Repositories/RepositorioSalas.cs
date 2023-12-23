@@ -21,7 +21,7 @@ namespace ProyectoFinalVentaDeBoletos.Repositories
             var a = Ctx.Horario
                 .Include(x=>x.PeliculaHorario)
                 .Include(x=>x.IdSalaNavigation)
-                .ThenInclude(x=>x.IdSalaAsientoNavigation)
+                .ThenInclude(x=>x.SalaAsiento)
                 .ThenInclude(x=>x.IdAsientoNavigation)
                 .FirstOrDefault(x=>x.PeliculaHorario.Where(x=>x.IdPeliculaNavigation.Id == x.IdPelicula).First()
                 .IdPeliculaNavigation.Nombre == Nombre)?.IdSalaNavigation;

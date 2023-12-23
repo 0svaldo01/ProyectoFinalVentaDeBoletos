@@ -6,7 +6,7 @@
         <meta charset="UTF-8" />
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <link rel="stylesheet" href="~/Style.css" />
+        <link rel="stylesheet" href="~/Estilos/estilos.css" />
         <title>CineTec</title>
     </head>
     <body class="body-boletos">
@@ -39,44 +39,37 @@
                 </li>
             </ul>
         <form method="post" action="AgregarBoleto">
-            @{
-                int x = 0;
-            }
             <div class="container-boletos">
        
                 <div class="screen"></div>
                 <div class="row">
                     @if (Model.Sala != null && Model.Sala.SalaAsientos.Any())
                     {
-                        @*Recorrer las columnas*@
-                        for (int c = 0; c < Model.Sala.Filas; c++)
-                        {
-                            <dl>
-                                @*Recorrer las Filas*@
-                                @for (int f = 0; f < Model.Sala.Columnas; f++)
+                    @for (int c = 0; c < Model.Sala.Filas; c++)
+                    {
+                        <dl>
+                            @for (int f = 0; f < Model.Sala.Columnas; f++)
+                            {
+                                var asiento = Model.Sala.SalaAsientos.FirstOrDefault(x => x.Columna == c && x.Fila == f);
+                                if (asiento != null)
                                 {
-                                    @*conseguir el asiento*@
-                                    var asiento = Model.Sala.SalaAsientos.FirstOrDefault(x => x.Columna == c && x.Fila == f);
-                                    @*verificar que el asiento no sea nulo*@
-                                    if (asiento != null)
+                                    if (asiento.Ocupado)
                                     {
-                                        if (asiento.Ocupado)
-                                        {
                                         <div class="seat occupied"></div>
                                     }
                                     else if (asiento.Seleccionado)
                                     {
-                                        ++x;
                                         <div class="seat selected"></div>
-                                        }
                                     }
                                     else
                                     {
                                         <div class="seat"></div>
+                                        
                                     }
                                 }
-                            </dl>
-                        }
+                            }
+                        </dl>
+                    }
                     }
                 </div>
             </div>
@@ -84,7 +77,7 @@
             @if (Model.Pelicula != null && Model.Sala != null)
             {
                 <p class="text">
-                    Tu Seleccionaste <span id="count">@x</span> asientos <br>
+                    Tu Seleccionaste <span id="count">0</span> asientos <br>
                     para la pelicula @(Model.Pelicula.Nombre) por un precio de: <span id="total">$@(Model.Pelicula.Precio)</span>
                 </p>
             }
