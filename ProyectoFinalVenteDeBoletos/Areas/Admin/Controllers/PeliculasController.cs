@@ -84,7 +84,10 @@ namespace ProyectoFinalVentaDeBoletos.Areas.Admin.Controllers
             }
             else
             {
-                if(vm.Imagen.ContentType == "Image/")
+                if(vm.Imagen.ContentType != "Image/png" && vm.Imagen.ContentType != "Image/jpg")
+                {
+                    ModelState.AddModelError("", "Seleccione una imagen en formato png o jpg");
+                }
             }
             if (ModelState.IsValid)
             {
