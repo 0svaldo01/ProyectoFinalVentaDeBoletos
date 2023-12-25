@@ -1,8 +1,12 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Mvc;
 using ProyectoFinalVentaDeBoletos.Models.Entities;
 using ProyectoFinalVentaDeBoletos.Models.ViewModels;
 using ProyectoFinalVentaDeBoletos.Repositories;
+using System.Security.Claims;
 using System.Text;
+using ProyectoFinalVentaDeBoletos.Helpers;
 
 namespace ProyectoFinalVentaDeBoletos.Controllers
 {
@@ -14,6 +18,7 @@ namespace ProyectoFinalVentaDeBoletos.Controllers
         public RepositorioBoletos BoletosRepositorio { get; }
         private RepositorioClasificaciones ClasificacionRepositorio { get; }
         private RepositorioPeliculas PeliculasRepositorio { get; }
+        public RepositorioUsuarios UsuarioRepositorio { get; }
         public RepositorioSalas SalasRepositorio { get; }
         #endregion
         public HomeController
@@ -24,7 +29,8 @@ namespace ProyectoFinalVentaDeBoletos.Controllers
             RepositorioPeliculas repositorioPeliculas,
             RepositorioSalas repositorioSalas,
             RepositorioAsientos repositorioAsientos,
-            RepositorioBoletos repositorioBoletos
+            RepositorioBoletos repositorioBoletos,
+            RepositorioUsuarios repositorioUsuarios
         #endregion
         )
         {
@@ -32,6 +38,7 @@ namespace ProyectoFinalVentaDeBoletos.Controllers
             BoletosRepositorio = repositorioBoletos;
             ClasificacionRepositorio = repositorioClasificaciones;
             PeliculasRepositorio = repositorioPeliculas;
+            UsuarioRepositorio = repositorioUsuarios;
             SalasRepositorio = repositorioSalas;
             
         }
@@ -177,6 +184,58 @@ namespace ProyectoFinalVentaDeBoletos.Controllers
                 //BoletosRepositorio.Insert(b);
             }
             return RedirectToAction("Index");
+        }
+        #endregion
+
+        #region Usuarios
+        [HttpPost]
+        public IActionResult Login(LoginViewModel vm)
+        {
+            if (string.IsNullOrWhiteSpace(vm.Username))
+            {
+                ModelState.AddModelError("", "Escriba el nombre del usuario");
+            }
+            if (string.IsNullOrWhiteSpace(vm.Contraseña))
+            {
+                ModelState.AddModelError("", "Escriba la contraseña");
+            }
+            if (ModelState.IsValid)
+            {
+                var user = UsuarioRepositorio.GetAll().FirstOrDefault(x => x.Username == vm.Username && x.Contraseña == Encriptacion.StringToSHA512(vm.Contraseña));
+
+                if (user == null)
+                {
+                    ModelState.AddModelError("", "Nombre de usuario o Contraseña Incorrectos.");
+                }
+                else
+                {
+                    List<Claim> claims = new() {
+                        new Claim("Id", user.Id.ToString()),
+                        new Claim(ClaimTypes.Name, user.Username),
+                        new Claim(ClaimTypes.Role, user.IdRol == 1 ? "Admin" : "Usuario")
+                    };
+                    ClaimsIdentity identity = new(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+                    HttpContext.SignInAsync(new ClaimsPrincipal(identity), new AuthenticationProperties
+                    {
+                        IsPersistent = true,  //Login persistente 
+                    });
+                    
+                    //Si es admin redirigir al index de admin
+                    if (user.IdRol == 1)
+                    {
+                        return RedirectToAction("Index", "Home", new { area = "admin" });
+                    }
+                    //Si no redirecciona al index de Usuario
+                    else
+                    {
+                        return RedirectToAction("Index");
+                    }
+                }
+            }
+            //Quitar la contraseña
+            vm.Contraseña = "";
+            //Regresar al login si fallo al iniciar sesion
+            return View(vm);
         }
         #endregion
     }
