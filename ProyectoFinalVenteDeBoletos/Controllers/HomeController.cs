@@ -188,6 +188,21 @@ namespace ProyectoFinalVentaDeBoletos.Controllers
         #endregion
 
         #region Usuarios
+        public IActionResult LogOut()
+        {
+
+            HttpContext.SignOutAsync();
+            return RedirectToAction("Login", "Home");
+
+        }
+        public IActionResult Denied()
+        {
+            return View();
+        }
+        public IActionResult Login()
+        {
+            return View();
+        }
         [HttpPost]
         public IActionResult Login(LoginViewModel vm)
         {
