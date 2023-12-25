@@ -21,10 +21,12 @@ using ProyectoFinalVentaDeBoletos.Repositories;
 
     //Para inyectar los repositorios directamente sin dar contexto
     builder.Services.AddTransient<RepositorioAsientos>();
+    builder.Services.AddTransient<RepositorioBoletos>();
     builder.Services.AddTransient<RepositorioClasificaciones>();
     builder.Services.AddTransient<RepositorioHorarios>();
     builder.Services.AddTransient<RepositorioPeliculas>();
     builder.Services.AddTransient<RepositorioSalas>();
+    builder.Services.AddTransient<RepositorioUsuarios>();
 
     #endregion
 

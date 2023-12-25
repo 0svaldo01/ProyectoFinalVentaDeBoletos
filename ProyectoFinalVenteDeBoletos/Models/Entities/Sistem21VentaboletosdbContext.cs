@@ -41,6 +41,8 @@ public partial class Sistem21VentaboletosdbContext : DbContext
 
     public virtual DbSet<Usuario> Usuario { get; set; }
 
+    public virtual DbSet<UsuarioBoleto> UsuarioBoleto { get; set; }
+
 //    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 //#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
 //        => optionsBuilder.UseMySql("server=sistemas19.com;database=sistem21_ventaboletosdb;username=sistem21_ventaboletos;password=3Otr^53b4", Microsoft.EntityFrameworkCore.ServerVersion.Parse("10.5.20-mariadb"));
@@ -306,27 +308,47 @@ public partial class Sistem21VentaboletosdbContext : DbContext
 
             entity.HasIndex(e => e.Username, "Username").IsUnique();
 
-            entity.HasIndex(e => e.IdBoleto, "fk_Usuario_Boleto");
-
             entity.HasIndex(e => e.IdRol, "fk_Usuario_Rol");
 
             entity.Property(e => e.Id).HasColumnType("int(11)");
             entity.Property(e => e.Contraseña).HasMaxLength(128);
-            entity.Property(e => e.IdBoleto)
-                .HasColumnType("int(11)")
-                .HasColumnName("Id_Boleto");
             entity.Property(e => e.IdRol)
                 .HasColumnType("int(11)")
                 .HasColumnName("Id_Rol");
             entity.Property(e => e.Username).HasMaxLength(5);
 
-            entity.HasOne(d => d.IdBoletoNavigation).WithMany(p => p.Usuario)
-                .HasForeignKey(d => d.IdBoleto)
-                .HasConstraintName("fk_Usuario_Boleto");
-
             entity.HasOne(d => d.IdRolNavigation).WithMany(p => p.Usuario)
                 .HasForeignKey(d => d.IdRol)
                 .HasConstraintName("fk_Usuario_Rol");
+        });
+
+        modelBuilder.Entity<UsuarioBoleto>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PRIMARY");
+
+            entity.ToTable("usuario_boleto");
+
+            entity.HasIndex(e => e.IdBoletos, "Id_Boletos");
+
+            entity.HasIndex(e => e.IdUsuario, "Id_Usuario");
+
+            entity.Property(e => e.Id).HasColumnType("int(11)");
+            entity.Property(e => e.IdBoletos)
+                .HasColumnType("int(11)")
+                .HasColumnName("Id_Boletos");
+            entity.Property(e => e.IdUsuario)
+                .HasColumnType("int(11)")
+                .HasColumnName("Id_Usuario");
+
+            entity.HasOne(d => d.IdBoletosNavigation).WithMany(p => p.UsuarioBoleto)
+                .HasForeignKey(d => d.IdBoletos)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("usuario_boleto_ibfk_2");
+
+            entity.HasOne(d => d.IdUsuarioNavigation).WithMany(p => p.UsuarioBoleto)
+                .HasForeignKey(d => d.IdUsuario)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("usuario_boleto_ibfk_1");
         });
 
         OnModelCreatingPartial(modelBuilder);

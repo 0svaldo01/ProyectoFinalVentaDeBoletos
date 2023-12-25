@@ -15,5 +15,5 @@ public partial class Boleto
 
     public virtual Sala IdSalaNavigation { get; set; } = null!;
 
-    public virtual ICollection<Usuario> Usuario { get; set; } = new List<Usuario>();
+    public virtual ICollection<UsuarioBoleto> UsuarioBoleto { get; set; } = new List<UsuarioBoleto>();
 }

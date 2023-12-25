@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using ProyectoFinalVentaDeBoletos.Models.Entities;
 using ProyectoFinalVentaDeBoletos.Models.ViewModels;
 using ProyectoFinalVentaDeBoletos.Repositories;
 using System.Text;
@@ -10,6 +11,7 @@ namespace ProyectoFinalVentaDeBoletos.Controllers
         private readonly Random r = new();
         #region Repositorios
         public RepositorioAsientos AsientosRepositorio { get; }
+        public RepositorioBoletos BoletosRepositorio { get; }
         private RepositorioClasificaciones ClasificacionRepositorio { get; }
         private RepositorioPeliculas PeliculasRepositorio { get; }
         public RepositorioSalas SalasRepositorio { get; }
@@ -21,15 +23,17 @@ namespace ProyectoFinalVentaDeBoletos.Controllers
             RepositorioHorarios repositorioHorarios,
             RepositorioPeliculas repositorioPeliculas,
             RepositorioSalas repositorioSalas,
-            RepositorioAsientos repositorioAsientos
+            RepositorioAsientos repositorioAsientos,
+            RepositorioBoletos repositorioBoletos
         #endregion
         )
         {
             AsientosRepositorio = repositorioAsientos;
+            BoletosRepositorio = repositorioBoletos;
             ClasificacionRepositorio = repositorioClasificaciones;
             PeliculasRepositorio = repositorioPeliculas;
             SalasRepositorio = repositorioSalas;
-
+            
         }
         public IActionResult Index()
         {
@@ -118,7 +122,6 @@ namespace ProyectoFinalVentaDeBoletos.Controllers
             return RedirectToAction("VerPeliculas");
         }
         #endregion
-
         #region Boletos
         [HttpGet("/ComprarAsiento/{pelicula}")]
         public IActionResult ComprarAsiento(string pelicula)
@@ -164,9 +167,15 @@ namespace ProyectoFinalVentaDeBoletos.Controllers
             if (ModelState.IsValid) return View(vm);
             return RedirectToAction("Index");
         }
+
         [HttpPost("/ComprarAsiento/{pelicula}")]
         public IActionResult ComprarAsiento(ComprarAsientoViewModel vm)
         {
+            //Verificar que el vm este completo
+            if(vm!=null && vm.Pelicula != null && vm.Sala!=null && vm.Sala.SalaAsientos != null)
+            {
+                //BoletosRepositorio.Insert(b);
+            }
             return RedirectToAction("Index");
         }
         #endregion

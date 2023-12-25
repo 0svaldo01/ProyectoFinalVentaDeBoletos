@@ -62,7 +62,7 @@
         @if (Model.Pelicula != null && Model.Sala != null)
         {
             <p class="text">
-                Tu Seleccionaste <span id="count">0</span> asientos <br>
+                Tu Seleccionaste <span id="count">@Model.Sala.SalaAsientos.Where(x=>x.Seleccionado).Count()<!--0--></span> asientos <br>
                 para la pelicula @(Model.Pelicula.Nombre) por un precio de: <span id="total">$@(Model.Pelicula.Precio)</span>
             </p>
         }
