@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using ProyectoFinalVentaDeBoletos.Helpers;
 using ProyectoFinalVentaDeBoletos.Models.Entities;
 
 namespace ProyectoFinalVentaDeBoletos.Repositories
@@ -9,25 +10,6 @@ namespace ProyectoFinalVentaDeBoletos.Repositories
         public RepositorioUsuarios(Sistem21VentaboletosdbContext Ctx) : base(Ctx)
         {
             Context = Ctx;
-        }
-        public override IEnumerable<Usuario> GetAll()
-        {
-            return Context.Usuario
-                .Include(x => x.IdRolNavigation)
-                .Include(x => x.UsuarioBoleto)
-                .ThenInclude(x => x.IdBoletosNavigation)
-                .ThenInclude(x => x.IdHorarioNavigation)
-                .ThenInclude(x => x.PeliculaHorario)
-                .ThenInclude(x => x.IdPeliculaNavigation)
-                .ThenInclude(x => x.IdClasificacionNavigation)
-                .ThenInclude(x => x.Pelicula)
-                .ThenInclude(x => x.PeliculaGenero)
-                .ThenInclude(x => x.IdGeneroNavigation);
-        }
-
-        public Usuario? GetUsuario(string username, string password)
-        {
-            return GetAll().FirstOrDefault(x => x.Contraseña == password && x.Username == username);
         }
         public IEnumerable<Boleto> GetBoletosByIdUsuario(int Id)
         {

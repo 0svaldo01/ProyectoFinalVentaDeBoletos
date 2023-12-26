@@ -203,6 +203,7 @@ namespace ProyectoFinalVentaDeBoletos.Controllers
         {
             return View();
         }
+        //Utilizando Encriptacion SHA512
         [HttpPost]
         public IActionResult Login(LoginViewModel vm)
         {
