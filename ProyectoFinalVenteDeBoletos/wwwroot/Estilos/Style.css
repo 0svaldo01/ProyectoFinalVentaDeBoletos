@@ -44,6 +44,42 @@ body {
     color: #ffffff;
 }
 
+/* ESTILOS NAVBAR ADMINISTRADOR */
+
+/* Estilos para el nuevo menú "Horarios" */
+.navbar ul li:nth-child(3) ul {
+    display: none;
+}
+
+.navbar ul li:nth-child(3):hover ul {
+    display: block;
+}
+
+/* Estilos para el submenu en "Peliculas" y "Horarios" */
+.submenu {
+    display: none;
+    position: absolute;
+    background-color: #333;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
+.navbar ul li:hover .submenu {
+    display: block;
+}
+
+.submenu li {
+    display: block;
+    text-align: left;
+}
+
+/* Estilos para la barra de desplazamiento vertical */
+.movies, .schedule {
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+
+
 .menu .navbar ul li {
     position: relative;
     float: left;
