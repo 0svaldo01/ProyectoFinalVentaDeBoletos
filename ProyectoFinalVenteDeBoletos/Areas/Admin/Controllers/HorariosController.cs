@@ -17,6 +17,11 @@ namespace ProyectoFinalVentaDeBoletos.Areas.Admin.Controllers
         }
         public IActionResult Index()
         {
+            HorarioViewModel vm = new();
+
+           // vm.Horarios = HorarioRepositorio.GetAll().OrderBy(x => x.Id).Select(x=> new HorariosModel)
+
+
             return View();
         }
         public IActionResult Agregar(AgregarHorarioViewModel vm)
