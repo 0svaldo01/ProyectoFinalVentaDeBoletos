@@ -130,11 +130,23 @@ namespace ProyectoFinalVentaDeBoletos.Controllers
         }
         #endregion
 
-        //Pendiente
+
+
+        // en Proceso
         #region Boletos
         [HttpGet("/ComprarAsiento/{pelicula}")]
-        public IActionResult ComprarAsiento(string pelicula)
+        public IActionResult ComprarAsiento(string pelicula, string seatNumber, bool isSelected)
         {
+
+            //estoy por ver donde irian las lineas del enlace, ando leyendo documentacion
+
+            // Ejemplo de cómo imprimir la información en la consola del servidor
+            Console.WriteLine($"Asiento: {seatNumber}, Seleccionado: {isSelected}");
+
+            // Puedes devolver algún resultado al cliente si es necesario
+            return Json(new { success = true });
+
+
             if (string.IsNullOrWhiteSpace(pelicula))
             {
                 return RedirectToAction("Index");

@@ -57,11 +57,40 @@ function handleMovieChange(e) {
     updateSelectedCount();
 }
 
+
 // Seat click event
+//document.querySelectorAll('.row .seat:not(.occupied)').forEach((seat) => {
+//    seat.addEventListener('click', (e) => {
+//        if (!e.target.classList.contains('occupied')) {
+//            e.target.classList.toggle('selected');
+//            updateSelectedCount();
+//        }
+//    });
+//});
+
+
+// Seat click event Enlazada para enviar datos al ViewModel
 document.querySelectorAll('.row .seat:not(.occupied)').forEach((seat) => {
     seat.addEventListener('click', (e) => {
         if (!e.target.classList.contains('occupied')) {
             e.target.classList.toggle('selected');
+
+            // Aquí enviamos la información al servidor
+            const seatNumber = e.target.innerText;
+            const isSelected = e.target.classList.contains('selected');
+
+            $.ajax({
+                type: 'POST',
+                url: 'HomeController/GuardarSeleccion',
+                data: { seatNumber: seatNumber, isSelected: isSelected },
+                success: function (data) {
+                    console.log('Información enviada al servidor con éxito.');
+                },
+                error: function (error) {
+                    console.error('Error al enviar la información al servidor.');
+                }
+            });
+
             updateSelectedCount();
         }
     });
