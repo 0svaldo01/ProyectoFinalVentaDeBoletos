@@ -26,7 +26,6 @@ namespace ProyectoFinalVentaDeBoletos.Controllers
         (
         #region Inyeccion de Repositorios
             RepositorioClasificaciones repositorioClasificaciones,
-            RepositorioHorarios repositorioHorarios,
             RepositorioPeliculas repositorioPeliculas,
             RepositorioSalas repositorioSalas,
             RepositorioAsientos repositorioAsientos,
@@ -47,12 +46,12 @@ namespace ProyectoFinalVentaDeBoletos.Controllers
         {
             return View();
         }
-
         [Route("/Nosotros")]
         public IActionResult Nosotros()
         {
             return View();
         }
+        //terminado
         #region Peliculas
         [Route("/Peliculas")]
         public IActionResult VerPeliculas()
@@ -130,6 +129,8 @@ namespace ProyectoFinalVentaDeBoletos.Controllers
             return RedirectToAction("VerPeliculas");
         }
         #endregion
+
+        //Pendiente
         #region Boletos
         [HttpGet("/ComprarAsiento/{pelicula}")]
         public IActionResult ComprarAsiento(string pelicula)
@@ -175,7 +176,6 @@ namespace ProyectoFinalVentaDeBoletos.Controllers
             if (ModelState.IsValid) return View(vm);
             return RedirectToAction("Index");
         }
-
         [HttpPost("/ComprarAsiento/{pelicula}")]
         public IActionResult ComprarAsiento(ComprarAsientoViewModel vm)
         {
@@ -209,7 +209,8 @@ namespace ProyectoFinalVentaDeBoletos.Controllers
             return RedirectToAction("Index");
         }
         #endregion
-
+        
+        //terminado
         #region Usuarios
         public IActionResult LogOut()
         {
