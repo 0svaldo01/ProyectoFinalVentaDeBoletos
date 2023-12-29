@@ -1,14 +1,48 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="~/Estilos/Style.css">
-    <title>Venta de Boletos</title>
-</head>
-<body class="agregarPelicula">
-    <main>
-        @RenderBody()
-    </main>
-</body>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="~/Estilos/Style.css">
+        <title>Venta de Boletos</title>
+    </head>
+    <body>
+        <header class="header">
+            <div class="menu container">
+                <a href="~/" class="logo">cinemax</a>
+                <input type="checkbox" id="menu" />
+                <label for="menu">
+                <img src="~/images/menu.png" class="menu-icono" alt="menu">
+                </label>
+                <nav class="navbar">
+                    <ul>
+                        <li><a href="~/" hidden>Inicio</a></li>
+                        <li>
+                            <a href="~/" hidden>Peliculas</a>
+                            <ul class="submenu">
+                                <li><a href="~/Admin/Pelicula/Agregar">Agregar</a></li>
+                                <li><a href="~/Admin/Pelicula/Eliminar">Eliminar</a></li>
+                                <li><a href="~/Admin/Pelicula/Editar">Editar</a></li>
+                                <li><a href="~/Admin/Peliculas">Ver</a></li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a href="~/" hidden>Horarios</a>
+                               <ul class="submenu">
+                                <li><a href="/Admin/Horario/Agregar">Agregar</a></li>
+                                <li><a href="/Admin/Horario/Eliminar">Eliminar</a></li>
+                                <li><a href="/Admin/Horario/Editar">Editar</a></li>
+                                <li><a href="/Admin/Horarios">Ver</a></li>
+                            </ul>
+                        </li>
+                        <li><a href="~/Nosotros">Nosotros</a></li>
+                    </ul>
+                </nav>
+                <a href="~/Home/Logout" class="btn-1">Cerrar Sesion</a>
+            </div>
+        </header>
+        <main>
+            @RenderBody()
+        </main>
+    </body>
 </html>

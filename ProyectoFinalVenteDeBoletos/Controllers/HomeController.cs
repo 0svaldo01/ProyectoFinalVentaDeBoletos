@@ -190,18 +190,18 @@ namespace ProyectoFinalVentaDeBoletos.Controllers
         #region Usuarios
         public IActionResult LogOut()
         {
-
+            //Cerrar sesion
             HttpContext.SignOutAsync();
+            //Redirigir al logon
             return RedirectToAction("Login", "Home");
-
         }
         public IActionResult Denied()
         {
             return View();
         }
-        [Route("Admin/Login")]
         public IActionResult Login()
         {
+            //Mostrar Login
             return View();
         }
         //Utilizando Encriptacion SHA512

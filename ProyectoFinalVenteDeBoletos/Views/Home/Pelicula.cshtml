@@ -40,9 +40,11 @@
 
 <section class="otras-peliculas">
     <h2>Otras Películas Que Podrían Interesarte:</h2>
-    <div class="peliculas-container">
-        @if (Model.OtrasPeliculas.Count()>0)
-        {
+   
+    @if (Model.OtrasPeliculas.Count()>0)
+    {
+        <div class="peliculas-container">
+        
             @foreach (var op in Model.OtrasPeliculas)
             {
                 <a href="~/Pelicula/@(op.Nombre.Replace(' ','-'))">
@@ -53,10 +55,10 @@
                     </div>
                 </a>
             }
-        }
-        else
-        {
-            <h1>No hay otras peliculas, vuelva más tarde</h1>
-        }
-    </div>
+        </div>
+    }
+    else
+    {
+        <h1>No hay otras peliculas, vuelva más tarde</h1>
+    }
 </section>

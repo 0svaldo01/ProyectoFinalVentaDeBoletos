@@ -1,21 +1,20 @@
-﻿
+﻿@using ProyectoFinalVentaDeBoletos.Models.ViewModels
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@model LoginViewModel
 <link rel="stylesheet" href="~/Estilos/login.css">
 <section>
     <div class="login-box">
-        <img src="~/images/cinetec.jpg" class="login" alt="Avatar Image">
-
-        <form>
+        <img src="cinetec.jpg" class="login" alt="Avatar Image">
+        <form method="post">
             <!-- USERNAME INPUT -->
             <label for="username">Correo</label>
-            <input type="text" placeholder="Ingrese su Correo">
+            <input type="text" asp-for="Username" placeholder="Ingrese su nombre de usuario">
             <!-- PASSWORD INPUT -->
             <label for="password">Contraseña</label>
-            <input type="password" placeholder="Ingrese su Contraseña">
-            <input type="submit" value="Aceptar">
-            <a href="#">Olvidaste tu contraseña?</a><br>
-            <a href="#">No tienes cuenta?</a>
+            <input type="password" asp-for="Contraseña" placeholder="Ingrese su Contraseña">
+            <input type="submit" asp-action="Login" value="Aceptar">
+            <a href="~/ForgottenPassword">Olvidaste tu contraseña?</a><br>
+            <a href="~/CrearCuenta">No tienes cuenta?</a>
         </form>
     </div>
-
 </section>
-

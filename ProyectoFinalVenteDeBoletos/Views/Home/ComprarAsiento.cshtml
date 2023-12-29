@@ -5,12 +5,13 @@
 }
 
 <section class="body-boletos">
-    <div class="movie-container">
-        @if (Model.Pelicula != null)
-        {
+    @if (Model.Pelicula != null)
+    {
+        <div class="movie-container">
             <label>@Model.Pelicula.Nombre</label>    
-        }
-    </div>
+        </div>
+    }    
+    
     <ul class="showcase">
         <li>
             <div class="seat"></div>
@@ -25,13 +26,14 @@
             <small>Ocupado</small>
         </li>
     </ul>
+
     <form method="post" action="AgregarBoleto">
-    
         <div class="container-boletos">
             <div class="screen"></div>            
-            <div class="row">
-                @if (Model.Sala != null && Model.Sala.SalaAsientos.Any())
-                {                
+            @if (Model.Sala != null && Model.Sala.SalaAsientos.Any())
+            {
+                <div class="row">
+
                     @for (int c = 0; c < Model.Sala.Filas; c++)
                     {
                         <dl>
@@ -56,8 +58,8 @@
                             }
                         </dl>
                     }
-                }        
-            </div>
+                </div>
+            }
         </div>
         @if (Model.Pelicula != null && Model.Sala != null)
         {

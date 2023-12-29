@@ -20,12 +20,12 @@ namespace ProyectoFinalVentaDeBoletos.Areas.Admin.Controllers
             PeliculasRepositorio = repositorioPeliculas;
             ClasificacionesRepositorio = repositorioClasificaciones;
         }
-        [HttpGet]
+        [HttpGet("Admin/Peliculas")]
         public IActionResult Index()
         {
             return View();
         }
-        [HttpGet]
+        [HttpGet("Admin/Pelicula/Agregar")]
         public IActionResult Agregar()
         {
             AgregarPeliculaViewModel vm = new()
@@ -40,7 +40,7 @@ namespace ProyectoFinalVentaDeBoletos.Areas.Admin.Controllers
             };
             return View(vm);
         }
-        [HttpPost]
+        [HttpPost("Admin/Pelicula/Agregar")]
         public IActionResult Agregar(AgregarPeliculaViewModel vm)
         {
             vm.Clasificaciones = ClasificacionesRepositorio.GetAll().Select(x => new ClasificacionModel
@@ -111,7 +111,7 @@ namespace ProyectoFinalVentaDeBoletos.Areas.Admin.Controllers
             return View(vm);
         }
         
-        [HttpGet("/{id}")]
+        [HttpGet("Admin/Pelicula/Editar/{id}")]
         public IActionResult Editar(int id)
         {
             var peli = PeliculasRepositorio.Get(id);
@@ -130,7 +130,7 @@ namespace ProyectoFinalVentaDeBoletos.Areas.Admin.Controllers
             };
             return View(vm);
         }
-        [HttpPost("/{id}")]
+        [HttpPost("Admin/Pelicula/Editar/{id}")]
         public IActionResult Editar(int id,AgregarPeliculaViewModel vm)
         {
             //Verificar que el id sea solo numeros
@@ -187,7 +187,7 @@ namespace ProyectoFinalVentaDeBoletos.Areas.Admin.Controllers
             //Regresar el viewmodel si no se edito
             return View(vm);
         }
-        [HttpGet]
+        [HttpGet("Admin/Pelicula/Eliminar/{id}")]
         public IActionResult Eliminar(int id)
         {
             var peli = PeliculasRepositorio.GetPeliculaById(id);
@@ -197,7 +197,7 @@ namespace ProyectoFinalVentaDeBoletos.Areas.Admin.Controllers
             }
             return View(peli);
         }
-        [HttpPost]
+        [HttpPost("Admin/Pelicula/Eliminar/{id}")]
         public IActionResult Eliminar(Pelicula p)
         {
             var peli = PeliculasRepositorio.GetPeliculaById(p.Id);
