@@ -7,6 +7,7 @@ using ProyectoFinalVentaDeBoletos.Repositories;
 using System.Security.Claims;
 using System.Text;
 using ProyectoFinalVentaDeBoletos.Helpers;
+using Microsoft.CodeAnalysis.CSharp;
 
 namespace ProyectoFinalVentaDeBoletos.Controllers
 {
@@ -178,9 +179,26 @@ namespace ProyectoFinalVentaDeBoletos.Controllers
         [HttpPost("/ComprarAsiento/{pelicula}")]
         public IActionResult ComprarAsiento(ComprarAsientoViewModel vm)
         {
+            foreach (var asiento in vm.Sala.SalaAsientos)
+            {
+                var antiguo = AsientosRepositorio.GetAsiento(asiento.Fila, asiento.Columna);
+                if (antiguo != null)
+                {
+                    if (asiento.Seleccionado)
+                    {
+                        //el seleccionado ya es falso, asi que no se cambia
+                        antiguo.Ocupado = true;
+                        AsientosRepositorio.Update(antiguo);
+                    }
+                }
+            }
             //Verificar que el vm este completo
             if(vm!=null && vm.Pelicula != null && vm.Sala!=null && vm.Sala.SalaAsientos != null)
             {
+                Boleto b = new()
+                {
+                    Id = 0,
+                };
                 //BoletosRepositorio.Insert(b);
             }
             return RedirectToAction("Index");
@@ -218,8 +236,8 @@ namespace ProyectoFinalVentaDeBoletos.Controllers
             }
             if (ModelState.IsValid)
             {
-                var user = UsuarioRepositorio.GetAll().FirstOrDefault(x => x.Username == vm.Username && x.Contraseña == Encriptacion.StringToSHA512(vm.Contraseña));
-
+                var user = UsuarioRepositorio.GetAll()
+                    .FirstOrDefault(x => x.Username == vm.Username && x.Contraseña == Encriptacion.StringToSHA512(vm.Contraseña));
                 if (user == null)
                 {
                     ModelState.AddModelError("", "Nombre de usuario o Contraseña Incorrectos.");

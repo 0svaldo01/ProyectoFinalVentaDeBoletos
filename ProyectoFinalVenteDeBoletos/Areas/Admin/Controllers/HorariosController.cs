@@ -29,7 +29,7 @@ namespace ProyectoFinalVentaDeBoletos.Areas.Admin.Controllers
                         HoraInicio = h.IdHorarioNavigation.HoraInicio.ToString(),
                         HoraTerminacion = h.IdHorarioNavigation.HoraTerminacion.ToString()
                     })
-                    //Suponiendo que tenga mas de un horario
+                    //Suponiendo que tenga solo un horario
                     .First(),
                     Pelicula = new PeliculasModel
                     {
@@ -40,7 +40,7 @@ namespace ProyectoFinalVentaDeBoletos.Areas.Admin.Controllers
                     {
                         Id = s.IdSala
                     })
-                    //Suponiendo que utiliza mas de una sala
+                    //Suponiendo que utiliza solo una sala
                     .First()
                 })
             };

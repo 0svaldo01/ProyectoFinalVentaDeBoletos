@@ -1,15 +1,25 @@
-﻿@{
-    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+﻿@using ProyectoFinalVentaDeBoletos.Areas.Admin.Models.Horarios
+@model HorariosViewModel
+@{
+    //Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    Layout = "_AdminLayout";
 }
 <h1>Administrar Horarios</h1>
 
 <section class="lista">
     <ul>
+        
         <li><a href="~/Horarios/Agregar">Agregar</a></li>
-        <li>
-            Nombre de la pelicula || 05:00:00 - 05:00:00 || Sala 1
-            <a href="~/Admin/Horarios/Eliminar" class="btnBorrar">-</a>
-            <a href="~/Admin/Horarios/Editar" class="btnEditar">+</a>
-        </li>
+        @if (Model.Horarios.Any())
+        {
+            @foreach (var horario in Model.Horarios)
+            {
+                <li>
+                    @horario.Pelicula.Nombre|| @horario.Horario.HoraInicio - @horario.Horario.HoraTerminacion || Sala @horario.Sala.Id
+                    <a href="~/Admin/Horarios/Eliminar/@horario.Pelicula.Id" class="btnBorrar">Eliminar</a>
+                    <a href="~/Admin/Horarios/Editar/@horario.Pelicula.Id" class="btnEditar">Editar</a>
+                </li>
+            }
+        }
     </ul>
 </section>
