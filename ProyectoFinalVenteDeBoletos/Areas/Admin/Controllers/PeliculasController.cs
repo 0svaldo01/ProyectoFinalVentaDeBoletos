@@ -141,7 +141,7 @@ namespace ProyectoFinalVentaDeBoletos.Areas.Admin.Controllers
                     return RedirectToAction("Index");
                 }
             }
-            //Validar
+            #region Validar
             if (string.IsNullOrWhiteSpace(vm.Pelicula.Nombre))
             {
                 ModelState.AddModelError("", "La pelicula debe tener un nombre");
@@ -166,6 +166,7 @@ namespace ProyectoFinalVentaDeBoletos.Areas.Admin.Controllers
             {
                 ModelState.AddModelError("", "Ingrese un precio entre 0 y 5000");
             }
+            #endregion
             if (ModelState.IsValid)
             {
                 var anterior = PeliculasRepositorio.Get(id);
