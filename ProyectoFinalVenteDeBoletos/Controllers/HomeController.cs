@@ -139,7 +139,6 @@ namespace ProyectoFinalVentaDeBoletos.Controllers
                 return RedirectToAction("Index");
             }
             pelicula = pelicula.Replace('-', ' ');
-
             var peli = PeliculasRepositorio.GetPeliculaByNombre(pelicula);
             var sala = SalasRepositorio.GetSalaByNombrePelicula(pelicula);
 
@@ -149,6 +148,7 @@ namespace ProyectoFinalVentaDeBoletos.Controllers
             }
             ComprarAsientoViewModel vm = new()
             {
+                IdHorario = peli.PeliculaHorario.First(x=>x.IdPelicula == x.IdHorarioNavigation.IdPelicula).Id,
                 Pelicula = new PeliModel
                 {
                     Nombre = peli.Nombre,
@@ -193,13 +193,18 @@ namespace ProyectoFinalVentaDeBoletos.Controllers
                 }
             }
             //Verificar que el vm este completo
-            if(vm!=null && vm.Pelicula != null && vm.Sala!=null && vm.Sala.SalaAsientos != null)
+            if (vm != null && vm.Pelicula != null && vm.Sala != null && vm.Sala.SalaAsientos != null)
             {
                 Boleto b = new()
                 {
                     Id = 0,
+                    IdHorario = vm.IdHorario,
+                    IdSala = vm.Sala.Id,
                 };
-                //BoletosRepositorio.Insert(b);
+                if (b!=null) 
+                {
+                    BoletosRepositorio.Insert(b);
+                } 
             }
             return RedirectToAction("Index");
         }

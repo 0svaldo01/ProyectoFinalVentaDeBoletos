@@ -2,6 +2,7 @@
 {
     public class ComprarAsientoViewModel
     {
+        public int IdHorario { get; set; }
         public SalaModel Sala { get; set; } = null!;
         public PeliModel Pelicula { get; set; } = null!;
     }
