@@ -27,10 +27,13 @@ namespace ProyectoFinalVentaDeBoletos.Repositories
                 .IdPeliculaNavigation.Nombre == Nombre)?.IdSalaNavigation;
             return a;
         }
+        public Sala GetSalaByHorario(int IdHorario)
+        {
+            return Ctx.Sala.First(x=>x.Horario.FirstOrDefault(x=>x.Id == IdHorario) != null);
+        }
         public IEnumerable<Sala> GetSalasOrdenadasByTipoPantalla()
         {
             return GetAll().OrderBy(x => x.IdTipoPantalla);
         }
-       
     }
 }
