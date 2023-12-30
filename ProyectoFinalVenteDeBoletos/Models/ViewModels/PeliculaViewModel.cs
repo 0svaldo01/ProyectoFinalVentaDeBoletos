@@ -2,6 +2,7 @@
 {
     public class PeliculaViewModel
     {
+        public int IdHorario { get; set; }
         public PeliculaModel Pelicula { get; set; } = null!;
         public IEnumerable<OtrasPeliculasModel> OtrasPeliculas { get; set; } = null!;
         public IEnumerable<HorariosModel> Horarios { get; set; } = null!;
