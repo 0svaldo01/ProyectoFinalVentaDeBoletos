@@ -12,10 +12,16 @@ namespace ProyectoFinalVentaDeBoletos.Repositories
         }
         public override IEnumerable<Pelicula> GetAll()
         {
-            return Ctx.Pelicula.Include(x=>x.PeliculaHorario).ThenInclude(x=>x.IdHorarioNavigation)
+            return Ctx.Pelicula
+                .Include(x => x.PeliculaHorario)
+                    .ThenInclude(x => x.IdHorarioNavigation)
+                        .ThenInclude(x => x.IdSalaNavigation)
+                            .ThenInclude(x => x.SalaAsiento)
+                                .ThenInclude(x => x.IdAsientoNavigation)
                 .Include(x => x.IdClasificacionNavigation)
-                .Include(x => x.PeliculaGenero).ThenInclude(x=>x.IdGeneroNavigation);
-         }
+                .Include(x => x.PeliculaGenero)
+                    .ThenInclude(x => x.IdGeneroNavigation);        
+        }
         public IEnumerable<Pelicula> GetAllOrderByClasificacion()
         {
             return GetAll().OrderBy(x=> x.IdClasificacionNavigation.Nombre);
@@ -34,8 +40,7 @@ namespace ProyectoFinalVentaDeBoletos.Repositories
         }
         public Pelicula? GetPeliculaByNombre(string nombre)
         {
-            return GetAll().FirstOrDefault(x => x.Nombre == nombre)
-                ;
+            return GetAll().FirstOrDefault(x => x.Nombre == nombre);
                 
         }
     }

@@ -107,7 +107,6 @@ namespace ProyectoFinalVentaDeBoletos.Areas.Admin.Controllers
                 return RedirectToAction("Index", "Peliculas", new { Area = "Admin" });
             }
             //Regresar el viewmodel si no se agrego
-            
             return View(vm);
         }
         

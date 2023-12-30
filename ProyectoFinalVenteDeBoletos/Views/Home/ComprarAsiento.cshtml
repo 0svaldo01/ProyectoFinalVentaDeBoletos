@@ -32,12 +32,13 @@
             {
                 <div class="row">
 
-                    @for (int c = 0; c < Model.Sala.Filas; c++)
+                    @for (int f = 0; f < Model.Sala.Filas; f++)
                     {
                         <dl>
-                            @for (int f = 0; f < Model.Sala.Columnas; f++)
+                            @for (int c = 0; c < Model.Sala.Columnas; c++)
                             {
                                 var asiento = Model.Sala.SalaAsientos.FirstOrDefault(x => x.Columna == c && x.Fila == f);
+                                
                                 if (asiento != null)
                                 {
                                     if (asiento.Ocupado)

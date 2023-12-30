@@ -9,11 +9,12 @@
 
 <section class="pelicula-info">
     @if(Model.Pelicula!=null){
-        <form action="~/ComprarAsiento/@Model.IdHorario/@Model.Pelicula.Nombre.Replace(' ','-')" method="post">
+        <form action="~/ComprarAsiento/@Model.Pelicula.Nombre.Replace(' ','-')" method="get">
             <div class="poster">
                 <img src="~/images/@(Model.Pelicula.Id).jpg" alt="@Model.Pelicula.Nombre">
             </div>
             <div class="descripcion">
+                
                 <h1>@Model.Pelicula.Nombre</h1><br>
                 <p>@Model.Pelicula.Informacion</p><br><br>
                 <p>@Model.Pelicula.Sinopsis</p>
@@ -54,6 +55,7 @@
                         <h3>@op.Nombre</h3>
                         <p>@op.Año</p>
                     </div>
+
                 </a>
             }
         </div>

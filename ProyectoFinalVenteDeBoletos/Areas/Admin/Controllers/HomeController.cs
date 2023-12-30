@@ -18,9 +18,5 @@ namespace ProyectoFinalVentaDeBoletos.Areas.Admin.Controllers
         {
             return View();
         }
-
-      
-
-      
     }
 }

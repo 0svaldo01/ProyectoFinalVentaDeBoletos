@@ -129,89 +129,97 @@ namespace ProyectoFinalVentaDeBoletos.Controllers
             return RedirectToAction("VerPeliculas");
         }
         #endregion
-
-
-
         // en Proceso
         #region Boletos
         [HttpGet("/ComprarAsiento/{pelicula}")]
-        public IActionResult ComprarAsiento(string pelicula, string seatNumber, bool isSelected)
+        public IActionResult ComprarAsiento(string pelicula,PeliculaViewModel pvm)
         {
-
-            //estoy por ver donde irian las lineas del enlace, ando leyendo documentacion
-
-            // Ejemplo de cómo imprimir la información en la consola del servidor
-            Console.WriteLine($"Asiento: {seatNumber}, Seleccionado: {isSelected}");
-
-            // Puedes devolver algún resultado al cliente si es necesario
-            return Json(new { success = true });
-
-
+            ModelState.Clear();
+           
             if (string.IsNullOrWhiteSpace(pelicula))
             {
-                return RedirectToAction("Index");
+                ModelState.AddModelError("","No existen las peliculas sin nombre");
+            }
+            if (pvm.IdHorario<=0)
+            {
+                ModelState.AddModelError("","No hay un horario seleccionado");
             }
             pelicula = pelicula.Replace('-', ' ');
             var peli = PeliculasRepositorio.GetPeliculaByNombre(pelicula);
-            var sala = SalasRepositorio.GetSalaByNombrePelicula(pelicula);
+            if (peli != null) { 
+                //Obtenemos la sala usando el id del horario obtenido en el viewmodel
+                var sala = SalasRepositorio.GetSalaByHorario(pvm.IdHorario);
+                if (peli == null || sala == null)
+                {
+                    return RedirectToAction("Index");
+                }
+                ComprarAsientoViewModel vm = new()
+                {
+                    IdHorario = peli.PeliculaHorario.First(x => x.IdPelicula == x.IdHorarioNavigation.IdPelicula).IdHorario,
+                    Pelicula = new PeliModel
+                    {
+                        Nombre = peli.Nombre,
+                        Precio = peli.Precio
+                    },
+                    Sala = new SalaModel
+                    {
+                        Id = sala.Id,
+                        Columnas = sala.Columnas,
+                        Filas = sala.Filas,
+                        SalaAsientos = sala.SalaAsiento
+                        .Where(s => s.IdSalaNavigation.IdSalaAsiento == s.IdSala)
+                        .Select(x => x.IdAsientoNavigation)
+                        .Select(a => new AsientoModel
+                        {
+                            Columna = a.Columna,
+                            Fila = a.Fila,
+                            Id = a.Id,
+                            Ocupado = a.Ocupado,
+                            Seleccionado = a.Seleccionado
+                        })
+                    }
+                };
+                
+                if (ModelState.IsValid)
+                    return View(vm);
+                return RedirectToAction("Index");
+            }
+            //return RedirectToAction("Index");
+            // Puedes devolver algún resultado al cliente si es necesario
+            return Json(new { success = true });
+        }
+        [HttpPost("/ComprarAsiento/{pelicula}")]
+        public IActionResult ComprarAsiento(string pelicula,string steanumber,bool IsSelected)
+        {
+            var vm = PeliculasRepositorio.GetPeliculaByNombre(pelicula);
 
-            if (peli == null || sala == null)
+            if (vm == null)
             {
                 return RedirectToAction("Index");
             }
-            ComprarAsientoViewModel vm = new()
+            //estoy por ver donde irian las lineas del enlace, ando leyendo documentacion
+            // Ejemplo de cómo imprimir la información en la consola del servidor
+            foreach (var asiento in vm.PeliculaHorario.First().IdHorarioNavigation.IdSalaNavigation.SalaAsiento)
             {
-                IdHorario = peli.PeliculaHorario.First(x=>x.IdPelicula == x.IdHorarioNavigation.IdPelicula).Id,
-                Pelicula = new PeliModel
-                {
-                    Nombre = peli.Nombre,
-                    Precio = peli.Precio
-                },
-                Sala = new SalaModel
-                {
-                    Id = sala.Id,
-                    Columnas = sala.Columnas,
-                    Filas = sala.Filas,
-                    SalaAsientos = sala.SalaAsiento
-                    .Where(s => s.IdSalaNavigation.IdSalaAsiento == s.IdSala)
-                    .Select(x => x.IdAsientoNavigation)
-                    .Select(a => new AsientoModel
-                    {
-                        Columna = a.Columna,
-                        Fila = a.Fila,
-                        Id = a.Id,
-                        Ocupado = a.Ocupado,
-                        Seleccionado = a.Seleccionado
-                    })
-                }
-            };
-            if (ModelState.IsValid) return View(vm);
-            return RedirectToAction("Index");
-        }
-        [HttpPost("/ComprarAsiento/{pelicula}")]
-        public IActionResult ComprarAsiento(ComprarAsientoViewModel vm)
-        {
-            foreach (var asiento in vm.Sala.SalaAsientos)
-            {
-                var antiguo = AsientosRepositorio.GetAsiento(asiento.Fila, asiento.Columna);
+                var antiguo = AsientosRepositorio.GetAsiento(asiento.IdAsientoNavigation.Fila, asiento.IdAsientoNavigation.Columna);
                 if (antiguo != null)
                 {
-                    if (asiento.Seleccionado)
+                    if (asiento.IdAsientoNavigation.Seleccionado)
                     {
-                        //el seleccionado ya es falso, asi que no se cambia
                         antiguo.Ocupado = true;
+                        antiguo.Seleccionado = false;
                         AsientosRepositorio.Update(antiguo);
                     }
                 }
             }
             //Verificar que el vm este completo
-            if (vm != null && vm.Pelicula != null && vm.Sala != null && vm.Sala.SalaAsientos != null)
+            if (vm != null)
             {
                 Boleto b = new()
                 {
                     Id = 0,
-                    IdHorario = vm.IdHorario,
-                    IdSala = vm.Sala.Id,
+                    IdHorario = vm.PeliculaHorario.First().Id,
+                    IdSala = vm.PeliculaHorario.First().IdHorarioNavigation.IdSala,
                 };
                 if (b!=null) 
                 {

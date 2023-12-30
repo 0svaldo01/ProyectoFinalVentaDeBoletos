@@ -90,7 +90,6 @@ document.querySelectorAll('.row .seat:not(.occupied)').forEach((seat) => {
                     console.error('Error al enviar la información al servidor.');
                 }
             });
-
             updateSelectedCount();
         }
     });
