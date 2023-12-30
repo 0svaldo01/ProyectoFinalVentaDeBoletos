@@ -9,22 +9,29 @@ namespace ProyectoFinalVentaDeBoletos.Areas.Admin.Controllers
     [Area("Admin")]
     public class PeliculasController : Controller
     {
+        #region Repositorios
         public RepositorioPeliculas PeliculasRepositorio { get; }
         public RepositorioClasificaciones ClasificacionesRepositorio { get; }
-
+        #endregion
         public PeliculasController(
+        #region Inyeccion de repositorios
             RepositorioPeliculas repositorioPeliculas,
             RepositorioClasificaciones repositorioClasificaciones
-            )
+        #endregion
+        )
         {
+            #region Asignacion de repositorios
             PeliculasRepositorio = repositorioPeliculas;
             ClasificacionesRepositorio = repositorioClasificaciones;
+            #endregion
         }
         [HttpGet("Admin/Peliculas")]
         public IActionResult Index()
         {
             return View();
         }
+        #region CRUD
+        #region Read
         [HttpGet("Admin/Pelicula/Agregar")]
         public IActionResult Agregar()
         {
@@ -40,6 +47,37 @@ namespace ProyectoFinalVentaDeBoletos.Areas.Admin.Controllers
             };
             return View(vm);
         }
+        [HttpGet("Admin/Pelicula/Editar/{id}")]
+        public IActionResult Editar(int id)
+        {
+            var peli = PeliculasRepositorio.Get(id);
+            if (peli == null)
+            {
+                return RedirectToAction("");
+            }
+            AgregarPeliculaViewModel vm = new()
+            {
+                Clasificaciones = ClasificacionesRepositorio.GetAll().Select(x => new ClasificacionModel
+                {
+                    Id = x.Id,
+                    Nombre = x.Nombre
+                }),
+                Pelicula = peli
+            };
+            return View(vm);
+        }
+        [HttpGet("Admin/Pelicula/Eliminar/{id}")]
+        public IActionResult Eliminar(int id)
+        {
+            var peli = PeliculasRepositorio.GetPeliculaById(id);
+            if (peli == null)
+            {
+                return RedirectToAction("Index");
+            }
+            return View(peli);
+        }
+        #endregion
+        #region Create
         [HttpPost("Admin/Pelicula/Agregar")]
         public IActionResult Agregar(AgregarPeliculaViewModel vm)
         {
@@ -109,26 +147,8 @@ namespace ProyectoFinalVentaDeBoletos.Areas.Admin.Controllers
             //Regresar el viewmodel si no se agrego
             return View(vm);
         }
-        
-        [HttpGet("Admin/Pelicula/Editar/{id}")]
-        public IActionResult Editar(int id)
-        {
-            var peli = PeliculasRepositorio.Get(id);
-            if (peli == null)
-            {
-                return RedirectToAction("");
-            }
-            AgregarPeliculaViewModel vm = new()
-            {
-                Clasificaciones = ClasificacionesRepositorio.GetAll().Select(x => new ClasificacionModel
-                {
-                    Id = x.Id,
-                    Nombre = x.Nombre
-                }),
-                Pelicula = peli
-            };
-            return View(vm);
-        }
+        #endregion
+        #region Update
         [HttpPost("Admin/Pelicula/Editar/{id}")]
         public IActionResult Editar(int id,AgregarPeliculaViewModel vm)
         {
@@ -187,16 +207,8 @@ namespace ProyectoFinalVentaDeBoletos.Areas.Admin.Controllers
             //Regresar el viewmodel si no se edito
             return View(vm);
         }
-        [HttpGet("Admin/Pelicula/Eliminar/{id}")]
-        public IActionResult Eliminar(int id)
-        {
-            var peli = PeliculasRepositorio.GetPeliculaById(id);
-            if (peli == null)
-            {
-                return RedirectToAction("Index");
-            }
-            return View(peli);
-        }
+        #endregion
+        #region Delete
         [HttpPost("Admin/Pelicula/Eliminar/{id}")]
         public IActionResult Eliminar(Pelicula p)
         {
@@ -207,5 +219,7 @@ namespace ProyectoFinalVentaDeBoletos.Areas.Admin.Controllers
             }
             return RedirectToAction("Index", "Peliculas", new { Area = "Admin" });
         }
+        #endregion
+        #endregion
     }
 }
