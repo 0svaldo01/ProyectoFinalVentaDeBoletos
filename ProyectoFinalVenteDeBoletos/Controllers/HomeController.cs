@@ -189,10 +189,10 @@ namespace ProyectoFinalVentaDeBoletos.Controllers
             return Json(new { success = true });
         }
         [HttpPost("/ComprarAsiento/{pelicula}")]
-        public IActionResult ComprarAsiento(string pelicula,string steanumber,bool IsSelected)
+        public IActionResult ComprarAsiento(string pelicula,string seatnumber,bool IsSelected)
         {
+            //IsSelected y seatnumber es una lista o un objeto unicamente?
             var vm = PeliculasRepositorio.GetPeliculaByNombre(pelicula);
-
             if (vm == null)
             {
                 return RedirectToAction("Index");
