@@ -1,12 +1,13 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using ProyectoFinalVentaDeBoletos.Areas.Admin.Models.Peliculas;
 using ProyectoFinalVentaDeBoletos.Models.Entities;
 using ProyectoFinalVentaDeBoletos.Repositories;
-using System.Text.RegularExpressions;
 
 namespace ProyectoFinalVentaDeBoletos.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [Authorize]
     public class PeliculasController : Controller
     {
         #region Repositorios

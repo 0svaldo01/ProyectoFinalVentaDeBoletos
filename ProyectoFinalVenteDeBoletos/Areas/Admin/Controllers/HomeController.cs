@@ -5,10 +5,13 @@ using ProyectoFinalVentaDeBoletos.Helpers;
 using ProyectoFinalVentaDeBoletos.Models.ViewModels;
 using System.Security.Claims;
 using ProyectoFinalVentaDeBoletos.Repositories;
+using Microsoft.AspNetCore.Authorization;
+
 
 namespace ProyectoFinalVentaDeBoletos.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [Authorize]
     public class HomeController : Controller
     {
       
