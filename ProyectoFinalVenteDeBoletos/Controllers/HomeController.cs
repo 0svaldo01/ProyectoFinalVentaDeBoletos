@@ -243,6 +243,8 @@ namespace ProyectoFinalVentaDeBoletos.Controllers
         {
             return View();
         }
+
+        [Route("Home/Login")]
         public IActionResult Login()
         {
             //Mostrar Login
