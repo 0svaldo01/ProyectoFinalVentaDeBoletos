@@ -11,8 +11,6 @@ public partial class Horario
 
     public TimeOnly HoraTerminacion { get; set; }
 
-    public int IdPelicula { get; set; }
-
     public int IdSala { get; set; }
 
     public virtual ICollection<Boleto> Boleto { get; set; } = new List<Boleto>();

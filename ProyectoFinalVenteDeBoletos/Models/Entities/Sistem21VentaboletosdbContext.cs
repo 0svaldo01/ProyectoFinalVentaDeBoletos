@@ -132,9 +132,6 @@ public partial class Sistem21VentaboletosdbContext : DbContext
             entity.Property(e => e.HoraTerminacion)
                 .HasColumnType("time")
                 .HasColumnName("Hora_Terminacion");
-            entity.Property(e => e.IdPelicula)
-                .HasColumnType("int(11)")
-                .HasColumnName("Id_Pelicula");
             entity.Property(e => e.IdSala)
                 .HasColumnType("int(11)")
                 .HasColumnName("Id_Sala");
