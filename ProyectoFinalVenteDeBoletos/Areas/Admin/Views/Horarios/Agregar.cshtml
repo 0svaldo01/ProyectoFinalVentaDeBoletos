@@ -1,4 +1,5 @@
-﻿@{
+﻿@model ProyectoFinalVentaDeBoletos.Areas.Admin.Models.Horarios.AgregarHorarioViewModel
+@{
     Layout = "~/Views/Shared/_LayoutHorarios.cshtml";
 }
 <div class="contenedor-formulario">
@@ -6,25 +7,19 @@
         <h1>Agregar Horario</h1> <br>
 
         <label>Hora de inicio:</label> <br>
-        <input type="text" id="txtHoraInicio" name="HoraInicio" placeholder="0:0:0" /> <br>
+        <input type="text" id="txtHoraInicio" name="HoraInicio" placeholder="00:00:00" /> <br>
         <br>
 
         <label>Hora de termino:</label> <br>
-        <input type="text" id="txtHoraTermino" name="HoraTermino" placeholder="0:0:0" /> <br>
+        <input type="text" id="txtHoraTermino" name="HoraTermino" placeholder="00:00:00" /> <br>
         <br>
         <label>Pelicula:</label> <br>
         <select id="cmbPeliculas" name="Pelicula">
             <option>Pelicula 1</option>
-            <option>Pelicula 2</option>
-            <option>Pelicula 3</option>
-            <option>Pelicula 4</option>
         </select>  <br>
         <label>Sala:</label> <br>
         <select id="cmbSalas" name="Sala">
             <option>Sala 1</option>
-            <option>Sala 2</option>
-            <option>Sala 3</option>
-            <option>Sala 4</option>
         </select>
     </form>
 </div>
