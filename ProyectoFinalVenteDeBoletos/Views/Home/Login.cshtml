@@ -5,14 +5,15 @@
 <section>
     <div class="login-box">
         <img src="cinetec.jpg" class="login" alt="Avatar Image">
-        <form method="post">
+        <form method="post" asp-action="Login">
             <!-- USERNAME INPUT -->
             <label for="username">Correo</label>
             <input type="text" asp-for="Username" placeholder="Ingrese su nombre de usuario">
             <!-- PASSWORD INPUT -->
             <label for="password">Contraseña</label>
             <input type="password" asp-for="Contraseña" placeholder="Ingrese su Contraseña">
-            <input type="submit" asp-action="Login" value="Aceptar">
+            @Html.ValidationSummary()
+            <input type="submit" value="Aceptar">
             <a href="~/ForgottenPassword">Olvidaste tu contraseña?</a><br>
             <a href="~/CrearCuenta">No tienes cuenta?</a>
         </form>

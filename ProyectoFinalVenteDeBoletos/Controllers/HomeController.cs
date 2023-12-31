@@ -266,7 +266,7 @@ namespace ProyectoFinalVentaDeBoletos.Controllers
             return View();
         }
         //Utilizando Encriptacion SHA512
-        [HttpPost]
+        [HttpPost("Home/Login")]
         public IActionResult Login(LoginViewModel vm)
         {
             if (string.IsNullOrWhiteSpace(vm.Username))
