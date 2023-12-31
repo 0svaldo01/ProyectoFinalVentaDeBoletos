@@ -30,7 +30,8 @@ namespace ProyectoFinalVentaDeBoletos.Controllers
             RepositorioSalas repositorioSalas,
             RepositorioAsientos repositorioAsientos,
             RepositorioBoletos repositorioBoletos,
-            RepositorioUsuarios repositorioUsuarios
+            RepositorioUsuarios repositorioUsuarios,
+            RepositorioUsuarioBoletos repositorioUsuarioBoletos
         #endregion
         )
         {
@@ -189,22 +190,22 @@ namespace ProyectoFinalVentaDeBoletos.Controllers
             return Json(new { success = true });
         }
         [HttpPost("/ComprarAsiento/{pelicula}")]
-        public IActionResult ComprarAsiento(string pelicula,string seatnumber,bool IsSelected)
+        public IActionResult ComprarAsiento(string pelicula,ComprarAsientoViewModel vm)
         {
             //IsSelected y seatnumber es una lista o un objeto unicamente?
-            var vm = PeliculasRepositorio.GetPeliculaByNombre(pelicula);
-            if (vm == null)
+            var peli = PeliculasRepositorio.GetPeliculaByNombre(pelicula);
+            if (peli == null)
             {
                 return RedirectToAction("Index");
             }
             //estoy por ver donde irian las lineas del enlace, ando leyendo documentacion
             // Ejemplo de cómo imprimir la información en la consola del servidor
-            foreach (var asiento in vm.PeliculaHorario.First().IdHorarioNavigation.IdSalaNavigation.SalaAsiento)
+            foreach (var asiento in vm.Sala.SalaAsientos)
             {
-                var antiguo = AsientosRepositorio.GetAsiento(asiento.IdAsientoNavigation.Fila, asiento.IdAsientoNavigation.Columna);
+                var antiguo = AsientosRepositorio.GetAsiento(asiento.Fila, asiento.Columna);
                 if (antiguo != null)
                 {
-                    if (asiento.IdAsientoNavigation.Seleccionado)
+                    if (asiento.Seleccionado)
                     {
                         antiguo.Ocupado = true;
                         antiguo.Seleccionado = false;
@@ -215,16 +216,31 @@ namespace ProyectoFinalVentaDeBoletos.Controllers
             //Verificar que el vm este completo
             if (vm != null)
             {
+                //Agregamos el boleto a la tabla
                 Boleto b = new()
                 {
                     Id = 0,
-                    IdHorario = vm.PeliculaHorario.First().Id,
-                    IdSala = vm.PeliculaHorario.First().IdHorarioNavigation.IdSala,
+                    IdHorario = vm.IdHorario,
+                    IdSala = vm.Sala.Id,
                 };
-                if (b!=null) 
+                BoletosRepositorio.Insert(b);
+
+                var usuario = UsuarioRepositorio.Get(int.Parse(User.Claims.First(x=>x.Type == "Id").Value));
+
+                if (usuario != null)
                 {
-                    BoletosRepositorio.Insert(b);
-                } 
+                    //Agregamos el boleto al usuario utilizando la tabla usuarioboleto
+                    UsuarioBoleto ub = new()
+                    {
+                        Id = 0,
+                        IdBoletos = b.Id,
+                        IdUsuario = usuario.Id,
+                    };
+                    if (b != null)
+                    {
+                        BoletosRepositorio.Insert(b);
+                    }
+                }
             }
             return RedirectToAction("Index");
         }

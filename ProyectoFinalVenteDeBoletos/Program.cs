@@ -27,6 +27,7 @@ using ProyectoFinalVentaDeBoletos.Repositories;
         builder.Services.AddTransient<RepositorioPeliculas>();
         builder.Services.AddTransient<RepositorioSalas>();
         builder.Services.AddTransient<RepositorioUsuarios>();
+        builder.Services.AddTransient<RepositorioUsuarioBoletos>();
 
     #endregion
 
