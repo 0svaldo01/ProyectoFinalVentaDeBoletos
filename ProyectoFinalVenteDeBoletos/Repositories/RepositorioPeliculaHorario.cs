@@ -1,4 +1,5 @@
-﻿using ProyectoFinalVentaDeBoletos.Models.Entities;
+﻿using Microsoft.EntityFrameworkCore;
+using ProyectoFinalVentaDeBoletos.Models.Entities;
 
 namespace ProyectoFinalVentaDeBoletos.Repositories
 {
@@ -8,6 +9,13 @@ namespace ProyectoFinalVentaDeBoletos.Repositories
         public RepositorioPeliculaHorario(Sistem21VentaboletosdbContext Ctx):base(Ctx)
         {
             Context = Ctx;
+        }
+        public override IEnumerable<PeliculaHorario> GetAll()
+        {
+            return Context.PeliculaHorario.Include(x=>x.IdPeliculaNavigation)
+                .ThenInclude(x=>x.PeliculaHorario).ThenInclude(x=>x.IdHorarioNavigation)
+                .ThenInclude(x=>x.IdSalaNavigation)
+                ;
         }
         public PeliculaHorario? GetAnterior(int IdPelicula,int IdHorario)
         {
