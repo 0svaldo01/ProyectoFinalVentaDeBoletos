@@ -1,25 +1,29 @@
 ﻿@model ProyectoFinalVentaDeBoletos.Areas.Admin.Models.Horarios.AgregarHorarioViewModel
 @{
-    Layout = "~/Views/Shared/_LayoutHorarios.cshtml";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
-<div class="contenedor-formulario">
-    <form method="post" action="~/Admin/Peliculas/Agregar" enctype="multipart/form-data">
-        <h1>Agregar Horario</h1> <br>
-
-        <label>Hora de inicio:</label> <br>
-        <input type="text" id="txtHoraInicio" name="HoraInicio" placeholder="00:00:00" /> <br>
+<div class="contenedor-agregarhorarios">
+    <form method="post" action="~/Admin/Horarios/Agregar" enctype="multipart/form-data">
+        <br />
+        <h1 id="h1AgregarH">Agregar Horario</h1>
         <br>
 
-        <label>Hora de termino:</label> <br>
-        <input type="text" id="txtHoraTermino" name="HoraTermino" placeholder="00:00:00" /> <br>
-        <br>
-        <label>Pelicula:</label> <br>
+        <label id="labelHPelicula">Pelicula:</label> <br>
         <select id="cmbPeliculas" name="Pelicula">
-            <option>Pelicula 1</option>
-        </select>  <br>
-        <label>Sala:</label> <br>
-        <select id="cmbSalas" name="Sala">
-            <option>Sala 1</option>
-        </select>
+            @foreach(var p in Model.Peliculas)
+            {
+                <option value="@(p.Id)">@p.Nombre</option>
+            }
+        </select><br>
+
+        <label id="labelHHorarios">Horarios:</label> <br>
+        <select id="cmbHorarios" name="Sala">
+            @foreach(var h in Model.Horarios)
+            {
+            <option value="@(h.Id)">@h.HoraInicio - @h.HoraTerminacion</option>
+            }
+        </select><br/>
+        <input type="submit" value="Agregar"/>
+        <input type="button" value="Cancelar" action="~/Admin"/>
     </form>
 </div>
