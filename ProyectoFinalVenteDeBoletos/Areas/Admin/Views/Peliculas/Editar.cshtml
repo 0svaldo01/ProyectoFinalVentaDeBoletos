@@ -16,11 +16,10 @@
         <input class="controls" type="time" asp-for="Pelicula.Duracion" placeholder="Ingrese la duracion"><br />
 
         <label class="leyendasagregarPelicula">Clasificación:</label>
-        <select class="controls" name="Clasificacion">
-            <option value="A">Terror</option>
-            <option value="B">Suspenso</option>
-            <option value="-">Other</option>
-        </select>
+        <select class="controls" name="Clasificacion" asp-for="IdClasificacion" asp-items="Model.Clasificaciones.Select(x=> new SelectListItem{Value = x.Id.ToString(), Text = x.Nombre})"></select>
+        
+        <label class="leyendasagregarPelicula">Genero:</label>
+        <select class="controls" name="Genero" asp-for="IdClasificacion" asp-items="Model.Clasificaciones.Select(x=> new SelectListItem{Value = x.Id.ToString(), Text = x.Nombre})"></select>
 
         <label class="leyendasagregarPelicula">Año:</label>
         <input class="controls" type="number" asp-for="Pelicula.Año" placeholder="Ingrese el año"><br />

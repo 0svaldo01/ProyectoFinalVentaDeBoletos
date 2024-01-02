@@ -1,3 +1,20 @@
-﻿@{
+﻿@using ProyectoFinalVentaDeBoletos.Areas.Admin.Models.Peliculas
+@model PeliculasViewModel
+@{
+    Layout = "_AdminLayout";
 }
-<h1>Ver Peliculas</h1>
+
+<h1>Peliculas:</h1>
+<section>
+    <ul>
+        <li><a href="~/Peliculas/Agregar">Agregar</a></li>
+        @foreach(var peli in Model.Peliculas)
+        {
+            <li>
+                @peli.Id || @peli.Nombre ||
+                <a href="~/Admin/Pelicula/Eliminar/@peli.Id" class="btnBorrar">Eliminar</a>
+                <a href="~/Admin/Pelicula/Editar/@peli.Id" class="btnEditar">Editar</a>
+            </li>
+        }
+    </ul>
+</section>

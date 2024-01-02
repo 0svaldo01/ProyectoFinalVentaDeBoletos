@@ -20,6 +20,7 @@ namespace ProyectoFinalVentaDeBoletos.Controllers
         private RepositorioClasificaciones ClasificacionRepositorio { get; }
         private RepositorioPeliculas PeliculasRepositorio { get; }
         public RepositorioUsuarios UsuarioRepositorio { get; }
+        public RepositorioUsuarioBoletos UsuarioBoletosRepositorio { get; }
         public RepositorioSalas SalasRepositorio { get; }
         #endregion
         public HomeController
@@ -41,7 +42,7 @@ namespace ProyectoFinalVentaDeBoletos.Controllers
             PeliculasRepositorio = repositorioPeliculas;
             UsuarioRepositorio = repositorioUsuarios;
             SalasRepositorio = repositorioSalas;
-            
+            UsuarioBoletosRepositorio = repositorioUsuarioBoletos;
         }
         public IActionResult Index()
         {
@@ -136,7 +137,6 @@ namespace ProyectoFinalVentaDeBoletos.Controllers
         public IActionResult ComprarAsiento(string pelicula,PeliculaViewModel pvm)
         {
             ModelState.Clear();
-           
             if (string.IsNullOrWhiteSpace(pelicula))
             {
                 ModelState.AddModelError("","No existen las peliculas sin nombre");
@@ -156,7 +156,7 @@ namespace ProyectoFinalVentaDeBoletos.Controllers
                 }
                 ComprarAsientoViewModel vm = new()
                 {
-                    IdHorario = peli.PeliculaHorario.First(x => x.IdPelicula == x.IdHorarioNavigation.IdPelicula).IdHorario,
+                    IdHorario = peli.PeliculaHorario.First().IdHorario,
                     Pelicula = new PeliModel
                     {
                         Nombre = peli.Nombre,
@@ -187,7 +187,7 @@ namespace ProyectoFinalVentaDeBoletos.Controllers
             }
             //return RedirectToAction("Index");
             // Puedes devolver algún resultado al cliente si es necesario
-            return Json(new { success = true });
+            return RedirectToAction("Index");
         }
         [HttpPost("/ComprarAsiento/{pelicula}")]
         public IActionResult ComprarAsiento(string pelicula,ComprarAsientoViewModel vm)
@@ -224,21 +224,24 @@ namespace ProyectoFinalVentaDeBoletos.Controllers
                     IdSala = vm.Sala.Id,
                 };
                 BoletosRepositorio.Insert(b);
-
                 var usuario = UsuarioRepositorio.Get(int.Parse(User.Claims.First(x=>x.Type == "Id").Value));
-
-                if (usuario != null)
+                if (usuario != null && b != null)
                 {
                     //Agregamos el boleto al usuario utilizando la tabla usuarioboleto
-                    UsuarioBoleto ub = new()
-                    {
-                        Id = 0,
-                        IdBoletos = b.Id,
-                        IdUsuario = usuario.Id,
-                    };
-                    if (b != null)
-                    {
-                        BoletosRepositorio.Insert(b);
+                    
+                    BoletosRepositorio.Insert(b);
+                    var antiguo = UsuarioBoletosRepositorio.GetAll().Where(x => x.IdBoletos == b.Id && x.IdUsuario==usuario.Id);
+                    //si el ya existe la relacion entre el usuario y el boleto, entonces no se agregara
+                    if (antiguo == null)
+                    { 
+                        //si no existe la relacion entre el usuario y el boleto, se crea dicha relacion
+                        UsuarioBoleto ub = new()
+                        {
+                            Id = 0,
+                            IdBoletos = b.Id,
+                            IdUsuario = usuario.Id,
+                        };
+                        UsuarioBoletosRepositorio.Insert(ub);
                     }
                 }
             }

@@ -11,8 +11,39 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Remove="wwwroot\images\1.jpg" />
+    <Content Remove="wwwroot\images\10.jpg" />
+    <Content Remove="wwwroot\images\11.jpg" />
+    <Content Remove="wwwroot\images\12.jpg" />
+    <Content Remove="wwwroot\images\13.jpg" />
+    <Content Remove="wwwroot\images\14.jpg" />
+    <Content Remove="wwwroot\images\15.jpg" />
+    <Content Remove="wwwroot\images\16.jpg" />
+    <Content Remove="wwwroot\images\17.jpg" />
+    <Content Remove="wwwroot\images\18.jpg" />
+    <Content Remove="wwwroot\images\19.jpg" />
+    <Content Remove="wwwroot\images\2.jpg" />
+    <Content Remove="wwwroot\images\20.jpg" />
+    <Content Remove="wwwroot\images\21.jpg" />
+    <Content Remove="wwwroot\images\22.jpg" />
+    <Content Remove="wwwroot\images\23.jpg" />
+    <Content Remove="wwwroot\images\24.jpg" />
+    <Content Remove="wwwroot\images\3.jpg" />
+    <Content Remove="wwwroot\images\4.jpg" />
+    <Content Remove="wwwroot\images\5.jpg" />
+    <Content Remove="wwwroot\images\6.jpg" />
+    <Content Remove="wwwroot\images\7.jpg" />
+    <Content Remove="wwwroot\images\8.jpg" />
+    <Content Remove="wwwroot\images\9.jpg" />
+    <Content Remove="wwwroot\images\bg.jpg" />
     <Content Remove="wwwroot\images\borrar.png" />
+    <Content Remove="wwwroot\images\cinetec.jpg" />
     <Content Remove="wwwroot\images\editar.png" />
+    <Content Remove="wwwroot\images\menu.png" />
+    <Content Remove="wwwroot\images\play.png" />
+    <Content Remove="wwwroot\images\venom.png" />
+    <Content Remove="wwwroot\Pelicula.jpg" />
+    <Content Remove="wwwroot\Peliculas\portada.jpg" />
   </ItemGroup>
 
   <ItemGroup>
@@ -30,8 +61,39 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Resource Include="wwwroot\images\1.jpg" />
+    <Resource Include="wwwroot\images\10.jpg" />
+    <Resource Include="wwwroot\images\11.jpg" />
+    <Resource Include="wwwroot\images\12.jpg" />
+    <Resource Include="wwwroot\images\13.jpg" />
+    <Resource Include="wwwroot\images\14.jpg" />
+    <Resource Include="wwwroot\images\15.jpg" />
+    <Resource Include="wwwroot\images\16.jpg" />
+    <Resource Include="wwwroot\images\17.jpg" />
+    <Resource Include="wwwroot\images\18.jpg" />
+    <Resource Include="wwwroot\images\19.jpg" />
+    <Resource Include="wwwroot\images\2.jpg" />
+    <Resource Include="wwwroot\images\20.jpg" />
+    <Resource Include="wwwroot\images\21.jpg" />
+    <Resource Include="wwwroot\images\22.jpg" />
+    <Resource Include="wwwroot\images\23.jpg" />
+    <Resource Include="wwwroot\images\24.jpg" />
+    <Resource Include="wwwroot\images\3.jpg" />
+    <Resource Include="wwwroot\images\4.jpg" />
+    <Resource Include="wwwroot\images\5.jpg" />
+    <Resource Include="wwwroot\images\6.jpg" />
+    <Resource Include="wwwroot\images\7.jpg" />
+    <Resource Include="wwwroot\images\8.jpg" />
+    <Resource Include="wwwroot\images\9.jpg" />
+    <Resource Include="wwwroot\images\bg.jpg" />
     <Resource Include="wwwroot\images\borrar.png" />
+    <Resource Include="wwwroot\images\cinetec.jpg" />
     <Resource Include="wwwroot\images\editar.png" />
+    <Resource Include="wwwroot\images\menu.png" />
+    <Resource Include="wwwroot\images\play.png" />
+    <Resource Include="wwwroot\images\venom.png" />
+    <Resource Include="wwwroot\Pelicula.jpg" />
+    <Resource Include="wwwroot\Peliculas\portada.jpg" />
   </ItemGroup>
 
 </Project>

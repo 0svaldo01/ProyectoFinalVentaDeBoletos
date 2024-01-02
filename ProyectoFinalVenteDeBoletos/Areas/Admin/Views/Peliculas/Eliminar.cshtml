@@ -1,11 +1,13 @@
-﻿@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+﻿@using ProyectoFinalVentaDeBoletos.Areas.Admin.Models.Peliculas
+@model EliminarPeliculaViewModel
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 @{
     Layout = "_AdminLayout";
 }
-<form class="form-delete">
+<form class="form-delete" data="@Model">
     <h2>Eliminar Pelicula</h2>
     <label class="leyendasEliminarPelicula">Desea eliminar esta pelicula: </label>
-    <label class="leyendasEliminarPelicula1"> Avengers: EndGame</label>
+    <label class="leyendasEliminarPelicula1">@Model.Nombre</label>
     <a><input class="botons-eliminarPelicula" asp-action="Eliminar" type="submit" value="Aceptar"/></a>
     <input class="botons-eliminarPelicula1" asp-action="Index" type="submit" value="Cancelar" />
 </form>

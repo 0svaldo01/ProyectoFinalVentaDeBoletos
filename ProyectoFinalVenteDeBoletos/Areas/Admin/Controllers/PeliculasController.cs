@@ -13,23 +13,34 @@ namespace ProyectoFinalVentaDeBoletos.Areas.Admin.Controllers
         #region Repositorios
         public RepositorioPeliculas PeliculasRepositorio { get; }
         public RepositorioClasificaciones ClasificacionesRepositorio { get; }
+        public RepositorioHorarios HorariosRepositorio { get; }
         #endregion
         public PeliculasController(
         #region Inyeccion de repositorios
             RepositorioPeliculas repositorioPeliculas,
-            RepositorioClasificaciones repositorioClasificaciones
+            RepositorioClasificaciones repositorioClasificaciones,
+            RepositorioHorarios repositorioHorarios
         #endregion
         )
         {
             #region Asignacion de repositorios
             PeliculasRepositorio = repositorioPeliculas;
             ClasificacionesRepositorio = repositorioClasificaciones;
+            HorariosRepositorio = repositorioHorarios;
             #endregion
         }
         [HttpGet("Admin/Peliculas")]
         public IActionResult Index()
         {
-            return View();
+            PeliculasViewModel vm = new()
+            {
+                Peliculas = PeliculasRepositorio.GetAll().Select(x=> new PeliculaModel
+                {
+                    Id = x.Id,
+                    Nombre = x.Nombre
+                })
+            };
+            return View(vm);
         }
         #region CRUD
         #region Read
@@ -211,7 +222,7 @@ namespace ProyectoFinalVentaDeBoletos.Areas.Admin.Controllers
         #endregion
         #region Delete
         [HttpPost("Admin/Pelicula/Eliminar/{id}")]
-        public IActionResult Eliminar(Pelicula p)
+        public IActionResult Eliminar(EliminarPeliculaViewModel p)
         {
             var peli = PeliculasRepositorio.GetPeliculaById(p.Id);
             if (peli != null)
