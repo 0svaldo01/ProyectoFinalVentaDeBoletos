@@ -36,27 +36,6 @@ namespace ProyectoFinalVentaDeBoletos.Areas.Admin.Controllers
         {
             HorariosViewModel vm = new()
             {
-                //Horarios = PeliculasRepositorio.GetAll().Select(x => new HorariosModel
-                //{
-                //    Horario = x.PeliculaHorario.Select(h => new HorarioModel
-                //    {
-                //        HoraInicio = h.IdHorarioNavigation.HoraInicio.ToString(),
-                //        HoraTerminacion = h.IdHorarioNavigation.HoraTerminacion.ToString()
-                //    })
-                //    //Suponiendo que tenga solo un horario por pelicula
-                //    .First(),
-                //    Pelicula = new PeliculasModel
-                //    {
-                //        Id = x.Id,
-                //        Nombre = x.Nombre
-                //    },
-                //    Sala = x.PeliculaHorario.Select(x => x.IdHorarioNavigation).Select(s => new SalasModel
-                //    {
-                //        Id = s.IdSala
-                //    })
-                //    //Suponiendo que utiliza solo una sala por pelicula
-                //    .First()
-                //})
                 Horarios = PeliculasHorarioRepositorio.GetAll().Select(x => new HorariosModel
                 {
                     Horario = new HorarioModel

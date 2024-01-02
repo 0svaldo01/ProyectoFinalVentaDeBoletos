@@ -17,13 +17,14 @@
 
         <label class="leyendasagregarPelicula">Clasificación:</label>
         <select class="controls" name="Clasificacion" asp-for="IdClasificacion" asp-items="Model.Clasificaciones.Select(x=> new SelectListItem{Value = x.Id.ToString(), Text = x.Nombre})"></select>
+        <!--Para agregar generos utilizando checkbox-->
         <group>
             Generos:
             <ul>
                 @foreach (var genero in Model.Generos)
                 {
                     <li>
-                        <input type="checkbox" asp-for="GenerosSeleccionados" itemid="@genero.IdGenero" />
+                        <input type="checkbox" name="GenerosSeleccionados" itemid="@genero.IdGenero" />
                         @genero.Nombre
                     </li>
                 }
