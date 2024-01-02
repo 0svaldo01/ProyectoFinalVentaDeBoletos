@@ -22,12 +22,7 @@
                 @if (Model.Horarios!=null && Model.Horarios.Any())
                 {
                     <p>Selecciona el horario disponible</p>
-                    <select id="horarios" asp-for="IdHorario" asp-items="Model.Horarios.Select(x=> new SelectListItem{ Value = x.Id.ToString(),Text = x.HorarioDisponible})">
-                        @* @foreach (var h in Model.Horarios)
-                        {
-                            <option value="@h.Id">@h.HorarioDisponible</option>
-                        } *@
-                    </select>
+                    <select id="horarios" asp-for="IdHorario" asp-items="Model.Horarios.Select(x=> new SelectListItem{ Value = x.Id.ToString(),Text = x.HorarioDisponible})"></select>
                     <br />
                     <input type="submit" class="comprar-btn" value="Comprar Boletos"/>
                 }

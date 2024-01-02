@@ -272,6 +272,7 @@ namespace ProyectoFinalVentaDeBoletos.Controllers
         [HttpPost("Home/Login")]
         public IActionResult Login(LoginViewModel vm)
         {
+            ModelState.Clear();
             if (string.IsNullOrWhiteSpace(vm.Username))
             {
                 ModelState.AddModelError("", "Escriba el nombre del usuario");

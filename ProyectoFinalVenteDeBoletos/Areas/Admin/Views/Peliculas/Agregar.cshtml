@@ -24,7 +24,7 @@
                 @foreach (var genero in Model.Generos)
                 {
                     <li>
-                        <input type="checkbox" asp-for="GenerosSeleccionados" itemid="@genero.IdGenero"/>
+                        <input type = "checkbox" asp-for = "GenerosSeleccionados" itemid = "@genero.IdGenero"/>
                         @genero.Nombre
                     </li>
                 }

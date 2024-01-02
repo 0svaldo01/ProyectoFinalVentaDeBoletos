@@ -4,10 +4,10 @@
 @{
     Layout = "_AdminLayout";
 }
-<form class="form-delete" data="@Model">
+<form class="form-delete">
     <h2>Eliminar Pelicula</h2>
     <label class="leyendasEliminarPelicula">Desea eliminar esta pelicula: </label>
-    <label class="leyendasEliminarPelicula1">@Model.Nombre</label>
-    <a><input class="botons-eliminarPelicula" asp-action="Eliminar" type="submit" value="Aceptar"/></a>
+    <input type="text" class="leyendasEliminarPelicula1" asp-for="Id" data="@Model.Id" value="@Model.Nombre" readonly>
+    <a><input class="botons-eliminarPelicula"  asp-action="Eliminar" type="submit" value="Aceptar"/></a>
     <input class="botons-eliminarPelicula1" asp-action="Index" type="submit" value="Cancelar" />
 </form>

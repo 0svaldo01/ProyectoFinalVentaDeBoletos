@@ -7,10 +7,6 @@
 
 <script src="~/Scripts/script.js"></script>
 <section class="movies container">
-    @*En caso de no tener ninguna pelicula mostrar el h1*@
-    @{
-        int pelis = 0;
-    }
     @*Verificar si hay alguna clasificacion con peliculas peliculas*@
     @foreach (var clasif in Model.Clasificaciones)
     {
@@ -28,8 +24,6 @@
                 {
                     //Aumentamos 1 a las peliculas en la clasificacion
                     pelisClasif++;
-                    //Agregar 1 a las peliculas
-                    pelis++;
                     //Mostrar la pelicula
                     <a href="~/Pelicula/@peli.Nombre.Replace(' ','-')">
                         <div class="box-1">
@@ -56,7 +50,7 @@
         }
     }
     @*Si no hay peliculas mostrara el texto*@
-    @if (pelis == 0)
+    @if (Model.Clasificaciones.Count() <= 0)
     {
         <h1>No hay peliculas</h1>
     }

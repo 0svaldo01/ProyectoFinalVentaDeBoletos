@@ -14,11 +14,13 @@ namespace ProyectoFinalVentaDeBoletos.Areas.Admin.Controllers
         public RepositorioPeliculas PeliculasRepositorio { get; }
         public RepositorioClasificaciones ClasificacionesRepositorio { get; }
         public RepositorioHorarios HorariosRepositorio { get; }
+        public RepositorioGeneros Generosrepositorio { get; }
         #endregion
         public PeliculasController(
         #region Inyeccion de repositorios
             RepositorioPeliculas repositorioPeliculas,
             RepositorioClasificaciones repositorioClasificaciones,
+            RepositorioGeneros repositorioGeneros,
             RepositorioHorarios repositorioHorarios
         #endregion
         )
@@ -27,6 +29,7 @@ namespace ProyectoFinalVentaDeBoletos.Areas.Admin.Controllers
             PeliculasRepositorio = repositorioPeliculas;
             ClasificacionesRepositorio = repositorioClasificaciones;
             HorariosRepositorio = repositorioHorarios;
+            Generosrepositorio = repositorioGeneros;
             #endregion
         }
         [HttpGet("Admin/Peliculas")]
@@ -38,7 +41,8 @@ namespace ProyectoFinalVentaDeBoletos.Areas.Admin.Controllers
                 {
                     Id = x.Id,
                     Nombre = x.Nombre
-                })
+                }),
+                
             };
             return View(vm);
         }
@@ -52,6 +56,11 @@ namespace ProyectoFinalVentaDeBoletos.Areas.Admin.Controllers
                 Clasificaciones = ClasificacionesRepositorio.GetAll().Select(x => new ClasificacionModel
                 {
                     Id = x.Id,
+                    Nombre = x.Nombre
+                }),
+                Generos = Generosrepositorio.GetAll().Select(x=> new GeneroModel
+                {
+                    IdGenero = x.Id,
                     Nombre = x.Nombre
                 }),
                 Pelicula = new(),
@@ -72,6 +81,11 @@ namespace ProyectoFinalVentaDeBoletos.Areas.Admin.Controllers
                 Clasificaciones = ClasificacionesRepositorio.GetAll().Select(x => new ClasificacionModel
                 {
                     Id = x.Id,
+                    Nombre = x.Nombre
+                }),
+                Generos = Generosrepositorio.GetAll().Select(x => new GeneroModel
+                {
+                    IdGenero = x.Id,
                     Nombre = x.Nombre
                 }),
                 Pelicula = peli
