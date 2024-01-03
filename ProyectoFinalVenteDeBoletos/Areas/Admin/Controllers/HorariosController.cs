@@ -72,6 +72,7 @@ namespace ProyectoFinalVentaDeBoletos.Areas.Admin.Controllers
                 IdHorario = x.Id,
                 Horario = $"{x.HoraInicio} - {x.HoraTerminacion}"
             });
+
             if (anterior != null)
             {
                 ModelState.AddModelError("", "El horario ya ah sido establecido anteriormente");
@@ -98,12 +99,11 @@ namespace ProyectoFinalVentaDeBoletos.Areas.Admin.Controllers
                     };
                     PeliculasHorarioRepositorio.Insert(peliculahorario);
                     //Redireccionar si se agrego correctamente
-                    return RedirectToAction("Index", "Peliculas", new { Area = "Admin" });
+                    return RedirectToAction("Index", "Horarios", new { Area = "Admin" });
                 }
             }
             //Regresar el viewmodel si no se agrego
             return View(vm);
-
         }
         #endregion
         //Aqui estan las acciones para mostrar el crear, editar y eliminar

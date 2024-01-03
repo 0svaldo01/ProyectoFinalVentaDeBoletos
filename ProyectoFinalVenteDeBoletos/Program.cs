@@ -30,7 +30,6 @@ using ProyectoFinalVentaDeBoletos.Repositories;
         builder.Services.AddTransient<RepositorioSalas>();
         builder.Services.AddTransient<RepositorioUsuarios>();
         builder.Services.AddTransient<RepositorioUsuarioBoletos>();
-
     #endregion
 
     #region Autentificacion

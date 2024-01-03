@@ -11,19 +11,23 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="wwwroot\Uploads\**" />
+    <Content Remove="wwwroot\Uploads\**" />
+    <EmbeddedResource Remove="wwwroot\Uploads\**" />
+    <None Remove="wwwroot\Uploads\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Content Remove="wwwroot\images\1.jpg" />
     <Content Remove="wwwroot\images\bg.jpg" />
     <Content Remove="wwwroot\images\borrar.png" />
     <Content Remove="wwwroot\images\cinetec.jpg" />
     <Content Remove="wwwroot\images\editar.png" />
     <Content Remove="wwwroot\images\menu.png" />
-    <Content Remove="wwwroot\Pelicula.jpg" />
-    <Content Remove="wwwroot\Peliculas\portada.jpg" />
   </ItemGroup>
 
   <ItemGroup>
     <Folder Include="Areas\Admin\Data\" />
-    <Folder Include="wwwroot\Uploads\" />
   </ItemGroup>
 
   <ItemGroup>
@@ -42,8 +46,6 @@
     <Resource Include="wwwroot\images\cinetec.jpg" />
     <Resource Include="wwwroot\images\editar.png" />
     <Resource Include="wwwroot\images\menu.png" />
-    <Resource Include="wwwroot\Pelicula.jpg" />
-    <Resource Include="wwwroot\Peliculas\portada.jpg" />
   </ItemGroup>
 
 </Project>
