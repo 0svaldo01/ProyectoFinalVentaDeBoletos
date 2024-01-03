@@ -66,6 +66,12 @@ namespace ProyectoFinalVentaDeBoletos.Areas.Admin.Controllers
             ModelState.Clear();
             //Validar (Aqui agregamos los errores que tenga el modelo al ModelState)
             var anterior = PeliculasHorarioRepositorio.Get(vm.IdPelicula);
+            vm.Peliculas = PeliculasRepositorio.GetAll();
+            vm.Horarios = HorarioRepositorio.GetAll().Select(x => new HorariovModel
+            {
+                IdHorario = x.Id,
+                Horario = $"{x.HoraInicio} - {x.HoraTerminacion}"
+            });
             if (anterior != null)
             {
                 ModelState.AddModelError("", "El horario ya ah sido establecido anteriormente");
