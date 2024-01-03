@@ -17,8 +17,6 @@
     <Content Remove="wwwroot\images\cinetec.jpg" />
     <Content Remove="wwwroot\images\editar.png" />
     <Content Remove="wwwroot\images\menu.png" />
-    <Content Remove="wwwroot\images\play.png" />
-    <Content Remove="wwwroot\images\venom.png" />
     <Content Remove="wwwroot\Pelicula.jpg" />
     <Content Remove="wwwroot\Peliculas\portada.jpg" />
   </ItemGroup>
@@ -44,8 +42,6 @@
     <Resource Include="wwwroot\images\cinetec.jpg" />
     <Resource Include="wwwroot\images\editar.png" />
     <Resource Include="wwwroot\images\menu.png" />
-    <Resource Include="wwwroot\images\play.png" />
-    <Resource Include="wwwroot\images\venom.png" />
     <Resource Include="wwwroot\Pelicula.jpg" />
     <Resource Include="wwwroot\Peliculas\portada.jpg" />
   </ItemGroup>
