@@ -1,4 +1,5 @@
 ﻿@model ProyectoFinalVentaDeBoletos.Areas.Admin.Models.Horarios.AgregarHorarioViewModel
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 @{
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
@@ -9,20 +10,12 @@
         <br>
 
         <label id="labelHPelicula">Pelicula:</label> <br>
-        <select id="cmbPeliculas" name="Pelicula">
-            @foreach(var p in Model.Peliculas)
-            {
-                <option value="@(p.Id)">@p.Nombre</option>
-            }
-        </select><br>
+        <select id="cmbPeliculas" asp-for="IdPelicula" asp-items="Model.Peliculas.Select(x=> new SelectListItem{Value = x.Id.ToString(),Text = x.Nombre})"></select><br>
 
         <label id="labelHHorarios">Horarios:</label> <br>
-        <select id="cmbHorarios" name="Sala">
-            @foreach(var h in Model.Horarios)
-            {
-            <option value="@(h.Id)">@h.HoraInicio - @h.HoraTerminacion</option>
-            }
-        </select><br/>
+        <select id="cmbHorarios" asp-for="IdHorario" asp-items="Model.Horarios.Select(x=> new SelectListItem{Value = x.IdHorario.ToString(),Text = x.Horario})"></select><br/>
+        
+        @Html.ValidationSummary()
         <input type="submit" value="Agregar"/>
         <input type="button" value="Cancelar" action="~/Admin"/>
     </form>

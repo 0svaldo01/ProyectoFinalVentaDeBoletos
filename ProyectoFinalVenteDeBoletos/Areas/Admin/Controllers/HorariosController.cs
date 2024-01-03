@@ -32,6 +32,7 @@ namespace ProyectoFinalVentaDeBoletos.Areas.Admin.Controllers
             SalasRepositorio = repositorioSalas;
             #endregion
         }
+        [HttpGet]
         public IActionResult Index()
         {
             HorariosViewModel vm = new()
@@ -58,8 +59,10 @@ namespace ProyectoFinalVentaDeBoletos.Areas.Admin.Controllers
         }
         #region CRUD
         #region Create
+        [HttpPost]
         public IActionResult Agregar(AgregarHorarioViewModel vm)
         {
+            ModelState.Clear();
             //Validar
             var anterior = PeliculasHorarioRepositorio.Get(vm.IdPelicula);
             if (anterior != null)
@@ -99,7 +102,11 @@ namespace ProyectoFinalVentaDeBoletos.Areas.Admin.Controllers
             AgregarHorarioViewModel vm = new()
             {
                 Peliculas = PeliculasRepositorio.GetAll(),
-                Horarios = HorarioRepositorio.GetAll()
+                Horarios = HorarioRepositorio.GetAll().Select(x=> new HorariovModel
+                {
+                    IdHorario = x.Id,
+                    Horario = $"{x.HoraInicio} - {x.HoraTerminacion}"
+                })
             };
             return View(vm);
         }
@@ -112,11 +119,13 @@ namespace ProyectoFinalVentaDeBoletos.Areas.Admin.Controllers
             {
                 AgregarHorarioViewModel vm = new()
                 {
-                    //Pelicula y Horario seleccionados anteriormente
                     IdHorario = anterior.IdHorario,
                     IdPelicula = anterior.IdPelicula,
-                    //Lista de todas las peliculas y horarios excepto los seleccionados anteriormente
-                    Horarios = HorarioRepositorio.GetAll().Where(x => x.Id != anterior.IdHorario),
+                    Horarios = HorarioRepositorio.GetAll().Select(x=> new HorariovModel
+                    {
+                        IdHorario = x.Id,
+                        Horario = $"{x.HoraInicio} - {x.HoraTerminacion}"
+                    }),
                     Peliculas = PeliculasRepositorio.GetAll().Where(x => x.Id != anterior.IdPelicula)
                 };
 
@@ -141,7 +150,11 @@ namespace ProyectoFinalVentaDeBoletos.Areas.Admin.Controllers
         [HttpPost]
         public IActionResult Editar(AgregarHorarioViewModel vm)
         {
-            vm.Horarios = HorarioRepositorio.GetAll();
+            vm.Horarios = HorarioRepositorio.GetAll().Select(x => new HorariovModel
+            {
+                IdHorario = x.Id,
+                Horario = $"{x.HoraInicio} - {x.HoraTerminacion}"
+            });
             vm.Peliculas = PeliculasRepositorio.GetAll();
             //Validar
             if (vm.IdPelicula <= 0 || vm.IdHorario <= 0)

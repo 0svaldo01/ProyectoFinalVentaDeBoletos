@@ -40,7 +40,7 @@ using ProyectoFinalVentaDeBoletos.Repositories;
             x.AccessDeniedPath = "/Home/Denied";
             x.LoginPath = "/Home/Login";
             x.LogoutPath = "/Home/Logout";
-            x.ExpireTimeSpan = TimeSpan.FromMinutes(5); //Tiempo en la que la cookie esta activa.
+            x.ExpireTimeSpan = TimeSpan.FromMinutes(30); //Tiempo en la que la cookie esta activa.
             x.Cookie.Name = "noticiaCookie";
         });
     #endregion
