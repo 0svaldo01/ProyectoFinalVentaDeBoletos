@@ -21,16 +21,17 @@
         <!--Para agregar varios generos a la vez usando checkbox-->
         <group>
             Generos:
-            <ul> 
-                @foreach (var genero in Model.Generos)
+            <ul>
+                @for (var i = 0; i < Model.Generos.Count(); i++)
                 {
                     <li>
-                        <input type="checkbox" data="@Model.GenerosSeleccionados" itemid = "@genero.IdGenero"/>
-                        @genero.Nombre
+                        <input type="checkbox" name="GenerosSeleccionados" value="@Model.Generos.ElementAt(i).IdGenero" @(Model.GenerosSeleccionados.Contains(Model.Generos.ElementAt(i).IdGenero) ? "checked" : "") />
+                        @Model.Generos.ElementAt(i).Nombre
                     </li>
                 }
             </ul>
         </group>
+
 
         <label class="leyendasagregarPelicula">Año:</label>
         <input class="controls" type="number" asp-for="Pelicula.Año" placeholder="Ingrese el año"><br />

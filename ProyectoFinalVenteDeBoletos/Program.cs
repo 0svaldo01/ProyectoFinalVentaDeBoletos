@@ -25,6 +25,7 @@ using ProyectoFinalVentaDeBoletos.Repositories;
         builder.Services.AddTransient<RepositorioGeneros>();
         builder.Services.AddTransient<RepositorioHorarios>();
         builder.Services.AddTransient<RepositorioPeliculas>();
+        builder.Services.AddTransient<RepositorioPeliculaGeneros>();
         builder.Services.AddTransient<RepositorioPeliculaHorario>();
         builder.Services.AddTransient<RepositorioSalas>();
         builder.Services.AddTransient<RepositorioUsuarios>();
