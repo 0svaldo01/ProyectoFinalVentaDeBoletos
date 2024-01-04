@@ -4,7 +4,6 @@ namespace ProyectoFinalVentaDeBoletos.Areas.Admin.Models.Peliculas
 {
     public class AgregarPeliculaViewModel
     {
-        public int IdClasificacion { get; set; }
         public IEnumerable<ClasificacionModel> Clasificaciones { get; set; } = null!;
         public List<int> GenerosSeleccionados { get; set; } = null!;
         public IEnumerable<GeneroModel> Generos { get; set; } = null!;

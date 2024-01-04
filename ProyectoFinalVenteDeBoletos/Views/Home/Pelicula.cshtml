@@ -11,7 +11,7 @@
     @if(Model.Pelicula!=null){
         <form action="~/ComprarAsiento/@Model.Pelicula.Nombre.Replace(' ','-')" method="get">
             <div class="poster">
-                <img src="~/images/@(Model.Pelicula.Id).jpg" alt="@Model.Pelicula.Nombre">
+                <img src="~/images/@(Model.Pelicula.Id).jpg" alt="~/images/@(Model.Pelicula.Id).png">
             </div>
             <div class="descripcion">
                 

@@ -16,7 +16,7 @@
         <input class="controls" type="time" asp-for="Pelicula.Duracion" placeholder="Ingrese la duracion"><br />
 
         <label class="leyendasagregarPelicula">Clasificación:</label>
-        <select class="controls" name="Clasificacion" asp-for="IdClasificacion" asp-items="Model.Clasificaciones.Select(x=> new SelectListItem{Value = x.Id.ToString(), Text = x.Nombre})"></select>
+        <select class="controls" asp-for="Pelicula.IdClasificacion" asp-items="Model.Clasificaciones.Select(x=> new SelectListItem{Value = x.Id.ToString(), Text = x.Nombre})"></select>
 
         <!--Para agregar varios generos a la vez usando checkbox-->
         <group>
