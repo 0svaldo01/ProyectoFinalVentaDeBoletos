@@ -616,6 +616,9 @@ p.text {
     color: #ffffff;
     font-size: 16px;
 }
+
+
+
 /*Index Horarios*/
 
 .lista{
@@ -682,18 +685,70 @@ p.text {
     float: right;
 }
 
+
+
+
+
 /*Agregar Horario*/
 
-#labelHPelicula, #labelHHorarios
-{
-    color:black;
-    font-size:30px;
+.form-register {
+    width: 80%; 
+    background: #24303c;
+    padding: 30px;
+    margin-top: 70px;
+    margin-bottom: 60px;
+    margin-left: 60px;
+    margin-right: 45px;
+    border-radius: 4px;
+    color: #ffffff;
+    box-shadow: 0px 13px 37px #FF2F28;
 }
-#h1AgregarH
-{
-    color:black;
+
+    .form-register h2 {
+        font-size: 42px;
+        margin-bottom: 20px;
+    }
+
+.controls,
+.controls-imagen {
+    width: 100%;
+    background: #24303c;
+    padding: 10px;
+    border-radius: 4px;
+    margin-bottom: 16px;
+    border: 1px solid #1f53c5;
+    font-family: 'calibri';
+    font-size: 18px;
+    color: white;
+    height: max-content;
 }
- #cmbPeliculas, #cmbHorarios {
+
+.form-register p {
+    height: 40px;
+    text-align: justify;
+    font-size: 28px;
+}
+
+.form-register .botons-agregarPelicula,
+.form-register .botons-agregarPelicula1 {
+    width: 100%;
+    background: #1f53c5;
+    border: none;
+    padding: 12px;
+    color: #ffffff;
+    margin: 16px 0;
+    font-size: 16px;
+}
+
+#labelHPelicula,
+#labelHHorarios,
+#h1AgregarH {
+    color: black;
+    font-size: 30px;
+}
+
+#cmbPeliculas,
+#cmbHorarios {
     width: 100%;
     padding: 10px;
     margin-bottom: 15px;
@@ -709,16 +764,7 @@ p.text {
     box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.2);
 }
 
-
-#divbotonesagghorario input[type="submit"]{
-    color: white;
-    background-color: black;
-    margin-right: 10px;
-    margin-bottom: 10px; 
-    padding: 8px 12px; 
-    border: none;
-    border-radius: 4px;
-}
+#divbotonesagghorario input[type="submit"],
 #adeagghorarios {
     color: white;
     background-color: black;
