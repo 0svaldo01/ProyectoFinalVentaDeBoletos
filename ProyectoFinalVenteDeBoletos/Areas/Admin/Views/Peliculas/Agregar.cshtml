@@ -16,7 +16,7 @@
         <input class="controls" type="time" asp-for="Pelicula.Duracion" placeholder="Ingrese la duracion"><br />
         
         <label class="leyendasagregarPelicula">Precio:</label>
-        <input class="controls" type="time" asp-for="Pelicula.Precio" placeholder="Ingrese el precio de la pelicula"><br />
+        <input class="controls" type="text" asp-for="Pelicula.Precio" placeholder="Ingrese el precio de la pelicula"><br />
 
         <label class="leyendasagregarPelicula">Clasificación:</label>
         <select class="controls" asp-for="Pelicula.IdClasificacion" asp-items="Model.Clasificaciones.Select(x=> new SelectListItem{Value = x.Id.ToString(), Text = x.Nombre})"></select>

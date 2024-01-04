@@ -82,7 +82,7 @@ namespace ProyectoFinalVentaDeBoletos.Areas.Admin.Controllers
             var peli = PeliculasRepositorio.Get(id);
             if (peli == null)
             {
-                return RedirectToAction("");
+                return RedirectToAction("Index");
             }
             AgregarPeliculaViewModel vm = new()
             {
@@ -96,7 +96,9 @@ namespace ProyectoFinalVentaDeBoletos.Areas.Admin.Controllers
                     IdGenero = x.Id,
                     Nombre = x.Nombre
                 }),
-                Pelicula = peli
+                Pelicula = peli,
+                GenerosSeleccionados = PeliculaGenerosRepositorio.GetGenerosSeleccionados(peli.Id),
+                //Falta la imagen
             };
             return View(vm);
         }
@@ -229,17 +231,8 @@ namespace ProyectoFinalVentaDeBoletos.Areas.Admin.Controllers
         public IActionResult Editar(int id,AgregarPeliculaViewModel vm)
         {
             ModelState.Clear();
-            vm.Clasificaciones = ClasificacionesRepositorio.GetAll().Select(x => new ClasificacionModel
-            {
-                Id = x.Id,
-                Nombre = x.Nombre
-            });
-            var peli = PeliculasRepositorio.GetPeliculaByNombre(vm.Pelicula.Nombre);
+            var peli = PeliculasRepositorio.GetPeliculaById(id);
             #region Validacion
-            if (peli != null)
-            {
-                ModelState.AddModelError("", "La pelicula ya esta registrada");
-            }
             //Validar
             if (string.IsNullOrWhiteSpace(vm.Pelicula.Nombre))
             {
@@ -261,98 +254,89 @@ namespace ProyectoFinalVentaDeBoletos.Areas.Admin.Controllers
             {
                 ModelState.AddModelError("", "No se puedes registrar una pelicula con un año superior al actual");
             }
-            if (vm.Pelicula.Precio <= 50)
+            if (vm.Pelicula.Precio < 0 || vm.Pelicula.Precio > 5000)
             {
-                ModelState.AddModelError("", "Ingrese un precio mayor a 50");
+                ModelState.AddModelError("", "Ingrese un precio entre 0 y 5000");
             }
-            if(vm.Pelicula.Precio > 5000)
-            {
-                ModelState.AddModelError("", "Ingrese un precio menor a 5000");
-            }
-            if (vm.Imagen == null)
-            {
-                ModelState.AddModelError("", "Seleccione una imagen");
-            }
-            else
-            {
-                if (vm.Imagen.ContentType != "Image/png" && vm.Imagen.ContentType != "Image/jpg")
-                {
-                    ModelState.AddModelError("", "Seleccione una imagen en formato png o jpg");
-                }
-            }
+            //if (vm.Imagen == null)
+            //{
+            //    ModelState.AddModelError("", "Seleccione una imagen");
+            //}
+            //else
+            //{
+            //    if (vm.Imagen.ContentType != "image/png" && vm.Imagen.ContentType != "image/jpg" && vm.Imagen.ContentType != "image/jpeg")
+            //    {
+            //        ModelState.AddModelError("", "Seleccione una imagen en formato png,jpg o jpeg");
+            //    }
+            //}
             #endregion
             if (ModelState.IsValid)
             {
-                var antigua = PeliculasRepositorio.Get(vm.Pelicula.Id);
+                var antigua = PeliculasRepositorio.Get(peli.Id);
                 if (antigua != null)
                 {
-                    antigua.IdClasificacion = vm.Pelicula.IdClasificacion;
-                    antigua.Nombre = vm.Pelicula.Nombre;
-                    antigua.Sinopsis = vm.Pelicula.Sinopsis;
+                    #region Reemplazamos con los nuevos datos
                     antigua.Año = vm.Pelicula.Año;
                     antigua.Duracion = vm.Pelicula.Duracion;
-                    antigua.Trailer = vm.Pelicula.Trailer;
+                    antigua.IdClasificacion = vm.Pelicula.IdClasificacion;
+                    antigua.Nombre = vm.Pelicula.Nombre;
                     antigua.Precio = vm.Pelicula.Precio;
+                    antigua.Sinopsis = vm.Pelicula.Sinopsis;
+                    antigua.Trailer = vm.Pelicula.Trailer;
+                    #endregion
+                    //Actualizamos pelicula
                     PeliculasRepositorio.Update(antigua);
                     #region Agregar los generos a la pelicula
 
+                    //Generos antiguos de la pelicula
                     var GenerosPelicula = PeliculaGenerosRepositorio.GetPeliculaGeneroByIdPelicula(antigua.Id);
                     //Identificar nuevos generos
                     var NuevosGeneros = GenerosPelicula.Where(x => !vm.GenerosSeleccionados.Any(g => g == x.IdGenero));
-                    //Identificar generos por eliminar
-                    var GenerosAEliminar = vm.GenerosSeleccionados.Where(x => GenerosPelicula.Any(g => x != g.IdGenero));
-                    //
-                    foreach (var item in GenerosPelicula)
-                    {
-                        //Obtener Nuevo enlace entre Pelicula y genero
-                        var NuevoPeliculaGenero = NuevosGeneros.FirstOrDefault(x => x.IdGenero == item.IdGenero);
-                        
-                        item.IdGenero = NuevoPeliculaGenero != null ? NuevoPeliculaGenero.IdGenero : 0;
-                        item.IdPelicula = NuevoPeliculaGenero != null ? NuevoPeliculaGenero.IdPelicula : 0;
-                        var anterior = PeliculaGenerosRepositorio.Get(item.IdGenero);
-                        //Agregar enlace si no existe
-                        if(anterior == null)
-                        {
-                            PeliculaGenerosRepositorio.Insert(item);
-                        }
-                        //Editarlo si ya existe
-                        else
-                        {
-                            PeliculaGenerosRepositorio.Update(anterior);
-                        }
-                    }
+                    //Identidicar generos por eliminar
+                    var GenerosAEliminar = PeliculaGenerosRepositorio.GetGenerosAEliminar(GenerosPelicula,NuevosGeneros);
+                    //Eliminar los genero
                     foreach (var item in GenerosAEliminar)
                     {
-                        var anterior = PeliculaGenerosRepositorio.Get(item);
-                        if (anterior != null)
+                        if (item != null)
                         {
-                            PeliculaGenerosRepositorio.Delete(anterior);
+                            PeliculaGenerosRepositorio.Delete(item);
+                        }
+                    }
+                    //Identificar los nuevos generos
+                    var GenerosAAgregar = PeliculaGenerosRepositorio.GetGenerosNuevos(GenerosPelicula, NuevosGeneros);
+                    foreach (var item in GenerosAAgregar)
+                    {
+                        if (item != null)
+                        {
+                            PeliculaGenerosRepositorio.Delete(item);
                         }
                     }
                     #endregion
                     #region Guardar la imagen
                     if (vm.Imagen != null)
                     {
-                        if (vm.Imagen.ContentType == "image/png")
-                        {
-                            var imagePath = Path.Combine(Env.WebRootPath, "images", vm.Pelicula.Id.ToString() + ".png");
-                            var stream = new FileStream(imagePath, FileMode.Create);
-                            vm.Imagen.CopyToAsync(stream).Wait();
-                            stream.Close();
-                        }
-                        else if(vm.Imagen.ContentType == "image/jpg")
-                        {
-                            var imagePath = Path.Combine(Env.WebRootPath, "images", vm.Pelicula.Id.ToString() + ".jpg");
-                            var stream = new FileStream(imagePath, FileMode.Create);
-                            vm.Imagen.CopyToAsync(stream).Wait();
-                            stream.Close();
-                        }
+                        var imagePath = Path.Combine(Env.WebRootPath, "images", antigua.Id.ToString() + ".jpg");
+                        var stream = new FileStream(imagePath, FileMode.Create);
+                        vm.Imagen.CopyToAsync(stream);
+                        stream.Close();
                     }
                     #endregion
                     //Redireccionar al index
                     return RedirectToAction("Index");
                 }
             }
+            #region Asignacion de listas en caso de que no agregue
+            vm.Clasificaciones = ClasificacionesRepositorio.GetAll().Select(x => new ClasificacionModel
+            {
+                Id = x.Id,
+                Nombre = x.Nombre
+            });
+            vm.Generos = Generosrepositorio.GetAll().Select(x => new GeneroModel
+            {
+                IdGenero = x.Id,
+                Nombre = x.Nombre
+            });
+            #endregion
             //Regresar el viewmodel si no se agrego
             return View(vm);
         }
