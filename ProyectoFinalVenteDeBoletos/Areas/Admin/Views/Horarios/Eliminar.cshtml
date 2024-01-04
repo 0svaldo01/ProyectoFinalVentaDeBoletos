@@ -1,0 +1,21 @@
+﻿@model ProyectoFinalVentaDeBoletos.Areas.Admin.Models.Horarios.AgregarHorarioViewModel
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@{
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+<link rel="stylesheet" href="~/Estilos/styleHorarios.css">
+<section class="contenedor-eliminar-horario">
+    <h2>Eliminar Horario</h2>
+
+    <label for="cmbHorarios">Selecciona un horario:</label>
+    <select id="cmbHorarios" name="cmbHorarios">
+        <option value="horario1">Horario 1</option>
+        <option value="horario2">Horario 2</option>
+        <!-- Aqui deberia ir un ciclo para mandar a traer los horarios como en agregar -->
+    </select>
+
+    <div class="botones-eliminar-horario">
+        <button type="submit">Aceptar</button>
+        <button type="button">Eliminar</button>
+    </div>
+</section>
