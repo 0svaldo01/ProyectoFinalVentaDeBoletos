@@ -121,18 +121,6 @@ namespace ProyectoFinalVentaDeBoletos.Areas.Admin.Controllers
         public IActionResult Agregar(AgregarPeliculaViewModel vm)
         {
             ModelState.Clear();
-
-            vm.Clasificaciones = ClasificacionesRepositorio.GetAll().Select(x => new ClasificacionModel
-            {
-                Id = x.Id,
-                Nombre = x.Nombre
-            });
-
-            vm.Generos = Generosrepositorio.GetAll().Select(x => new GeneroModel
-            {
-                IdGenero = x.Id,
-                Nombre = x.Nombre
-            });
             var peli = PeliculasRepositorio.GetPeliculaByNombre(vm.Pelicula.Nombre);
             #region Validacion
             if (peli != null)
@@ -220,6 +208,18 @@ namespace ProyectoFinalVentaDeBoletos.Areas.Admin.Controllers
                 //Redireccionar al index
                 return RedirectToAction("Index");
             }
+            #region Asignacion de listas en caso de que no agregue
+            vm.Clasificaciones = ClasificacionesRepositorio.GetAll().Select(x => new ClasificacionModel
+            {
+                Id = x.Id,
+                Nombre = x.Nombre
+            });
+            vm.Generos = Generosrepositorio.GetAll().Select(x => new GeneroModel
+            {
+                IdGenero = x.Id,
+                Nombre = x.Nombre
+            });
+            #endregion
             //Regresar el viewmodel si no se agrego
             return View(vm);
         }
