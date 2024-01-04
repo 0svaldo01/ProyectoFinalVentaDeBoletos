@@ -158,9 +158,9 @@ namespace ProyectoFinalVentaDeBoletos.Areas.Admin.Controllers
             }
             else
             {
-                if (vm.Imagen.ContentType != "image/png" && vm.Imagen.ContentType != "image/jpeg")
+                if (vm.Imagen.ContentType != "image/png" && vm.Imagen.ContentType != "image/jpg" && vm.Imagen.ContentType != "image/jpeg")
                 {
-                    ModelState.AddModelError("", "Seleccione una imagen en formato png o jpeg");
+                    ModelState.AddModelError("", "Seleccione una imagen en formato png,jpg o jpeg");
                 }
             }
             #endregion
@@ -199,7 +199,7 @@ namespace ProyectoFinalVentaDeBoletos.Areas.Admin.Controllers
                 #region Guardar la imagen
                 if (vm.Imagen != null)
                 {
-                    var imagePath = Path.Combine(Env.WebRootPath, "images", p.Id.ToString() + ".png");
+                    var imagePath = Path.Combine(Env.WebRootPath, "images", p.Id.ToString() + ".jpg");
                     var stream = new FileStream(imagePath, FileMode.Create);
                     vm.Imagen.CopyToAsync(stream);
                     stream.Close();
@@ -261,9 +261,13 @@ namespace ProyectoFinalVentaDeBoletos.Areas.Admin.Controllers
             {
                 ModelState.AddModelError("", "No se puedes registrar una pelicula con un año superior al actual");
             }
-            if (vm.Pelicula.Precio < 0 || vm.Pelicula.Precio > 5000)
+            if (vm.Pelicula.Precio <= 50)
             {
-                ModelState.AddModelError("", "Ingrese un precio entre 0 y 5000");
+                ModelState.AddModelError("", "Ingrese un precio mayor a 50");
+            }
+            if(vm.Pelicula.Precio > 5000)
+            {
+                ModelState.AddModelError("", "Ingrese un precio menor a 5000");
             }
             if (vm.Imagen == null)
             {
@@ -329,16 +333,20 @@ namespace ProyectoFinalVentaDeBoletos.Areas.Admin.Controllers
                     #region Guardar la imagen
                     if (vm.Imagen != null)
                     {
-                        var imagePath = Path.Combine(Env.WebRootPath, "images", vm.Pelicula.Id.ToString() + ".png");
-                        var stream = new FileStream(imagePath, FileMode.Create);
-                        vm.Imagen.CopyToAsync(stream).Wait();
-                        stream.Close();
-                    }
-                    else
-                    {
-                        var noPhoto = Path.Combine(Env.WebRootPath, "images/cinetec.png");
-                        var imagePath = Path.Combine(Env.WebRootPath, "images", vm.Pelicula.Id.ToString() + ".png");
-                        System.IO.File.Copy(noPhoto, imagePath);
+                        if (vm.Imagen.ContentType == "image/png")
+                        {
+                            var imagePath = Path.Combine(Env.WebRootPath, "images", vm.Pelicula.Id.ToString() + ".png");
+                            var stream = new FileStream(imagePath, FileMode.Create);
+                            vm.Imagen.CopyToAsync(stream).Wait();
+                            stream.Close();
+                        }
+                        else if(vm.Imagen.ContentType == "image/jpg")
+                        {
+                            var imagePath = Path.Combine(Env.WebRootPath, "images", vm.Pelicula.Id.ToString() + ".jpg");
+                            var stream = new FileStream(imagePath, FileMode.Create);
+                            vm.Imagen.CopyToAsync(stream).Wait();
+                            stream.Close();
+                        }
                     }
                     #endregion
                     //Redireccionar al index
