@@ -25,13 +25,14 @@
                 @for (var i = 0; i < Model.Generos.Count(); i++)
                 {
                     <li>
+                        @*Selecciona el elemento de la lista y verifica si la propiedad checked es true, si ese es el caso se agrega a la lista GenerosSeleccionados*@
                         <input type="checkbox" name="GenerosSeleccionados" value="@Model.Generos.ElementAt(i).IdGenero" @(Model.GenerosSeleccionados.Contains(Model.Generos.ElementAt(i).IdGenero) ? "checked" : "") />
+                        @*Mostrar el nombre del genero*@
                         @Model.Generos.ElementAt(i).Nombre
                     </li>
                 }
             </ul>
         </group>
-
 
         <label class="leyendasagregarPelicula">Año:</label>
         <input class="controls" type="number" asp-for="Pelicula.Año" placeholder="Ingrese el año"><br />
@@ -44,7 +45,8 @@
 
         <label class="leyendasagregarPelicula">Sinopsis:</label>
         <input class="controls" type="text" asp-for="Pelicula.Sinopsis" placeholder="Ingrese la sinopsis"><br />
-
+    
+        @Html.ValidationSummary()
         <input class="botons-agregarPelicula" type="submit" value="Agregar" action="~/Admin/Peliculas/Agregar" />
         <input class="botons-agregarPelicula1" type="button" value="Cancelar" action="~/Admin/Home"/>
     </form>
