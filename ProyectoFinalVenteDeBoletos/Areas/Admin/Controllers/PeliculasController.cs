@@ -120,111 +120,122 @@ namespace ProyectoFinalVentaDeBoletos.Areas.Admin.Controllers
         [HttpPost("Admin/Pelicula/Agregar")]
         public IActionResult Agregar(AgregarPeliculaViewModel vm)
         {
-            ModelState.Clear();
-           
-            vm.Clasificaciones = ClasificacionesRepositorio.GetAll().Select(x => new ClasificacionModel
+            try
             {
-                Id = x.Id,
-                Nombre = x.Nombre
-            });
+                ModelState.Clear();
 
-            vm.Generos = Generosrepositorio.GetAll().Select(x => new GeneroModel
-            {
-                IdGenero = x.Id,
-                Nombre = x.Nombre
-            });
-            var peli = PeliculasRepositorio.GetPeliculaByNombre(vm.Pelicula.Nombre);
-            #region Validacion
-            if (peli != null)
-            {
-                ModelState.AddModelError("", "La pelicula ya esta registrada");
-            }
-            //Validar
-            if (string.IsNullOrWhiteSpace(vm.Pelicula.Nombre))
-            {
-                ModelState.AddModelError("", "La pelicula debe tener un nombre");
-            }
-            if (string.IsNullOrWhiteSpace(vm.Pelicula.Sinopsis))
-            {
-                ModelState.AddModelError("", "La pelicula debe tener una sinopsis");
-            }
-            if (vm.Pelicula.Duracion.Hour > 23 || vm.Pelicula.Duracion.Hour < 0)
-            {
-                ModelState.AddModelError("", "La pelicula debe durar menos de 23 horas");
-            }
-            if (vm.Pelicula.Año < 1850)
-            {
-                ModelState.AddModelError("", "No existian peliculas antes de 1850, Ingrese una fecha valida");
-            }
-            if(vm.Pelicula.Año > DateTime.Now.Year)
-            {
-                ModelState.AddModelError("", "No se puedes registrar una pelicula con un año superior al actual");
-            }
-            if (vm.Pelicula.Precio<0 || vm.Pelicula.Precio>5000)
-            {
-                ModelState.AddModelError("", "Ingrese un precio entre 0 y 5000");
-            }
-            if (vm.Imagen == null)
-            {
-                ModelState.AddModelError("", "Seleccione una imagen");
-            }
-            else
-            {
-                if(vm.Imagen.ContentType != "Image/png" && vm.Imagen.ContentType != "Image/jpg")
+                vm.Clasificaciones = ClasificacionesRepositorio.GetAll().Select(x => new ClasificacionModel
                 {
-                    ModelState.AddModelError("", "Seleccione una imagen en formato png o jpg");
+                    Id = x.Id,
+                    Nombre = x.Nombre
+                });
+
+                vm.Generos = Generosrepositorio.GetAll().Select(x => new GeneroModel
+                {
+                    IdGenero = x.Id,
+                    Nombre = x.Nombre
+                });
+                var peli = PeliculasRepositorio.GetPeliculaByNombre(vm.Pelicula.Nombre);
+                #region Validacion
+                if (peli != null)
+                {
+                    ModelState.AddModelError("", "La pelicula ya esta registrada");
                 }
-            }
-            #endregion
-            if (ModelState.IsValid)
-            {
-                #region Agregar Pelicula
-                var p = new Pelicula()
+                //Validar
+                if (string.IsNullOrWhiteSpace(vm.Pelicula.Nombre))
                 {
-                    Id = 0,
-                    Año = vm.Pelicula.Año,
-                    Duracion = vm.Pelicula.Duracion,
-                    IdClasificacion = vm.Pelicula.IdClasificacion,
-                    Nombre = vm.Pelicula.Nombre,
-                    Sinopsis = vm.Pelicula.Sinopsis,
-                    Trailer = vm.Pelicula.Trailer,
-                    Precio = vm.Pelicula.Precio,
-                };
-                PeliculasRepositorio.Insert(p);
-                #endregion
-                #region Agregar los generos a la pelicula
-                foreach (var id in vm.GenerosSeleccionados)
-                {
-                    var genero = Generosrepositorio.Get(id);
-                    if (genero != null) 
-                    {
-                        var peligenero = new PeliculaGenero()
-                        {
-                            Id = 0,
-                            IdGenero = genero.Id,
-                            IdPelicula = p.Id
-                        };
-                        PeliculaGenerosRepositorio.Insert(peligenero);
-                    }
+                    ModelState.AddModelError("", "La pelicula debe tener un nombre");
                 }
-                #endregion
-                #region Guardar la imagen
-                if (vm.Imagen != null)
+                if (string.IsNullOrWhiteSpace(vm.Pelicula.Sinopsis))
                 {
-                    var imagePath = Path.Combine(Env.WebRootPath, "images", vm.Pelicula.Id.ToString() + ".png");
-                    var stream = new FileStream(imagePath, FileMode.Create);
-                    vm.Imagen.CopyToAsync(stream).Wait();
-                    stream.Close();
+                    ModelState.AddModelError("", "La pelicula debe tener una sinopsis");
+                }
+                if (vm.Pelicula.Duracion.Hour > 23 || vm.Pelicula.Duracion.Hour < 0)
+                {
+                    ModelState.AddModelError("", "La pelicula debe durar menos de 23 horas");
+                }
+                if (vm.Pelicula.Año < 1850)
+                {
+                    ModelState.AddModelError("", "No existian peliculas antes de 1850, Ingrese una fecha valida");
+                }
+                if (vm.Pelicula.Año > DateTime.Now.Year)
+                {
+                    ModelState.AddModelError("", "No se puedes registrar una pelicula con un año superior al actual");
+                }
+                if (vm.Pelicula.Precio < 0 || vm.Pelicula.Precio > 5000)
+                {
+                    ModelState.AddModelError("", "Ingrese un precio entre 0 y 5000");
+                }
+                if (vm.Imagen == null)
+                {
+                    ModelState.AddModelError("", "Seleccione una imagen");
                 }
                 else
                 {
-                    var noPhoto = Path.Combine(Env.WebRootPath, "images/cinetec.png");
-                    var imagePath = Path.Combine(Env.WebRootPath, "images", vm.Pelicula.Id.ToString() + ".png");
-                    System.IO.File.Copy(noPhoto, imagePath);
+                    if (vm.Imagen.ContentType != "Image/png" && vm.Imagen.ContentType != "Image/jpg")
+                    {
+                        ModelState.AddModelError("", "Seleccione una imagen en formato png o jpg");
+                    }
                 }
                 #endregion
-                //Redireccionar al index
-                return RedirectToAction("Index");
+                if (ModelState.IsValid)
+                {
+                    #region Agregar Pelicula
+                    var p = new Pelicula()
+                    {
+                        Id = 0,
+                        Año = vm.Pelicula.Año,
+                        Duracion = vm.Pelicula.Duracion,
+                        IdClasificacion = vm.Pelicula.IdClasificacion,
+                        Nombre = vm.Pelicula.Nombre,
+                        Sinopsis = vm.Pelicula.Sinopsis,
+                        Trailer = vm.Pelicula.Trailer,
+                        Precio = vm.Pelicula.Precio,
+                    };
+                    PeliculasRepositorio.Insert(p);
+                    #endregion
+                    #region Agregar los generos a la pelicula
+                    foreach (var id in vm.GenerosSeleccionados)
+                    {
+                        var genero = Generosrepositorio.Get(id);
+                        if (genero != null)
+                        {
+                            var peligenero = new PeliculaGenero()
+                            {
+                                Id = 0,
+                                IdGenero = genero.Id,
+                                IdPelicula = p.Id
+                            };
+                            PeliculaGenerosRepositorio.Insert(peligenero);
+                        }
+                    }
+                    #endregion
+                    #region Guardar la imagen
+                    if (vm.Imagen != null)
+                    {
+                        var imagePath = Path.Combine(Env.WebRootPath, "images", vm.Pelicula.Id.ToString() + ".png");
+                        var stream = new FileStream(imagePath, FileMode.Create);
+                        vm.Imagen.CopyToAsync(stream).Wait();
+                        stream.Close();
+                    }
+                    else
+                    {
+                        var noPhoto = Path.Combine(Env.WebRootPath, "images/cinetec.png");
+                        var imagePath = Path.Combine(Env.WebRootPath, "images", vm.Pelicula.Id.ToString() + ".png");
+                        System.IO.File.Copy(noPhoto, imagePath);
+                    }
+                    #endregion
+                    //Redireccionar al index
+                    return RedirectToAction("Index");
+                }
+            }
+            catch (Exception e)
+            {
+                ModelState.AddModelError("", e.Message);
+            }
+            finally
+            {
+                
             }
             //Regresar el viewmodel si no se agrego
             return View(vm);
