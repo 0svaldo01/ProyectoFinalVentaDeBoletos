@@ -10,7 +10,7 @@ body {
     justify-content: center;
 }
 
-.contenedor-eliminar-horario {
+.contenedor-eliminar-horario, .editar-horario {
     width: 80%;
     max-width: 600px;
     margin: 20px auto;
@@ -21,20 +21,19 @@ body {
     text-align: center;
     position: relative;
     animation: desvanecer 2s infinite; /* Agregado: animación de desvanecimiento */
-
 }
 @keyframes desvanecer {
     0% {
-        border: 2px solid #ff5c55; /* Rojo */
-        box-shadow: 0px 0px 20px 0px #ff5c55; /* Rojo */
+        border: 2px solid #ff5c55; 
+        box-shadow: 0px 0px 20px 0px #ff5c55; 
     }
     50% {
-        border: 2px solid #ee0901; /* Rojo más claro */
-        box-shadow: 0px 0px 20px 0px #ee0901; /* Rojo más claro */
+        border: 2px solid #ee0901; 
+        box-shadow: 0px 0px 20px 0px #ee0901; 
     }
     100% {
-        border: 2px solid #ff5c55; /* Rojo */
-        box-shadow: 0px 0px 20px 0px #ff5c55; /* Rojo */
+        border: 2px solid #ff5c55; 
+        box-shadow: 0px 0px 20px 0px #ff5c55;
     }
 }
 
@@ -88,7 +87,61 @@ select:hover {
 }
 
 @media screen and (max-width: 600px) {
-    .contenedor-eliminar-horario {
+    .contenedor-eliminar-horario, .editar-horario {
         width: 90%;
     }
 }
+
+
+.editar-horario {
+    width: 80%;
+    max-width: 600px;
+    margin: 20px auto;
+    background-color: #333333;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.2);
+    text-align: center;
+}
+
+
+select {
+    width: 100%;
+    padding: 10px;
+    border-radius: 4px;
+    border: 1px solid #ffffff;
+    background-color: #ffffff;
+    color: #000000;
+    margin-bottom: 15px;
+    font-size: 16px;
+    transition: color 0.3s ease, background-color 0.3s ease;
+}
+
+    select:hover {
+        color: #ffffff;
+        background-color: #ee0901;
+    }
+
+.buttons {
+    display: flex;
+    justify-content: space-between;
+}
+
+.btn-aceptar,
+.btn-cancelar {
+    flex: 1;
+    color: #ffffff;
+    background-color: #f33933;
+    padding: 12px;
+    border: none;
+    border-radius: 4px;
+    margin-right: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+    .btn-aceptar:hover,
+    .btn-cancelar:hover {
+        background-color: #1f53c5;
+    }
+

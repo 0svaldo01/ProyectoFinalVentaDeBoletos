@@ -1,26 +1,30 @@
-﻿@model ProyectoFinalVentaDeBoletos.Areas.Admin.Models.Horarios.AgregarHorarioViewModel
-@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
-@{
-    Layout = "~/Views/Shared/_AdminLayout.cshtml";
-}
-<div class="contenedor-agregarhorarios">
-    <form method="post" action="~/Admin/Horarios/Editar" enctype="multipart/form-data">
-        <br />
-        <h1 id="h1AgregarH">Editar Horario</h1>
-        <br>
+﻿<link rel="stylesheet" href="styleHorarios.css">
+<section class="editar-horario">
+    <div class="container">
+        <h2>Editar Horario</h2>
+        <form action="#" method="post">
+            <div class="form-group">
+                <label for="pelicula">Seleccionar Película:</label>
+@*                  ruteo para las peliculas en un combobox con un ciclo
+ *@                <select id="pelicula" name="pelicula">
+                    <option value="pelicula1">Película 1</option>
+                    <option value="pelicula2">Película 2</option>
+                </select>
+            </div>
 
-        <label id="labelHPelicula">Pelicula:</label> <br>
-        <select id="cmbPeliculas" asp-for="IdPelicula" asp-items="Model.Peliculas.Select(x=> new SelectListItem{Value = x.Id.ToString(),Text = x.Nombre})"></select><br>
-
-        <label id="labelHHorarios">Horarios:</label> <br>
-        <select id="cmbHorarios" asp-for="IdHorario" asp-items="Model.Horarios.Select(x=> new SelectListItem{Value = x.IdHorario.ToString(),Text = x.Horario})"></select><br />
-
-        @Html.ValidationSummary()
-
-        <br />
-        <div id="divbotonesagghorario">
-            <input type="submit" value="Aceptar" />
-            <a id="adeagghorarios" href="~/Admin">Cancelar</a>
-        </div>
-    </form>
-</div>
+            <div class="form-group">
+           @*      ruteo para las horas en un combobox con un ciclo *@
+                <label for="horario">Seleccionar Horario:</label>
+                <select id="horario" name="horario">
+                    <option value="horario1">Horario 1</option>
+                    <option value="horario2">Horario 2</option>
+                </select>
+            </div>
+          @*   ruteo a vista admin/home/index en cualquiera de los 2 casos *@
+            <div class="buttons">
+                <button type="submit" class="btn-aceptar">Aceptar</button>
+                <button type="button" class="btn-cancelar">Cancelar</button>
+            </div>
+        </form>
+    </div>
+</section>
