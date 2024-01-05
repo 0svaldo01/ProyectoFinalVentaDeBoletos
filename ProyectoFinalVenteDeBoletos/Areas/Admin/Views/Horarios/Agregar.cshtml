@@ -3,25 +3,31 @@
 @{
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
-<link rel="stylesheet" href="~/Estilos/Style.css">
-<div class="contenedor-agregarhorarios">
-    <form method="post" action="~/Admin/Horarios/Agregar" enctype="multipart/form-data">
-        <br />
-        <h1 id="h1AgregarH">Agregar Horario</h1>
-        <br>
+<link rel="stylesheet" href="~/Estilos/styleVer.css">
 
-        <label id="labelHPelicula">Pelicula:</label> <br>
-        <select id="cmbPeliculas" asp-for="IdPelicula" asp-items="Model.Peliculas.Select(x=> new SelectListItem{Value = x.Id.ToString(),Text = x.Nombre})"></select><br>
+<section>
 
-        <label id="labelHHorarios">Horarios:</label> <br>
-        <select id="cmbHorarios" asp-for="IdHorario" asp-items="Model.Horarios.Select(x=> new SelectListItem{Value = x.IdHorario.ToString(),Text = x.Horario})"></select><br/>
-        
-        @Html.ValidationSummary()
-        
-        <br />
-        <div id="divbotonesagghorario">
-        <input type="submit" value="Agregar"/>
-         <a id="adeagghorarios"href="~/Admin">Cancelar</a>
+
+    <div class="custom-card">
+        <div class="detalle-izquierdo">
+            <h2>Selecciona una película</h2>
+            <select id="peliculaSelect">
+                <option value="pelicula1">Película 1</option>
+                <option value="pelicula2">Película 2</option>
+                <option value="pelicula3">Película 3</option>
+            </select>
         </div>
-    </form>
-</div>
+
+        <div class="detalle-derecho">
+            <h2>Selecciona un horario</h2>
+            <select id="horarioSelect">
+                <option value="horario1">Horario 1</option>
+                <option value="horario2">Horario 2</option>
+                <option value="horario3">Horario 3</option>
+            </select>
+        </div>
+    </div>
+
+    <button class="btn-regresar" onclick="regresar()">Regresar</button>
+    <button class="btn-aceptar" onclick="aceptar()">Aceptar</button>
+</section>
