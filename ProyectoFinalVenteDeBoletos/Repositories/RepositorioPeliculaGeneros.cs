@@ -1,5 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using MySql.Data.MySqlClient;
+using MySqlConnector;
 using ProyectoFinalVentaDeBoletos.Models.Entities;
+using System.Data;
 
 namespace ProyectoFinalVentaDeBoletos.Repositories
 {
@@ -10,6 +13,10 @@ namespace ProyectoFinalVentaDeBoletos.Repositories
         {
             Context = Ctx;
         }
+        public PeliculaGenero? GetById(int id)
+        {
+            return GetAll().FirstOrDefault(x=>x.Id == id);
+        }
         public override IEnumerable<PeliculaGenero> GetAll()
         {
             return Context.PeliculaGenero.Include(x=>x.IdPeliculaNavigation).Include(x=>x.IdGeneroNavigation);
@@ -18,9 +25,10 @@ namespace ProyectoFinalVentaDeBoletos.Repositories
         {
             return GetAll().Where(x => x.IdPelicula == idPeli);
         }
-        public IEnumerable<PeliculaGenero> GetGenerosAEliminar(IEnumerable<PeliculaGenero> generosPelicula, IEnumerable<PeliculaGenero> nuevosGeneros)
+        
+        public void EliminarGenerosPelicula(IEnumerable<PeliculaGenero> generosPelicula, IEnumerable<int> nuevosGeneros,int idpeli)
         {
-            //buscar los generos que no esten en la antigua y que esten en la lista nueva
+            //buscar los generos que esten en la antigua y que no esten en la lista nueva
             /* Por ejemplo:
              *  generosPelicula                 --        nuevosGeneros
              *  PeliculaId GeneroId                       PeliculaId  GeneroId   
@@ -33,9 +41,14 @@ namespace ProyectoFinalVentaDeBoletos.Repositories
              *      1          1
              *      1          2      
              */
-            return generosPelicula.Where(x=>!nuevosGeneros.Any(pg => pg.IdGenero ==x.IdGenero));
+            // En Proceso
+            var lista = generosPelicula.Where(gp => gp.IdPelicula == idpeli && !nuevosGeneros.Any(x => x == gp.IdGenero));
+            foreach (var item in lista)
+            {
+                Delete(item);
+            }
         }
-        public IEnumerable<PeliculaGenero> GetGenerosNuevos(IEnumerable<PeliculaGenero> generosPelicula,IEnumerable<PeliculaGenero> nuevosGeneros)
+        public void AgregarNuevosGeneros(IEnumerable<PeliculaGenero> generosPelicula,IEnumerable<int> nuevosGeneros,int idpeli)
         {
             //Buscar los generos que esten en la nueva lista y que no esten en la lista antigua
             /* Por ejemplo:
@@ -50,7 +63,20 @@ namespace ProyectoFinalVentaDeBoletos.Repositories
              *      1          4
              *      1          5      
              */
-            return nuevosGeneros.Where(x=>!generosPelicula.Any(pg=>pg.IdGenero == x.IdGenero));
+            foreach (var nuevoGenero in nuevosGeneros)
+            {
+                //Verificar si existe
+                if (!generosPelicula.Any(gp => gp.IdPelicula == idpeli && gp.IdGenero == nuevoGenero))
+                {
+                    //si no existe se crea y se agrega
+                    var g = new PeliculaGenero
+                    {
+                        IdPelicula = idpeli,
+                        IdGenero = nuevoGenero
+                    };
+                    Insert(g);
+                }
+            }
         }
         public List<int> GetGenerosSeleccionados(int id)
         {

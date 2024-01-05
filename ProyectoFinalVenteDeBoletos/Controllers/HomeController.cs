@@ -283,8 +283,7 @@ namespace ProyectoFinalVentaDeBoletos.Controllers
             }
             if (ModelState.IsValid)
             {
-                var user = UsuarioRepositorio.GetAll()
-                    .FirstOrDefault(x => x.Username == vm.Username && x.Contraseña == Encriptacion.StringToSHA512(vm.Contraseña));
+                var user = UsuarioRepositorio.GetAll().FirstOrDefault(x => x.Username == vm.Username && x.Contraseña == Encriptacion.StringToSHA512(vm.Contraseña));
                 if (user == null)
                 {
                     ModelState.AddModelError("", "Nombre de usuario o Contraseña Incorrectos.");

@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using ProyectoFinalVentaDeBoletos.Areas.Admin.Models.Horarios;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using ProyectoFinalVentaDeBoletos.Areas.Admin.Models.Peliculas;
 using ProyectoFinalVentaDeBoletos.Models.Entities;
 using ProyectoFinalVentaDeBoletos.Repositories;
@@ -97,8 +97,7 @@ namespace ProyectoFinalVentaDeBoletos.Areas.Admin.Controllers
                     Nombre = x.Nombre
                 }),
                 Pelicula = peli,
-                GenerosSeleccionados = PeliculaGenerosRepositorio.GetGenerosSeleccionados(peli.Id),
-                //Falta la imagen
+                GenerosSeleccionados = PeliculaGenerosRepositorio.GetGenerosSeleccionados(peli.Id)
             };
             return View(vm);
         }
@@ -272,57 +271,42 @@ namespace ProyectoFinalVentaDeBoletos.Areas.Admin.Controllers
             #endregion
             if (ModelState.IsValid)
             {
-                var antigua = PeliculasRepositorio.Get(peli.Id);
-                if (antigua != null)
+                if (peli != null)
                 {
-                    #region Reemplazamos con los nuevos datos
-                    antigua.Año = vm.Pelicula.Año;
-                    antigua.Duracion = vm.Pelicula.Duracion;
-                    antigua.IdClasificacion = vm.Pelicula.IdClasificacion;
-                    antigua.Nombre = vm.Pelicula.Nombre;
-                    antigua.Precio = vm.Pelicula.Precio;
-                    antigua.Sinopsis = vm.Pelicula.Sinopsis;
-                    antigua.Trailer = vm.Pelicula.Trailer;
-                    #endregion
-                    //Actualizamos pelicula
-                    PeliculasRepositorio.Update(antigua);
-                    #region Agregar los generos a la pelicula
+                    var antigua = PeliculasRepositorio.Get(peli.Id);
+                    if (antigua != null)
+                    {
+                        #region Reemplazamos con los nuevos datos
+                        antigua.Año = vm.Pelicula.Año;
+                        antigua.Duracion = vm.Pelicula.Duracion;
+                        antigua.IdClasificacion = vm.Pelicula.IdClasificacion;
+                        antigua.Nombre = vm.Pelicula.Nombre;
+                        antigua.Precio = vm.Pelicula.Precio;
+                        antigua.Sinopsis = vm.Pelicula.Sinopsis;
+                        antigua.Trailer = vm.Pelicula.Trailer;
+                        #endregion
+                        //Actualizamos pelicula
+                        PeliculasRepositorio.Update(antigua);
+                        #region Agregar los generos a la pelicula
 
-                    //Generos antiguos de la pelicula
-                    var GenerosPelicula = PeliculaGenerosRepositorio.GetPeliculaGeneroByIdPelicula(antigua.Id);
-                    //Identificar nuevos generos
-                    var NuevosGeneros = GenerosPelicula.Where(x => !vm.GenerosSeleccionados.Any(g => g == x.IdGenero));
-                    //Identidicar generos por eliminar
-                    var GenerosAEliminar = PeliculaGenerosRepositorio.GetGenerosAEliminar(GenerosPelicula,NuevosGeneros);
-                    //Eliminar los genero
-                    foreach (var item in GenerosAEliminar)
-                    {
-                        if (item != null)
+                        //Generos antiguos de la pelicula
+                        var GenerosPelicula = PeliculaGenerosRepositorio.GetPeliculaGeneroByIdPelicula(antigua.Id);
+
+                        PeliculaGenerosRepositorio.AgregarNuevosGeneros(GenerosPelicula,vm.GenerosSeleccionados,peli.Id);
+                        PeliculaGenerosRepositorio.EliminarGenerosPelicula(GenerosPelicula, vm.GenerosSeleccionados,peli.Id);
+                        #endregion
+                        #region Guardar la imagen
+                        if (vm.Imagen != null)
                         {
-                            PeliculaGenerosRepositorio.Delete(item);
+                            var imagePath = Path.Combine(Env.WebRootPath, "images", antigua.Id.ToString() + ".jpg");
+                            var stream = new FileStream(imagePath, FileMode.Create);
+                            vm.Imagen.CopyToAsync(stream);
+                            stream.Close();
                         }
+                        #endregion
+                        //Redireccionar al index
+                        return RedirectToAction("Index");
                     }
-                    //Identificar los nuevos generos
-                    var GenerosAAgregar = PeliculaGenerosRepositorio.GetGenerosNuevos(GenerosPelicula, NuevosGeneros);
-                    foreach (var item in GenerosAAgregar)
-                    {
-                        if (item != null)
-                        {
-                            PeliculaGenerosRepositorio.Delete(item);
-                        }
-                    }
-                    #endregion
-                    #region Guardar la imagen
-                    if (vm.Imagen != null)
-                    {
-                        var imagePath = Path.Combine(Env.WebRootPath, "images", antigua.Id.ToString() + ".jpg");
-                        var stream = new FileStream(imagePath, FileMode.Create);
-                        vm.Imagen.CopyToAsync(stream);
-                        stream.Close();
-                    }
-                    #endregion
-                    //Redireccionar al index
-                    return RedirectToAction("Index");
                 }
             }
             #region Asignacion de listas en caso de que no agregue
