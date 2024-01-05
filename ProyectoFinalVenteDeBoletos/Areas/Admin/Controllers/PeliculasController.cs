@@ -8,7 +8,7 @@ using System.Data;
 namespace ProyectoFinalVentaDeBoletos.Areas.Admin.Controllers
 {
     [Area("Admin")]
-    [Authorize]
+    [Authorize("Admin")]
     public class PeliculasController : Controller
     {
         #region Repositorios
@@ -331,14 +331,13 @@ namespace ProyectoFinalVentaDeBoletos.Areas.Admin.Controllers
         [HttpPost("Admin/Pelicula/Eliminar/{id}")]
         public IActionResult Eliminar(EliminarPeliculaViewModel p)
         {
-            var peli = PeliculasRepositorio.GetPeliculaById(p.Id);
-            if (peli != null)
-            {
-                PeliculasRepositorio.Delete(peli);
-                EliminarImagen($"{p.Id}.jpg");
-
-            }
-            return RedirectToAction("Index", "Peliculas", new { Area = "Admin" });
+                var peli = PeliculasRepositorio.GetPeliculaById(p.Id);
+                if (peli != null)
+                {
+                    PeliculasRepositorio.Delete(peli);
+                    EliminarImagen($"{p.Id}.jpg");
+                }
+                return RedirectToAction("Index", "Peliculas", new { Area = "Admin" });
         }
         public void EliminarImagen(string nombreArchivo)
         {
@@ -348,11 +347,12 @@ namespace ProyectoFinalVentaDeBoletos.Areas.Admin.Controllers
                 string rutaArchivo = BuscarArchivoEnDirectorio(nombreArchivo, wwwRootPath)??"";
                 if (rutaArchivo != null)
                 {
-                    try
+                    //si el archivo existe
+                    if (System.IO.File.Exists(rutaArchivo))
                     {
+                        //Eliminar archivo
                         System.IO.File.Delete(rutaArchivo);
                     }
-                    catch{}
                 }
             }
         }
@@ -364,7 +364,6 @@ namespace ProyectoFinalVentaDeBoletos.Areas.Admin.Controllers
             {
                 return rutaArchivo;
             }
-
             #region Busca el archivo en los subdirectorios
             //string[] subdirectorios = Directory.GetDirectories(directorio);
 

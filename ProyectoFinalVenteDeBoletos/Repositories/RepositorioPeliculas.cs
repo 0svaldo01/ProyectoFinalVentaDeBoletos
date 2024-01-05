@@ -36,7 +36,7 @@ namespace ProyectoFinalVentaDeBoletos.Repositories
         }
         public Pelicula? GetPeliculaById(int id)
         {
-            return Ctx.Pelicula.Find(id);
+            return Ctx.Pelicula.FirstOrDefault(x=>x.Id == id);
         }
         public Pelicula? GetPeliculaByNombre(string nombre)
         {
