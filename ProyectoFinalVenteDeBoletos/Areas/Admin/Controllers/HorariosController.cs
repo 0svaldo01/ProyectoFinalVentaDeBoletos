@@ -198,7 +198,7 @@ namespace ProyectoFinalVentaDeBoletos.Areas.Admin.Controllers
                 //Las peliculas y horarios se agregan automaticamente utilizando las ID
                 PeliculasHorarioRepositorio.Update(anterior);
                 //Redireccionar si se agrego correctamente
-                return RedirectToAction("Index", "Peliculas", new { Area = "Admin" });
+                return RedirectToAction("Index", "Horarios", new { Area = "Admin" });
             };
             //Regresar el viewmodel si no se agrego
             return View(vm);
@@ -216,7 +216,7 @@ namespace ProyectoFinalVentaDeBoletos.Areas.Admin.Controllers
                     PeliculasHorarioRepositorio.Delete(anterior);
                 }
             }
-            return RedirectToAction("Index", "Peliculas", new { Area = "Admin" });
+            return RedirectToAction("Index", "Horarios", new { Area = "Admin" });
         }
         #endregion
         #endregion
