@@ -19,7 +19,7 @@ namespace ProyectoFinalVentaDeBoletos.Repositories
         }
         public override IEnumerable<PeliculaGenero> GetAll()
         {
-            return Context.PeliculaGenero.Include(x=>x.IdPeliculaNavigation).Include(x=>x.IdGeneroNavigation);
+            return Context.PeliculaGenero.Include(x=>x.IdGeneroNavigation).Include(x => x.IdPeliculaNavigation).ThenInclude(x=>x.IdClasificacionNavigation);
         }
         public IEnumerable<PeliculaGenero> GetPeliculaGeneroByIdPelicula(int idPeli)
         {

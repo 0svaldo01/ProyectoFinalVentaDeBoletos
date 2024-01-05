@@ -27,9 +27,9 @@ namespace ProyectoFinalVentaDeBoletos.Repositories
             context.Update(entity);
             context.SaveChanges();
         }
-        public virtual void Delete(object id)
+        public virtual void Delete(object entity)
         {
-            context.Remove(id);
+            context.Remove(entity);
             context.SaveChanges();
         }
     }
