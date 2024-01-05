@@ -1,9 +1,11 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using MySql.Data.MySqlClient;
 using ProyectoFinalVentaDeBoletos.Areas.Admin.Models.Peliculas;
 using ProyectoFinalVentaDeBoletos.Models.Entities;
 using ProyectoFinalVentaDeBoletos.Repositories;
+using System.Data;
 
 namespace ProyectoFinalVentaDeBoletos.Areas.Admin.Controllers
 {
@@ -291,9 +293,11 @@ namespace ProyectoFinalVentaDeBoletos.Areas.Admin.Controllers
 
                         //Generos antiguos de la pelicula
                         var GenerosPelicula = PeliculaGenerosRepositorio.GetPeliculaGeneroByIdPelicula(antigua.Id);
-
-                        PeliculaGenerosRepositorio.AgregarNuevosGeneros(GenerosPelicula,vm.GenerosSeleccionados,peli.Id);
-                        PeliculaGenerosRepositorio.EliminarGenerosPelicula(GenerosPelicula, vm.GenerosSeleccionados,peli.Id);
+                        //Metodo implementado para evitar errores de conexiones abiertas con MySql
+                        
+                            PeliculaGenerosRepositorio.AgregarNuevosGeneros(GenerosPelicula, vm.GenerosSeleccionados, peli.Id);
+                            PeliculaGenerosRepositorio.EliminarGenerosPelicula(GenerosPelicula, vm.GenerosSeleccionados, peli.Id);
+                        
                         #endregion
                         #region Guardar la imagen
                         if (vm.Imagen != null)

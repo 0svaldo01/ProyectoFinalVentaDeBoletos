@@ -1,8 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using MySql.Data.MySqlClient;
-using MySqlConnector;
 using ProyectoFinalVentaDeBoletos.Models.Entities;
 using System.Data;
+using MySqlConnection = MySqlConnector.MySqlConnection;
 
 namespace ProyectoFinalVentaDeBoletos.Repositories
 {
@@ -41,12 +40,13 @@ namespace ProyectoFinalVentaDeBoletos.Repositories
              *      1          1
              *      1          2      
              */
-            // En Proceso
-            var lista = generosPelicula.Where(gp => gp.IdPelicula == idpeli && !nuevosGeneros.Any(x => x == gp.IdGenero));
-            foreach (var item in lista)
+      
+            IEnumerable<PeliculaGenero> lista = generosPelicula.Where(gp => gp.IdPelicula == idpeli && !nuevosGeneros.Any(x => x == gp.IdGenero));
+            foreach (PeliculaGenero pg in lista)
             {
-                Delete(item);
+                Context.PeliculaGenero.Remove(pg);
             }
+            Context.SaveChanges();
         }
         public void AgregarNuevosGeneros(IEnumerable<PeliculaGenero> generosPelicula,IEnumerable<int> nuevosGeneros,int idpeli)
         {
@@ -81,6 +81,14 @@ namespace ProyectoFinalVentaDeBoletos.Repositories
         public List<int> GetGenerosSeleccionados(int id)
         {
             return Context.PeliculaGenero.Where(x=>x.IdPelicula == id).Select(x=>x.IdGenero).ToList();
+        }
+        private static void CerrarConexionMySql()
+        {
+            MySqlConnection connection = new();
+            if (connection.State == ConnectionState.Open)
+            {
+                connection.Close();
+            }
         }
     }
 }
