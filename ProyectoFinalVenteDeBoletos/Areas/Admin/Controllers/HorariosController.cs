@@ -7,7 +7,7 @@ using ProyectoFinalVentaDeBoletos.Repositories;
 namespace ProyectoFinalVentaDeBoletos.Areas.Admin.Controllers
 {
     [Area("Admin")]
-    [Authorize("Admin")]
+    [Authorize]
     public class HorariosController : Controller
     {
         #region Repositorios

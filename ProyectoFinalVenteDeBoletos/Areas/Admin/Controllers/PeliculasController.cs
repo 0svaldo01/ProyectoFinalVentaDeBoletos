@@ -8,7 +8,7 @@ using System.Data;
 namespace ProyectoFinalVentaDeBoletos.Areas.Admin.Controllers
 {
     [Area("Admin")]
-    [Authorize("Admin")]
+    [Authorize]
     public class PeliculasController : Controller
     {
         #region Repositorios
