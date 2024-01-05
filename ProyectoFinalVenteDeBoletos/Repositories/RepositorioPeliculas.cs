@@ -41,7 +41,6 @@ namespace ProyectoFinalVentaDeBoletos.Repositories
         public Pelicula? GetPeliculaByNombre(string nombre)
         {
             return GetAll().FirstOrDefault(x => x.Nombre == nombre);
-                
         }
     }
 }

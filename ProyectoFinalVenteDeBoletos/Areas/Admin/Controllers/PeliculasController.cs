@@ -1,7 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
-using MySql.Data.MySqlClient;
 using ProyectoFinalVentaDeBoletos.Areas.Admin.Models.Peliculas;
 using ProyectoFinalVentaDeBoletos.Models.Entities;
 using ProyectoFinalVentaDeBoletos.Repositories;
@@ -337,8 +335,51 @@ namespace ProyectoFinalVentaDeBoletos.Areas.Admin.Controllers
             if (peli != null)
             {
                 PeliculasRepositorio.Delete(peli);
+                EliminarImagen($"{p.Id}.jpg");
+
             }
             return RedirectToAction("Index", "Peliculas", new { Area = "Admin" });
+        }
+        public void EliminarImagen(string nombreArchivo)
+        {
+            if (!string.IsNullOrWhiteSpace(nombreArchivo))
+            {
+                string wwwRootPath = Path.Combine(Env.WebRootPath,"images");
+                string rutaArchivo = BuscarArchivoEnDirectorio(nombreArchivo, wwwRootPath)??"";
+                if (rutaArchivo != null)
+                {
+                    try
+                    {
+                        System.IO.File.Delete(rutaArchivo);
+                    }
+                    catch{}
+                }
+            }
+        }
+        private static string? BuscarArchivoEnDirectorio(string nombreArchivo, string directorio)
+        {
+            // Busca el archivo en el directorio actual
+            string rutaArchivo = Path.Combine(directorio, nombreArchivo);
+            if (System.IO.File.Exists(rutaArchivo))
+            {
+                return rutaArchivo;
+            }
+
+            #region Busca el archivo en los subdirectorios
+            //string[] subdirectorios = Directory.GetDirectories(directorio);
+
+            //foreach (var subdirectorio in subdirectorios)
+            //{
+            //    rutaArchivo = BuscarArchivoEnDirectorio(nombreArchivo, subdirectorio)??"";
+
+            //    if (rutaArchivo != null)
+            //    {
+            //        return rutaArchivo;
+            //    }
+            //}
+            #endregion
+            // El archivo no se encontró en el directorio ni en sus subdirectorios
+            return null;
         }
         #endregion
         #endregion
