@@ -18,7 +18,8 @@ namespace ProyectoFinalVentaDeBoletos.Areas.Admin.Controllers
         public RepositorioHorarios HorariosRepositorio { get; }
         public RepositorioGeneros Generosrepositorio { get; }
         #endregion
-        public IWebHostEnvironment Env { get; }
+        //Para buscar directorios
+        public IWebHostEnvironment Enviroment { get; }
         public PeliculasController(
         #region Inyeccion de repositorios
             RepositorioPeliculas repositorioPeliculas,
@@ -37,9 +38,8 @@ namespace ProyectoFinalVentaDeBoletos.Areas.Admin.Controllers
             HorariosRepositorio = repositorioHorarios;
             Generosrepositorio = repositorioGeneros;
             #endregion
-            Env = env;
+            Enviroment = env;
         }
-
         [HttpGet("Admin/Peliculas")]
         public IActionResult Index()
         {
@@ -200,7 +200,7 @@ namespace ProyectoFinalVentaDeBoletos.Areas.Admin.Controllers
                 #region Guardar la imagen
                 if (vm.Imagen != null)
                 {
-                    var imagePath = Path.Combine(Env.WebRootPath, "images", p.Id.ToString() + ".jpg");
+                    var imagePath = Path.Combine(Enviroment.WebRootPath, "images", p.Id.ToString() + ".jpg");
                     var stream = new FileStream(imagePath, FileMode.Create);
                     vm.Imagen.CopyToAsync(stream);
                     stream.Close();
@@ -300,7 +300,7 @@ namespace ProyectoFinalVentaDeBoletos.Areas.Admin.Controllers
                         #region Guardar la imagen
                         if (vm.Imagen != null)
                         {
-                            var imagePath = Path.Combine(Env.WebRootPath, "images", antigua.Id.ToString() + ".jpg");
+                            var imagePath = Path.Combine(Enviroment.WebRootPath, "images", antigua.Id.ToString() + ".jpg");
                             var stream = new FileStream(imagePath, FileMode.Create);
                             vm.Imagen.CopyToAsync(stream);
                             stream.Close();
@@ -343,7 +343,7 @@ namespace ProyectoFinalVentaDeBoletos.Areas.Admin.Controllers
         {
             if (!string.IsNullOrWhiteSpace(nombreArchivo))
             {
-                string wwwRootPath = Path.Combine(Env.WebRootPath,"images");
+                string wwwRootPath = Path.Combine(Enviroment.WebRootPath,"images");
                 string rutaArchivo = BuscarArchivoEnDirectorio(nombreArchivo, wwwRootPath)??"";
                 if (rutaArchivo != null)
                 {
