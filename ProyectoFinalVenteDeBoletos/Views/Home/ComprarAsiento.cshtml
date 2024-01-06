@@ -38,7 +38,6 @@
                             @for (int c = 0; c < Model.Sala.Columnas; c++)
                             {
                                 var asiento = Model.Sala.SalaAsientos.FirstOrDefault(x => x.Columna == c && x.Fila == f);
-                                
                                 if (asiento != null)
                                 {
                                     if (asiento.Ocupado)
@@ -47,11 +46,11 @@
                                     }
                                     else if (asiento.Seleccionado)
                                     {
-                                        <div class="seat selected"></div>
+                                        <div class="seat selected" itemid="@asiento.Id" data-Fila="@asiento.Fila" data-Columna="@asiento.Columna"></div>
                                     }
                                     else
                                     {
-                                        <div class="seat"></div>
+                                        <div class="seat" itemid="@asiento.Id" data-Fila="@asiento.Fila" data-Columna="@asiento.Columna"></div>
                                     }
                                 }
                             }
@@ -60,10 +59,12 @@
                 </div>
             }
         </div>
+
+        
         @if (Model.Pelicula != null && Model.Sala != null)
         {
             <p class="text">
-                Tu Seleccionaste <span id="count">@Model.Sala.SalaAsientos.Where(x=>x.Seleccionado).Count()<!--0--></span> asientos <br>
+                Tu Seleccionaste <span id="count">0</span> asientos <br>
                 para la pelicula @(Model.Pelicula.Nombre) por un precio de: <span id="total">$@(Model.Pelicula.Precio)</span>
             </p>
         }

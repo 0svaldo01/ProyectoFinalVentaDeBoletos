@@ -11,6 +11,7 @@
         public int Id { get; set; }
         public int Columnas { get; set; }
         public int Filas { get; set; }
+        public int[] AsientosSeleccionados { get; set; } = null!;
         public IEnumerable<AsientoModel> SalaAsientos { get; set; } = null!;
     }
     public class AsientoModel

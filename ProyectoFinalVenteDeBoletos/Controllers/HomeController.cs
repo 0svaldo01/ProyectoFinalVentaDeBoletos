@@ -224,11 +224,11 @@ namespace ProyectoFinalVentaDeBoletos.Controllers
                     IdSala = vm.Sala.Id,
                 };
                 BoletosRepositorio.Insert(b);
+
                 var usuario = UsuarioRepositorio.Get(int.Parse(User.Claims.First(x=>x.Type == "Id").Value));
                 if (usuario != null && b != null)
                 {
                     //Agregamos el boleto al usuario utilizando la tabla usuarioboleto
-                    
                     BoletosRepositorio.Insert(b);
                     var antiguo = UsuarioBoletosRepositorio.GetAll().Where(x => x.IdBoletos == b.Id && x.IdUsuario==usuario.Id);
                     //si el ya existe la relacion entre el usuario y el boleto, entonces no se agregara
