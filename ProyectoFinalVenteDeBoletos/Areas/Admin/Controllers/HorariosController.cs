@@ -99,7 +99,7 @@ namespace ProyectoFinalVentaDeBoletos.Areas.Admin.Controllers
                     };
                     PeliculasHorarioRepositorio.Insert(peliculahorario);
                     //Redireccionar si se agrego correctamente
-                    return RedirectToAction("Index","Horarios", new { Area = "Admin" });
+                    return RedirectToAction("Index","Peliculas", new { Area = "Admin" });
                 }
             }
             //Regresar el viewmodel si no se agrego
