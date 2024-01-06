@@ -133,6 +133,7 @@ namespace ProyectoFinalVentaDeBoletos.Controllers
         #endregion
         // en Proceso
         #region Boletos
+//OK
         [HttpGet("/ComprarAsiento/{pelicula}")]
         public IActionResult ComprarAsiento(string pelicula,PeliculaViewModel pvm)
         {
@@ -150,98 +151,124 @@ namespace ProyectoFinalVentaDeBoletos.Controllers
             if (peli != null) { 
                 //Obtenemos la sala usando el id del horario obtenido en el viewmodel
                 var sala = SalasRepositorio.GetSalaByHorario(pvm.IdHorario);
-                if (peli == null || sala == null)
+                if (sala != null)
                 {
-                    return RedirectToAction("Index");
-                }
-                ComprarAsientoViewModel vm = new()
-                {
-                    IdHorario = peli.PeliculaHorario.First().IdHorario,
-                    Pelicula = new PeliModel
+                    ComprarAsientoViewModel vm = new()
                     {
-                        Nombre = peli.Nombre,
-                        Precio = peli.Precio
-                    },
-                    Sala = new SalaModel
-                    {
-                        Id = sala.Id,
-                        Columnas = sala.Columnas,
-                        Filas = sala.Filas,
-                        SalaAsientos = sala.SalaAsiento
-                        .Where(s => s.IdSalaNavigation.IdSalaAsiento == s.IdSala)
-                        .Select(x => x.IdAsientoNavigation)
-                        .Select(a => new AsientoModel
+                        IdHorario = peli.PeliculaHorario.First().IdHorario,
+                        Pelicula = new PeliModel
                         {
-                            Columna = a.Columna,
-                            Fila = a.Fila,
-                            Id = a.Id,
-                            Ocupado = a.Ocupado,
-                            Seleccionado = a.Seleccionado
-                        })
-                    }
-                };
-                
-                if (ModelState.IsValid)
-                    return View(vm);
-                return RedirectToAction("Index");
+                            Nombre = peli.Nombre,
+                            Precio = peli.Precio
+                        },
+                        Sala = new SalaModel
+                        {
+                            Id = sala.Id,
+                            Columnas = sala.Columnas,
+                            Filas = sala.Filas,
+                            SalaAsientos = sala.SalaAsiento
+                            .Where(s => s.IdSalaNavigation.IdSalaAsiento == s.IdSala)
+                            .Select(x => x.IdAsientoNavigation)
+                            .Select(a => new AsientoModel
+                            {
+                                Columna = a.Columna,
+                                Fila = a.Fila,
+                                Id = a.Id,
+                                Ocupado = a.Ocupado,
+                                Seleccionado = a.Seleccionado
+                            })
+                        }
+                    };
+
+                    if (ModelState.IsValid)
+                        return View(vm);
+                }
             }
-            //return RedirectToAction("Index");
-            // Puedes devolver algún resultado al cliente si es necesario
             return RedirectToAction("Index");
         }
+
         [HttpPost("/ComprarAsiento/{pelicula}")]
         public IActionResult ComprarAsiento(string pelicula,ComprarAsientoViewModel vm)
         {
-            //IsSelected y seatnumber es una lista o un objeto unicamente?
+            ModelState.Clear();
+            #region Validacion
+            if (vm.Pelicula == null)
+            {
+                ModelState.AddModelError("", "No hay pelicula en el modelo");
+            }
+            if (vm.Sala == null)
+            {
+                ModelState.AddModelError("", "No hay sala en el modelo");
+            }
+            else
+            {
+                //Si no hay asientos desocupados
+                if(!vm.Sala.SalaAsientos.Where(x=>x.Ocupado==false).Any())
+                {
+                    ModelState.AddModelError("", "No hay asientos disponibles");
+                }
+            }
+            if (vm.IdHorario <= 0)
+            {
+                ModelState.AddModelError("", "Selecciona un horario");
+            }
+            #endregion
             var peli = PeliculasRepositorio.GetPeliculaByNombre(pelicula);
             if (peli == null)
             {
                 return RedirectToAction("Index");
             }
-            //estoy por ver donde irian las lineas del enlace, ando leyendo documentacion
-            // Ejemplo de cómo imprimir la información en la consola del servidor
-            foreach (var asiento in vm.Sala.SalaAsientos)
+            if (vm.Sala != null && ModelState.IsValid)
             {
-                var antiguo = AsientosRepositorio.GetAsiento(asiento.Fila, asiento.Columna);
-                if (antiguo != null)
+                foreach (var asiento in vm.Sala.SalaAsientos)
                 {
-                    if (asiento.Seleccionado)
+                    //Obtener asiento
+                    var antiguo = AsientosRepositorio.GetAsiento(asiento.Fila, asiento.Columna);
+                    if (antiguo != null)
                     {
-                        antiguo.Ocupado = true;
-                        antiguo.Seleccionado = false;
-                        AsientosRepositorio.Update(antiguo);
+                        //Si el asiento esta seleccionado
+                        if (asiento.Seleccionado)
+                        {
+                            //Ocupar Asiento
+                            antiguo.Ocupado = true;
+                            //quitamos el seleccionado
+                            antiguo.Seleccionado = false;
+                            //Actualizamos asiento en DB
+                            AsientosRepositorio.Update(antiguo);
+                        }
                     }
                 }
-            }
-            //Verificar que el vm este completo
-            if (vm != null)
-            {
-                //Agregamos el boleto a la tabla
-                Boleto b = new()
-                {
-                    Id = 0,
-                    IdHorario = vm.IdHorario,
-                    IdSala = vm.Sala.Id,
-                };
-                BoletosRepositorio.Insert(b);
-
-                var usuario = UsuarioRepositorio.Get(int.Parse(User.Claims.First(x=>x.Type == "Id").Value));
-                if (usuario != null && b != null)
-                {
-                    //Agregamos el boleto al usuario utilizando la tabla usuarioboleto
-                    BoletosRepositorio.Insert(b);
-                    var antiguo = UsuarioBoletosRepositorio.GetAll().Where(x => x.IdBoletos == b.Id && x.IdUsuario==usuario.Id);
-                    //si el ya existe la relacion entre el usuario y el boleto, entonces no se agregara
-                    if (antiguo == null)
-                    { 
-                        //si no existe la relacion entre el usuario y el boleto, se crea dicha relacion
+                var usuario = UsuarioRepositorio.Get(int.Parse(User.Claims.First(x => x.Type == "Id").Value));
+                if (usuario != null)
+                {  
+                    //Agregamos el boleto a la tabla
+                    Boleto b = new()
+                    {
+                        Id = 0,
+                        IdHorario = vm.IdHorario,
+                        IdSala = vm.Sala.Id,
+                    };
+                    //Si no existe un boletos anterior
+                    if (!BoletosRepositorio.GetAll().Where(x=>x.IdHorario == b.IdHorario && x.IdSala == b.IdSala).Any())
+                    {
+                        //Agregamos el boleto al usuario utilizando la tabla usuarioboleto
+                        BoletosRepositorio.Insert(b);
+                    }
+                    
+                    //si ya existe la relacion entre el usuario y el boleto, entonces no se agregara
+                    if (!UsuarioBoletosRepositorio.GetAll().Where(x => x.IdBoletos == b.Id && x.IdUsuario == usuario.Id).Any())
+                    {
+                        //si no existe la relacion entre el usuario y el boleto, se crea
                         UsuarioBoleto ub = new()
                         {
                             Id = 0,
                             IdBoletos = b.Id,
                             IdUsuario = usuario.Id,
                         };
-                        UsuarioBoletosRepositorio.Insert(ub);
+                        if (!UsuarioBoletosRepositorio.GetAll().Where(x => x.IdUsuario == ub.IdUsuario && x.IdBoletos == ub.IdBoletos).Any())
+                        {
+                            UsuarioBoletosRepositorio.Insert(ub);
+                        }
                     }
                 }
             }

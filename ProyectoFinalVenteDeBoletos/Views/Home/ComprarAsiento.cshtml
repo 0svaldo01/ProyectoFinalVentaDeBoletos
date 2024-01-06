@@ -46,11 +46,11 @@
                                     }
                                     else if (asiento.Seleccionado)
                                     {
-                                        <div class="seat selected" itemid="@asiento.Id" data-Fila="@asiento.Fila" data-Columna="@asiento.Columna"></div>
+                                        <div class="seat selected"></div>
                                     }
                                     else
                                     {
-                                        <div class="seat" itemid="@asiento.Id" data-Fila="@asiento.Fila" data-Columna="@asiento.Columna"></div>
+                                        <div class="seat"></div>
                                     }
                                 }
                             }
@@ -60,12 +60,11 @@
             }
         </div>
 
-        
         @if (Model.Pelicula != null && Model.Sala != null)
-        {
-            <p class="text">
+        {   
+            <p>
                 Tu Seleccionaste <span id="count">0</span> asientos <br>
-                para la pelicula @(Model.Pelicula.Nombre) por un precio de: <span id="total">$@(Model.Pelicula.Precio)</span>
+                para la pelicula @(Model.Pelicula.Nombre) por un precio de: <span id="total">0</span>
             </p>
         }
         <input type="submit" class="continuar" id="continuar-1" value="Continuar"/>
