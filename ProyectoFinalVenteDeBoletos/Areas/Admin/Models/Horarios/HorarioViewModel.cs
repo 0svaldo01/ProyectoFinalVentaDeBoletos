@@ -12,6 +12,7 @@
     }
     public class HorarioModel 
     {
+        public int Id { get; set; } 
         public string HoraInicio { get; set; } = null!;
         public string HoraTerminacion { get; set; } = null!;
     }

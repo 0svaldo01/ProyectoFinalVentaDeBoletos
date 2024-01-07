@@ -3,7 +3,8 @@
 @{
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
-<link rel="stylesheet" href="styleVer.css">
+
+<link rel="stylesheet" href="~/Estilos/styleVer.css" />
 
 <section>
 
@@ -25,6 +26,7 @@
             </div>
             <label id="Labelerror">@Html.ValidationSummary(true)</label>
         </div>
+
         <a href="~/Admin/Horarios" onclick="regresar()">
             <input type="button" class="btn-regresar" value="Regresar" />
         </a>
