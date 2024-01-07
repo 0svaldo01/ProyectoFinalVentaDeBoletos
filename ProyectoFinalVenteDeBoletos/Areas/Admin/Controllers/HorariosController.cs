@@ -164,15 +164,10 @@ namespace ProyectoFinalVentaDeBoletos.Areas.Admin.Controllers
         [HttpPost]
         public IActionResult Editar(AgregarHorarioViewModel vm)
         {
-            vm.Horarios = HorarioRepositorio.GetAll().Select(x => new HorariovModel
-            {
-                IdHorario = x.Id,
-                Horario = $"{x.HoraInicio} - {x.HoraTerminacion}"
-            });
-            vm.Peliculas = PeliculasRepositorio.GetAll();
             //Validar
             if (vm.IdPelicula <= 0 || vm.IdHorario <= 0)
             {
+                //Esto no redirecciona a nada
                 return RedirectToAction("", "", new { });
             }
             if (vm.IdPelicula <= 0)
@@ -202,6 +197,12 @@ namespace ProyectoFinalVentaDeBoletos.Areas.Admin.Controllers
                 //Redireccionar si se agrego correctamente
                 return RedirectToAction("Index", "Horarios", new { Area = "Admin" });
             };
+            vm.Horarios = HorarioRepositorio.GetAll().Select(x => new HorariovModel
+            {
+                IdHorario = x.Id,
+                Horario = $"{x.HoraInicio} - {x.HoraTerminacion}"
+            });
+            vm.Peliculas = PeliculasRepositorio.GetAll();
             //Regresar el viewmodel si no se agrego
             return View(vm);
         }
