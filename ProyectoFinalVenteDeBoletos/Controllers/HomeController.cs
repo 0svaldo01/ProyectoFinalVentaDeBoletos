@@ -8,6 +8,7 @@ using System.Security.Claims;
 using System.Text;
 using ProyectoFinalVentaDeBoletos.Helpers;
 using Microsoft.CodeAnalysis.CSharp;
+using Microsoft.AspNetCore.Authorization;
 
 namespace ProyectoFinalVentaDeBoletos.Controllers
 {
@@ -44,6 +45,7 @@ namespace ProyectoFinalVentaDeBoletos.Controllers
             SalasRepositorio = repositorioSalas;
             UsuarioBoletosRepositorio = repositorioUsuarioBoletos;
         }
+        [Authorize(Roles = "Usuario")]
         public IActionResult Index()
         {
             return View();
@@ -56,6 +58,7 @@ namespace ProyectoFinalVentaDeBoletos.Controllers
         //terminado
         #region Peliculas
         [Route("/Peliculas")]
+        [Authorize(Roles = "Usuario")]
         public IActionResult VerPeliculas()
         {
             PeliculasViewModel vm = new()
@@ -133,7 +136,8 @@ namespace ProyectoFinalVentaDeBoletos.Controllers
         #endregion
         // en Proceso
         #region Boletos
-//OK
+        //OK
+        [Authorize(Roles = "Usuario")]
         [HttpGet("/ComprarAsiento/{pelicula}")]
         public IActionResult ComprarAsiento(string pelicula,PeliculaViewModel pvm)
         {
@@ -186,7 +190,8 @@ namespace ProyectoFinalVentaDeBoletos.Controllers
             }
             return RedirectToAction("Index");
         }
-
+        
+        [Authorize(Roles = "Usuario")]
         [HttpPost("/ComprarAsiento/{pelicula}")]
         public IActionResult ComprarAsiento(string pelicula,ComprarAsientoViewModel vm)
         {

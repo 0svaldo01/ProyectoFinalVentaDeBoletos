@@ -14,7 +14,6 @@ namespace ProyectoFinalVentaDeBoletos.Areas.Admin.Controllers
     [Authorize]
     public class HomeController : Controller
     {
-      
         [HttpGet("/Admin")]
         [HttpGet("/Admin/Home/Index")]
         public IActionResult Index()

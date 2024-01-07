@@ -21,7 +21,15 @@
                     <li><a href="~/Nosotros">Nosotros</a></li>
                 </ul>
             </nav>
-            <a href="~/Home/Login" class="btn-1">Login</a>
+            @if (string.IsNullOrWhiteSpace(User.Identity?.Name))
+            {
+                <a href="~/Home/Login" class="btn-1">Login</a>
+            }
+            else
+            {
+                <h1>@User.Identity.Name</h1>
+                <a href="~/Home/Logout" class="btn-1">Cerrar Sesion</a>
+            }
         </div>
     
         <div class="header-content container">
