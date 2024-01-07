@@ -14,8 +14,7 @@ namespace ProyectoFinalVentaDeBoletos.Repositories
         {
             return Context.PeliculaHorario.Include(x=>x.IdPeliculaNavigation)
                 .ThenInclude(x=>x.PeliculaHorario).ThenInclude(x=>x.IdHorarioNavigation)
-                .ThenInclude(x=>x.IdSalaNavigation)
-                ;
+                .ThenInclude(x=>x.IdSalaNavigation);
         }
         public PeliculaHorario? GetAnterior(int IdPelicula,int IdHorario)
         {
