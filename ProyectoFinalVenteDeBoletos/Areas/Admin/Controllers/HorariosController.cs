@@ -152,7 +152,7 @@ namespace ProyectoFinalVentaDeBoletos.Areas.Admin.Controllers
             return RedirectToAction("Index");
         }
 
-        [HttpGet("Admin/Horarios/Eliminar/{id}")]
+        [HttpGet("Admin/Horario/Eliminar/{id}")]
         public IActionResult Eliminar(int id)
         {
             if (id >= 0)
