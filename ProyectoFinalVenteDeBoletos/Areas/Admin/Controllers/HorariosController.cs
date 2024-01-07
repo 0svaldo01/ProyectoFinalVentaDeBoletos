@@ -67,7 +67,6 @@ namespace ProyectoFinalVentaDeBoletos.Areas.Admin.Controllers
             ModelState.Clear();
             //Validar (Aqui agregamos los errores que tenga el modelo al ModelState)
             var anterior = PeliculasHorarioRepositorio.Get(vm.IdPelicula);
-            var anterior2 = PeliculasHorarioRepositorio.Get(vm.IdHorario);
             vm.Peliculas = PeliculasRepositorio.GetAll();
             vm.Horarios = HorarioRepositorio.GetAll().Select(x => new HorariovModel
             {
