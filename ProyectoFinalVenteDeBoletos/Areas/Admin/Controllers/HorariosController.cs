@@ -205,7 +205,7 @@ namespace ProyectoFinalVentaDeBoletos.Areas.Admin.Controllers
             };
             vm.Horarios = HorarioRepositorio.GetAll().Select(x => new HorariovModel
             {
-                IdHorario = x.Id,s
+                IdHorario = x.Id,
                 Horario = $"{x.HoraInicio} - {x.HoraTerminacion}"
             });
             vm.Peliculas = PeliculasRepositorio.GetAll();
