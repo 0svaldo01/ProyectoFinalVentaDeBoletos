@@ -188,10 +188,6 @@ namespace ProyectoFinalVentaDeBoletos.Areas.Admin.Controllers
                 ModelState.AddModelError("", "Seleccione un horario");
             }
             //Si no hay peliculas o horarios
-            if (!vm.Peliculas.Any() || !vm.Horarios.Any())
-            {
-                ModelState.AddModelError("", "No hay peliculas o horarios disponibles");
-            }
             var anterior = PeliculasHorarioRepositorio.GetById(id);
 
             if (anterior == null)
@@ -207,16 +203,12 @@ namespace ProyectoFinalVentaDeBoletos.Areas.Admin.Controllers
                 //Redireccionar si se agrego correctamente
                 return RedirectToAction("Index", "Horarios", new { Area = "Admin" });
             };
-            //Si no hay peliculas o horarios
-            if (!vm.Peliculas.Any() || !vm.Horarios.Any())
+            vm.Horarios = HorarioRepositorio.GetAll().Select(x => new HorariovModel
             {
-                vm.Horarios = HorarioRepositorio.GetAll().Select(x => new HorariovModel
-                {
-                    IdHorario = x.Id,
-                    Horario = $"{x.HoraInicio} - {x.HoraTerminacion}"
-                });
-                vm.Peliculas = PeliculasRepositorio.GetAll();
-            }
+                IdHorario = x.Id,s
+                Horario = $"{x.HoraInicio} - {x.HoraTerminacion}"
+            });
+            vm.Peliculas = PeliculasRepositorio.GetAll();
             //Regresar el viewmodel si no se agrego
             return View(vm);
         }
