@@ -62,7 +62,7 @@ namespace ProyectoFinalVentaDeBoletos.Areas.Admin.Controllers
 
         #region CRUD
         #region Create
-        [HttpPost]
+        [HttpPost("/Admin/Horario/Agregar")]
         public IActionResult Agregar(AgregarHorarioViewModel vm)
         {
             //por alguna razon, recibe el ModelState tiene errores cuando entra, para evitar que de errores limpiamos el ModelState
@@ -125,9 +125,7 @@ namespace ProyectoFinalVentaDeBoletos.Areas.Admin.Controllers
             };
             return View(vm);
         }
-        
-
-        [HttpGet("{id}")]
+        [HttpGet("/Admin/Horario/Editar/{id}")]
         public IActionResult Editar(int id)
         {
             var anterior = PeliculasHorarioRepositorio.GetById(id); 
@@ -175,15 +173,7 @@ namespace ProyectoFinalVentaDeBoletos.Areas.Admin.Controllers
         [HttpPost("/Admin/Horario/Editar/{id}")]
         public IActionResult Editar(int id,AgregarHorarioViewModel vm)
         {
-
-            vm.Horarios = HorarioRepositorio.GetAll().Select(x => new HorariovModel
-            {
-                IdHorario = x.Id,
-                Horario = $"{x.HoraInicio} - {x.HoraTerminacion}"
-            });
-            vm.Peliculas = PeliculasRepositorio.GetAll();
             //Validar
-    
             if (vm.IdPelicula <= 0 || vm.IdHorario <= 0)
             {
                 //Esto no redirecciona a nada
@@ -202,7 +192,7 @@ namespace ProyectoFinalVentaDeBoletos.Areas.Admin.Controllers
             {
                 ModelState.AddModelError("", "No hay peliculas o horarios disponibles");
             }
-            var anterior = PeliculasHorarioRepositorio.GetAnterior(vm.IdPelicula, vm.IdHorario);
+            var anterior = PeliculasHorarioRepositorio.GetById(id);
 
             if (anterior == null)
             {
