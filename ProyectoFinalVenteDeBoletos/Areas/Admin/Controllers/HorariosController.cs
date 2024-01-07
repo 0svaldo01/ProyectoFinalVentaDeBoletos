@@ -39,6 +39,7 @@ namespace ProyectoFinalVentaDeBoletos.Areas.Admin.Controllers
             {
                 Horarios = PeliculasHorarioRepositorio.GetAll().Select(x => new HorariosModel
                 {
+                    Id = x.Id,
                     Horario = new HorarioModel
                     {
                         Id = x.Id,
@@ -110,7 +111,7 @@ namespace ProyectoFinalVentaDeBoletos.Areas.Admin.Controllers
         #endregion
         //Aqui estan las acciones para mostrar el crear, editar y eliminar
         #region Read
-        [HttpGet]
+        [HttpGet("/Admin/Horario/Agregar")]
         public IActionResult Agregar()
         {
             AgregarHorarioViewModel vm = new()
@@ -126,7 +127,7 @@ namespace ProyectoFinalVentaDeBoletos.Areas.Admin.Controllers
         }
         
 
-        [HttpGet("Admin/Horarios/Editar/{id}")]
+        [HttpGet("{id}")]
         public IActionResult Editar(int id)
         {
             var anterior = PeliculasHorarioRepositorio.GetById(id); 
@@ -134,6 +135,7 @@ namespace ProyectoFinalVentaDeBoletos.Areas.Admin.Controllers
             {
                 AgregarHorarioViewModel vm = new()
                 {
+                    Id = anterior.Id,
                     IdHorario = anterior.IdHorario,
                     IdPelicula = anterior.IdPelicula,
                     Horarios = HorarioRepositorio.GetAll().Select(x=> new HorariovModel
@@ -156,14 +158,22 @@ namespace ProyectoFinalVentaDeBoletos.Areas.Admin.Controllers
             if (id >= 0)
             {
                 var peliculahorario = PeliculasHorarioRepositorio.GetById(id);
-                return View(peliculahorario);
+                if (peliculahorario != null)
+                {
+                    EliminarHorarioViewModel vm = new()
+                    {
+                        Id = peliculahorario != null ? peliculahorario.Id : 0,
+                        Horario = peliculahorario != null ? $"{peliculahorario.IdHorarioNavigation.HoraInicio} - {peliculahorario.IdHorarioNavigation.HoraTerminacion}" : ""
+                    };
+                    return View(vm);
+                }
             }
             return RedirectToAction("Index");
         }
         #endregion
         #region Update
-        [HttpPost]
-        public IActionResult Editar(AgregarHorarioViewModel vm)
+        [HttpPost("/Admin/Horario/Editar/{id}")]
+        public IActionResult Editar(int id,AgregarHorarioViewModel vm)
         {
 
             vm.Horarios = HorarioRepositorio.GetAll().Select(x => new HorariovModel
@@ -207,26 +217,33 @@ namespace ProyectoFinalVentaDeBoletos.Areas.Admin.Controllers
                 //Redireccionar si se agrego correctamente
                 return RedirectToAction("Index", "Horarios", new { Area = "Admin" });
             };
-            vm.Horarios = HorarioRepositorio.GetAll().Select(x => new HorariovModel
+            //Si no hay peliculas o horarios
+            if (!vm.Peliculas.Any() || !vm.Horarios.Any())
             {
-                IdHorario = x.Id,
-                Horario = $"{x.HoraInicio} - {x.HoraTerminacion}"
-            });
-            vm.Peliculas = PeliculasRepositorio.GetAll();
+                vm.Horarios = HorarioRepositorio.GetAll().Select(x => new HorariovModel
+                {
+                    IdHorario = x.Id,
+                    Horario = $"{x.HoraInicio} - {x.HoraTerminacion}"
+                });
+                vm.Peliculas = PeliculasRepositorio.GetAll();
+            }
             //Regresar el viewmodel si no se agrego
             return View(vm);
         }
         #endregion
         #region Delete
-        [HttpPost]
-        public IActionResult Eliminar(PeliculaHorario p)
+        [HttpPost("/Admin/Horario/Eliminar/{id}")]
+        public IActionResult Eliminar(int id,EliminarHorarioViewModel p)
         {
-            if (p != null)
+            if (id > 0)
             {
-                var anterior = PeliculasHorarioRepositorio.GetAnterior(p.IdPelicula, p.IdHorario);
-                if (anterior != null)
+                if (p != null)
                 {
-                    PeliculasHorarioRepositorio.Delete(anterior);
+                    var anterior = PeliculasHorarioRepositorio.Get(p.Id);
+                    if (anterior != null)
+                    {
+                        PeliculasHorarioRepositorio.Delete(anterior);
+                    }
                 }
             }
             return RedirectToAction("Index", "Horarios", new { Area = "Admin" });

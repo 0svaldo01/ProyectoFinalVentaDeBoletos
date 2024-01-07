@@ -6,6 +6,7 @@
     }
     public class HorariosModel
     {
+        public int Id { get; set; }
         public HorarioModel Horario { get; set; } = null!;
         public PeliculasModel Pelicula { get; set; } = null!;
         public SalasModel Sala { get; set; } = null!;

@@ -22,7 +22,7 @@ namespace ProyectoFinalVentaDeBoletos.Repositories
         }
         public PeliculaHorario? GetById(int id)
         {
-            return Context.PeliculaHorario.Find(id);
+            return Context.PeliculaHorario.Include(x=>x.IdPeliculaNavigation).Include(x=>x.IdHorarioNavigation).FirstOrDefault(x => x.Id == id);
         }
     }
 }

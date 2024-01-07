@@ -15,9 +15,9 @@
             @foreach (var horario in Model.Horarios)
             {
                 <li>
-                    @horario.Pelicula.Nombre|| @horario.Horario.HoraInicio - @horario.Horario.HoraTerminacion || Sala @horario.Sala.Id
-                    <a href="~/Admin/Horarios/Eliminar/@horario.Horario.Id" id="btnBorrar"></a>
-                    <a href="~/Admin/Horarios/Editar/@horario.Horario.Id" id="btnEditar"></a>
+                    @horario.Id | @horario.Pelicula.Nombre | @horario.Horario.HoraInicio - @horario.Horario.HoraTerminacion | Sala @horario.Sala.Id
+                    <a href="~/Admin/Horario/Eliminar/@horario.Id" id="btnBorrar"></a>
+                    <a href="~/Admin/Horario/Editar/@horario.Id" id="btnEditar"></a>
                 </li>
             }
         }

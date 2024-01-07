@@ -1,10 +1,11 @@
-﻿@model ProyectoFinalVentaDeBoletos.Areas.Admin.Models.Horarios.AgregarHorarioViewModel
+﻿@model ProyectoFinalVentaDeBoletos.Areas.Admin.Models.Horarios.EliminarHorarioViewModel;
+
 @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 @{
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
 <link rel="stylesheet" href="~/Estilos/styleHorarios.css">
-<section class="contenedor-eliminar-horario">
+<form class="contenedor-eliminar-horario" action="~/Admin/Horario/Eliminar/@Model.Id" method="post">
     <h2>Eliminar Horario</h2>
 
     <label>¿Desea eliminar el horario?</label>
@@ -19,4 +20,4 @@
             <input type="button" value="Cancelar">
         </a>
     </div>
-</section>
+</form>

@@ -4,6 +4,7 @@ namespace ProyectoFinalVentaDeBoletos.Areas.Admin.Models.Horarios
 {
     public class AgregarHorarioViewModel
     {
+        public int Id { get; set; }
         public int IdPelicula {  get; set; }
         public IEnumerable<Pelicula> Peliculas { get; set; } = null!;
         public int IdHorario { get; set; }
