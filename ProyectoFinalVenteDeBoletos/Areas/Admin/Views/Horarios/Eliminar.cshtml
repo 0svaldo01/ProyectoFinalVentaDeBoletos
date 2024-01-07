@@ -8,15 +8,10 @@
 <form class="contenedor-eliminar-horario" action="~/Admin/Horario/Eliminar/@Model.Id" method="post">
     <h2>Eliminar Horario</h2>
 
-    <label>¿Desea eliminar el horario?</label>
-    @*<select id="cmbHorarios" name="cmbHorarios">
-       
-    </select>*@
-        <!-- Aqui deberia ir un ciclo para mandar a traer los horarios como en agregar ¿???-->
-
+    <label>¿Desea eliminar el horario @(Model.Horario)?</label>
     <div class="botones-eliminar-horario">
         <button type="submit">Aceptar</button>
-        <a href="~/Admin/Horarios/Index">
+        <a href="~/Admin/Horarios">
             <input type="button" value="Cancelar">
         </a>
     </div>
