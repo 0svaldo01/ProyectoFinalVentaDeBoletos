@@ -45,7 +45,7 @@ namespace ProyectoFinalVentaDeBoletos.Controllers
             SalasRepositorio = repositorioSalas;
             UsuarioBoletosRepositorio = repositorioUsuarioBoletos;
         }
-        [Authorize(Roles = "Usuario")]
+
         public IActionResult Index()
         {
             return View();
@@ -58,7 +58,7 @@ namespace ProyectoFinalVentaDeBoletos.Controllers
         //terminado
         #region Peliculas
         [Route("/Peliculas")]
-        [Authorize(Roles = "Usuario")]
+        [Authorize(Roles = "Usuario, Admin")]
         public IActionResult VerPeliculas()
         {
             PeliculasViewModel vm = new()
@@ -80,6 +80,7 @@ namespace ProyectoFinalVentaDeBoletos.Controllers
             return View(vm);
         }
         [HttpGet("/Pelicula/{nombre}")]
+        [Authorize(Roles = "Usuario, Admin")]
         public IActionResult Pelicula(string nombre)
         {
             nombre = nombre.Replace('-', ' ');
@@ -137,7 +138,7 @@ namespace ProyectoFinalVentaDeBoletos.Controllers
         // en Proceso
         #region Boletos
         //OK
-        [Authorize(Roles = "Usuario")]
+        [Authorize(Roles = "Usuario, Admin")]
         [HttpGet("/ComprarAsiento/{pelicula}")]
         public IActionResult ComprarAsiento(string pelicula,PeliculaViewModel pvm)
         {
@@ -191,7 +192,7 @@ namespace ProyectoFinalVentaDeBoletos.Controllers
             return RedirectToAction("Index");
         }
         
-        [Authorize(Roles = "Usuario")]
+        [Authorize(Roles = "Usuario, Admin")]
         [HttpPost("/ComprarAsiento/{pelicula}")]
         public IActionResult ComprarAsiento(string pelicula,ComprarAsientoViewModel vm)
         {
@@ -280,7 +281,6 @@ namespace ProyectoFinalVentaDeBoletos.Controllers
             return RedirectToAction("Index");
         }
         #endregion
-        
         //terminado
         #region Usuarios
         public IActionResult LogOut()

@@ -42,7 +42,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Resource Include="wwwroot\images\1.jpg" />
     <Resource Include="wwwroot\images\bg.jpg" />
     <Resource Include="wwwroot\images\borrar.png" />
     <Resource Include="wwwroot\images\cinetec.jpg" />
