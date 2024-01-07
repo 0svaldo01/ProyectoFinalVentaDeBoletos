@@ -619,7 +619,7 @@ p.text {
 
 
 
-/*Index Horarios*/
+/*Index Horarios y Peliculas*/
 
 .lista{
     margin-left:2vw;
@@ -645,14 +645,13 @@ p.text {
         padding: 2px 10px;
     }
 
-#btnEditar {
+#btnEditar{
     background-image: url(/images/editar.png);
-    width:contain;
-    height:contain;
-    
+    width: contain;
+    height: contain;
 }
 
-#btnBorrar {
+#btnBorrar{
     background-image: url(/images/borrar.png);
     width: contain;
     height: contain;
@@ -773,4 +772,7 @@ p.text {
     padding: 8px 12px;
     border: none;
     border-radius: 4px;
+}
+#Labelerror{
+    color:white;
 }

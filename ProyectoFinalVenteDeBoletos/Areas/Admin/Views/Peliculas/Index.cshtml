@@ -5,15 +5,15 @@
 }
 
 <h1>Peliculas:</h1>
-<section>
+<section class="lista">
     <ul>
         <li><a href="~/Admin/Pelicula/Agregar">Agregar</a></li>
         @foreach(var peli in Model.Peliculas)
         {
             <li>
-                @peli.Id || @peli.Nombre ||
-                <a href="~/Admin/Pelicula/Eliminar/@peli.Id" class="btnBorrar">Eliminar</a>
-                <a href="~/Admin/Pelicula/Editar/@peli.Id" class="btnEditar">Editar</a>
+                @peli.Id || @peli.Nombre 
+                <a href="~/Admin/Pelicula/Eliminar/@peli.Id" id="btnBorrar"></a>
+                <a href="~/Admin/Pelicula/Editar/@peli.Id" id="btnEditar"></a>
             </li>
         }
     </ul>

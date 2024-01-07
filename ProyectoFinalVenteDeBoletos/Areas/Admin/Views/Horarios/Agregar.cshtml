@@ -7,22 +7,25 @@
 
 <section>
 
-<form>    <div class="custom-card">
+    <form method="post" action="~/Admin/Horarios/Agregar" enctype="multipart/form-data">
+        <div class="custom-card">
         <h1> Agregar Horario</h1>
         <div class="detalle-izquierdo">
             <h2>Selecciona una película</h2>
-            <select id="peliculaSelect" asp-for="IdPelicula" asp-items="Model.Peliculas.Select(x=> new SelectListItem{Value = x.Id.ToString(),Text = x.Nombre})">
+            <select id="peliculaSelect" asp-for="IdPelicula" 
+            asp-items="Model.Peliculas.Select(x=> new SelectListItem{Value = x.Id.ToString(),Text = x.Nombre})">
             </select>
         </div>
 
         <div class="detalle-derecho">
             <h2>Selecciona un horario</h2>
-            <select id="horarioSelect" sp-for="IdHorario" asp-items="Model.Horarios.Select(x=> new SelectListItem{Value = x.IdHorario.ToString(),Text = x.Horario})">
+            <select id="horarioSelect" asp-for="IdHorario" 
+            asp-items="Model.Horarios.Select(x=> new SelectListItem{Value = x.IdHorario.ToString(),Text = x.Horario})">
             </select>
         </div>
+    <label id="Labelerror">@Html.ValidationSummary(true)</label>
     </div>
-
-    <a href="~/Admin/Horario/Index" onclick="regresar()">
+    <a href="~/Admin/Horarios" onclick="regresar()">
         <input type="button" class="btn-regresar" value="Regresar"/>
     </a>
     <input type="submit" value="Aceptar" class="btn-aceptar" onclick="aceptar()"/>

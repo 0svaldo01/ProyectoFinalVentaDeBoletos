@@ -1,6 +1,5 @@
-﻿namespace ProyectoFinalVentaDeBoletos.Areas.Admin.Models.Horarios
+﻿using ProyectoFinalVentaDeBoletos.Models.Entities;
+
+namespace ProyectoFinalVentaDeBoletos.Areas.Admin.Models.Horarios
 {
-    public class EliminarHorarioViewModel
-    {
-    }
 }

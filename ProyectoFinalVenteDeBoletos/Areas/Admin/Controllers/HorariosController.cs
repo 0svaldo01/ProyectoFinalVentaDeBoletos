@@ -32,7 +32,7 @@ namespace ProyectoFinalVentaDeBoletos.Areas.Admin.Controllers
             SalasRepositorio = repositorioSalas;
             #endregion
         }
-        [HttpGet]
+        [HttpGet("Admin/Horarios")]
         public IActionResult Index()
         {
             HorariosViewModel vm = new()
@@ -57,6 +57,7 @@ namespace ProyectoFinalVentaDeBoletos.Areas.Admin.Controllers
             };
             return View(vm);
         }
+
         #region CRUD
         #region Create
         [HttpPost]
@@ -66,6 +67,7 @@ namespace ProyectoFinalVentaDeBoletos.Areas.Admin.Controllers
             ModelState.Clear();
             //Validar (Aqui agregamos los errores que tenga el modelo al ModelState)
             var anterior = PeliculasHorarioRepositorio.Get(vm.IdPelicula);
+            var anterior2 = PeliculasHorarioRepositorio.Get(vm.IdHorario);
             vm.Peliculas = PeliculasRepositorio.GetAll();
             vm.Horarios = HorarioRepositorio.GetAll().Select(x => new HorariovModel
             {
@@ -75,7 +77,7 @@ namespace ProyectoFinalVentaDeBoletos.Areas.Admin.Controllers
 
             if (anterior != null)
             {
-                ModelState.AddModelError("", "El horario ya ah sido establecido anteriormente");
+                ModelState.AddModelError("", "El horario ya ha sido establecido anteriormente");
             }
             if (vm.IdPelicula <= 0)
             {
@@ -99,7 +101,7 @@ namespace ProyectoFinalVentaDeBoletos.Areas.Admin.Controllers
                     };
                     PeliculasHorarioRepositorio.Insert(peliculahorario);
                     //Redireccionar si se agrego correctamente
-                    return RedirectToAction("Index","Peliculas", new { Area = "Admin" });
+                    return RedirectToAction("Index", "Horarios", new { Area = "Admin" });
                 }
             }
             //Regresar el viewmodel si no se agrego
@@ -123,10 +125,11 @@ namespace ProyectoFinalVentaDeBoletos.Areas.Admin.Controllers
             return View(vm);
         }
         
+
         [HttpGet("{id}")]
         public IActionResult Editar(int id)
         {
-            var anterior = PeliculasHorarioRepositorio.GetById(id);
+            var anterior = PeliculasHorarioRepositorio.GetById(id); 
             if (anterior != null)
             {
                 AgregarHorarioViewModel vm = new()
