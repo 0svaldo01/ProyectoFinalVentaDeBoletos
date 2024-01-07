@@ -61,55 +61,6 @@ namespace ProyectoFinalVentaDeBoletos.Areas.Admin.Controllers
         }
 
         #region CRUD
-        #region Create
-        [HttpPost("/Admin/Horario/Agregar")]
-        public IActionResult Agregar(AgregarHorarioViewModel vm)
-        {
-            //por alguna razon, recibe el ModelState tiene errores cuando entra, para evitar que de errores limpiamos el ModelState
-            ModelState.Clear();
-            //Validar (Aqui agregamos los errores que tenga el modelo al ModelState)
-            var anterior = PeliculasHorarioRepositorio.Get(vm.IdPelicula);
-            vm.Peliculas = PeliculasRepositorio.GetAll();
-            vm.Horarios = HorarioRepositorio.GetAll().Select(x => new HorariovModel
-            {
-                IdHorario = x.Id,
-                Horario = $"{x.HoraInicio} - {x.HoraTerminacion}"
-            });
-
-            if (anterior != null)
-            {
-                ModelState.AddModelError("", "El horario ya ha sido establecido anteriormente");
-            }
-            if (vm.IdPelicula <= 0)
-            {
-                ModelState.AddModelError("", "Seleccione una pelicula");
-            }
-            if (vm.IdHorario <= 0)
-            {
-                ModelState.AddModelError("", "Seleccione un horario");
-            }
-            if (ModelState.IsValid)
-            {
-                var relacion = PeliculasHorarioRepositorio.GetAnterior(vm.IdPelicula,vm.IdHorario);
-                if (relacion == null)
-                {
-                    //Creamos la relacion entre la pelicula y el horario
-                    PeliculaHorario peliculahorario = new()
-                    {
-                        Id = 0,
-                        IdHorario = vm.IdHorario,
-                        IdPelicula = vm.IdPelicula
-                    };
-                    PeliculasHorarioRepositorio.Insert(peliculahorario);
-                    //Redireccionar si se agrego correctamente
-                    return RedirectToAction("Index", "Horarios", new { Area = "Admin" });
-                }
-            }
-            //Regresar el viewmodel si no se agrego
-            return View(vm);
-        }
-        #endregion
-        //Aqui estan las acciones para mostrar el crear, editar y eliminar
         #region Read
         [HttpGet("/Admin/Horario/Agregar")]
         public IActionResult Agregar()
@@ -169,6 +120,55 @@ namespace ProyectoFinalVentaDeBoletos.Areas.Admin.Controllers
             return RedirectToAction("Index");
         }
         #endregion
+        //Aqui estan las acciones para mostrar el crear, editar y eliminar
+        #region Create
+        [HttpPost("/Admin/Horario/Agregar")]
+        public IActionResult Agregar(AgregarHorarioViewModel vm)
+        {
+            //por alguna razon, recibe el ModelState tiene errores cuando entra, para evitar que de errores limpiamos el ModelState
+            ModelState.Clear();
+            //Validar (Aqui agregamos los errores que tenga el modelo al ModelState)
+            var anterior = PeliculasHorarioRepositorio.Get(vm.IdPelicula);
+            vm.Peliculas = PeliculasRepositorio.GetAll();
+            vm.Horarios = HorarioRepositorio.GetAll().Select(x => new HorariovModel
+            {
+                IdHorario = x.Id,
+                Horario = $"{x.HoraInicio} - {x.HoraTerminacion}"
+            });
+
+            if (anterior != null)
+            {
+                ModelState.AddModelError("", "El horario ya ha sido establecido anteriormente");
+            }
+            if (vm.IdPelicula <= 0)
+            {
+                ModelState.AddModelError("", "Seleccione una pelicula");
+            }
+            if (vm.IdHorario <= 0)
+            {
+                ModelState.AddModelError("", "Seleccione un horario");
+            }
+            if (ModelState.IsValid)
+            {
+                var relacion = PeliculasHorarioRepositorio.GetAnterior(vm.IdPelicula,vm.IdHorario);
+                if (relacion == null)
+                {
+                    //Creamos la relacion entre la pelicula y el horario
+                    PeliculaHorario peliculahorario = new()
+                    {
+                        Id = 0,
+                        IdHorario = vm.IdHorario,
+                        IdPelicula = vm.IdPelicula
+                    };
+                    PeliculasHorarioRepositorio.Insert(peliculahorario);
+                    //Redireccionar si se agrego correctamente
+                    return RedirectToAction("Index", "Horarios", new { Area = "Admin" });
+                }
+            }
+            //Regresar el viewmodel si no se agrego
+            return View(vm);
+        }
+        #endregion      
         #region Update
         [HttpPost("/Admin/Horario/Editar/{id}")]
         public IActionResult Editar(int id,AgregarHorarioViewModel vm)
