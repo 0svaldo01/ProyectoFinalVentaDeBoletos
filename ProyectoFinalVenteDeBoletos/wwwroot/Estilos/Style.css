@@ -23,7 +23,7 @@ body {
     background-position: center center;
     background-repeat: no-repeat;
     background-size: cover;
-    background:#333;
+    background:transparent;
     min-height: 8vh;
     display: flex;
     align-items: center;
