@@ -20,10 +20,10 @@ body {
 }
 
 .header {
-    background-image: url(~/images/bg.jpg);
     background-position: center center;
     background-repeat: no-repeat;
     background-size: cover;
+    background:#333;
     min-height: 8vh;
     display: flex;
     align-items: center;
