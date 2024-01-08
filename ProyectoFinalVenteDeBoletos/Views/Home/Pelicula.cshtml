@@ -5,15 +5,13 @@
     Layout = "_MainLayout";
 }
 
-<link rel="stylesheet" href="~/Estilos/estilos.css">
-
-<section class="pelicula-info">
+<div id="pelicula-info" class="info-container">
     @if(Model.Pelicula!=null){
         <form action="~/ComprarAsiento/@Model.Pelicula.Nombre.Replace(' ','-')" method="get">
-            <div class="poster">
+            <div id="poster" class="poster">
                 <img src="~/images/@(Model.Pelicula.Id).jpg" alt="~/images/@(Model.Pelicula.Id).png">
             </div>
-            <div class="descripcion">
+            <div id="descripcion"class="descripcion">
                 
                 <h1>@Model.Pelicula.Nombre</h1><br>
                 <p>@Model.Pelicula.Informacion</p><br><br>
@@ -33,19 +31,19 @@
             </div>
         </form>
     }
-</section>
+</div>
 
-<section class="otras-peliculas">
+<div id="otras-peliculas">
     <h2>Otras Películas Que Podrían Interesarte:</h2>
    
     @if (Model.OtrasPeliculas.Count()>0)
     {
-        <div class="peliculas-container">
+        <div id="peliculas-container">
         
             @foreach (var op in Model.OtrasPeliculas)
             {
                 <a href="~/Pelicula/@(op.Nombre.Replace(' ','-'))">
-                    <div class="pelicula">
+                    <div id="pelicula">
                         <img src="~/images/@(op.Id).jpg" alt="@op.Nombre">
                         <h3>@op.Nombre</h3>
                         <p>@op.Año</p>
@@ -59,4 +57,4 @@
     {
         <h1>No hay otras peliculas, vuelva más tarde</h1>
     }
-</section>
+</div>

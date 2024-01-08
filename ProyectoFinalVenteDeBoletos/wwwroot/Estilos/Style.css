@@ -776,3 +776,83 @@ p.text {
 #Labelerror{
     color:white;
 }
+
+/*Ver pelicula estilos*/
+
+#pelicula-info {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+
+.descripcion {
+    flex: 1;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.otras-peliculas div {
+    border-top: 1px solid #ccc;
+    padding-top: 20px;
+}
+
+    .otras-peliculas .pelicula {
+        margin-bottom: 10px;
+    }
+
+.peliculas-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.pelicula {
+    width: 150px;
+    margin: 10px;
+    text-align: center;
+}
+
+    .pelicula img {
+        width: 100%;
+        height: auto;
+        border-radius: 8px;
+    }
+
+.comprar-btn {
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: red;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-left: 20px;
+    transition: background-color 0.3s ease;
+}
+
+    .comprar-btn:hover {
+        background-color: darkred;
+    }
+
+.info-container {
+    display: flex;
+    align-items: center;
+}
+
+
+.poster {
+    flex: 0 0 auto;
+}
+
+    .poster img {
+        width: 10vw; 
+        height: auto;
+    }
+
+.descripcion {
+    flex: 1;
+    margin-left: 20px; 
+}
+
