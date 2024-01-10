@@ -8,7 +8,7 @@ using System.Data;
 namespace ProyectoFinalVentaDeBoletos.Areas.Admin.Controllers
 {
     [Area("Admin")]
-    [Authorize]
+    [Authorize(Roles = "Admin")]
     public class PeliculasController : Controller
     {
         #region Repositorios
@@ -202,8 +202,10 @@ namespace ProyectoFinalVentaDeBoletos.Areas.Admin.Controllers
                 {
                     var imagePath = Path.Combine(Enviroment.WebRootPath, "images", p.Id.ToString() + ".jpg");
                     var stream = new FileStream(imagePath, FileMode.Create);
-                    vm.Imagen.CopyToAsync(stream);
+                    vm.Imagen.CopyTo(stream);
+                    stream.Seek(0, SeekOrigin.Begin);
                     stream.Close();
+                    
                 }
                 #endregion
                 //Redireccionar al index

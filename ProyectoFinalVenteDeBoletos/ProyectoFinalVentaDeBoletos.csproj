@@ -37,10 +37,16 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Content Update="wwwroot\images\4.jpg">
+    <Content Update="wwwroot\images\12.jpg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Update="wwwroot\images\5.jpg">
+    <Content Update="wwwroot\images\14.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="wwwroot\images\13.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="wwwroot\images\11.jpg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Update="wwwroot\images\bg.jpg">
