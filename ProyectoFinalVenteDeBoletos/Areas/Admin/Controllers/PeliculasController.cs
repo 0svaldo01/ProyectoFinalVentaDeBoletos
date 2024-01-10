@@ -202,10 +202,9 @@ namespace ProyectoFinalVentaDeBoletos.Areas.Admin.Controllers
                 {
                     var imagePath = Path.Combine(Enviroment.WebRootPath, "images", p.Id.ToString() + ".jpg");
                     var stream = new FileStream(imagePath, FileMode.Create);
-                    vm.Imagen.CopyTo(stream);
+                    vm.Imagen.CopyToAsync(stream);
                     stream.Seek(0, SeekOrigin.Begin);
                     stream.Close();
-                    
                 }
                 #endregion
                 //Redireccionar al index
@@ -305,6 +304,7 @@ namespace ProyectoFinalVentaDeBoletos.Areas.Admin.Controllers
                             var imagePath = Path.Combine(Enviroment.WebRootPath, "images", antigua.Id.ToString() + ".jpg");
                             var stream = new FileStream(imagePath, FileMode.Create);
                             vm.Imagen.CopyToAsync(stream);
+                            stream.Seek(0, SeekOrigin.Begin);
                             stream.Close();
                         }
                         #endregion
