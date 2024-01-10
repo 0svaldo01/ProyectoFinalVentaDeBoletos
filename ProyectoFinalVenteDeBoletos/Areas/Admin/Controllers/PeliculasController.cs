@@ -119,7 +119,7 @@ namespace ProyectoFinalVentaDeBoletos.Areas.Admin.Controllers
         #endregion
         #region Create
         [HttpPost("Admin/Pelicula/Agregar")]
-        public IActionResult Agregar(AgregarPeliculaViewModel vm)
+        public async Task<IActionResult> AgregarAsync(AgregarPeliculaViewModel vm)
         {
             ModelState.Clear();
             var peli = PeliculasRepositorio.GetPeliculaByNombre(vm.Pelicula.Nombre);
@@ -202,7 +202,7 @@ namespace ProyectoFinalVentaDeBoletos.Areas.Admin.Controllers
                 {
                     var imagePath = Path.Combine(Enviroment.WebRootPath, "images", p.Id.ToString() + ".jpg");
                     var stream = new FileStream(imagePath, FileMode.Create);
-                    vm.Imagen.CopyToAsync(stream);
+                    await vm.Imagen.CopyToAsync(stream);
                     stream.Seek(0, SeekOrigin.Begin);
                     stream.Close();
                 }
@@ -228,7 +228,7 @@ namespace ProyectoFinalVentaDeBoletos.Areas.Admin.Controllers
         #endregion
         #region Update
         [HttpPost("Admin/Pelicula/Editar/{id}")]
-        public IActionResult Editar(int id,AgregarPeliculaViewModel vm)
+        public async Task<IActionResult> EditarAsync(int id,AgregarPeliculaViewModel vm)
         {
             ModelState.Clear();
             var peli = PeliculasRepositorio.GetPeliculaById(id);
@@ -303,7 +303,7 @@ namespace ProyectoFinalVentaDeBoletos.Areas.Admin.Controllers
                         {
                             var imagePath = Path.Combine(Enviroment.WebRootPath, "images", antigua.Id.ToString() + ".jpg");
                             var stream = new FileStream(imagePath, FileMode.Create);
-                            vm.Imagen.CopyToAsync(stream);
+                            await vm.Imagen.CopyToAsync(stream);
                             stream.Seek(0, SeekOrigin.Begin);
                             stream.Close();
                         }
