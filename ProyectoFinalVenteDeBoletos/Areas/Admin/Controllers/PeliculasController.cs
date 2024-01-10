@@ -9,6 +9,7 @@ namespace ProyectoFinalVentaDeBoletos.Areas.Admin.Controllers
 {
     [Area("Admin")]
     [Authorize(Roles = "Admin")]
+    //Finalizado
     public class PeliculasController : Controller
     {
         #region Repositorios
