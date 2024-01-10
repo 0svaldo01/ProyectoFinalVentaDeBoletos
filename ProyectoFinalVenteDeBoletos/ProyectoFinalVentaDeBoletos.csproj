@@ -20,11 +20,6 @@
   <ItemGroup>
     <Content Remove="wwwroot\images\1.jpg" />
     <Content Remove="wwwroot\images\3.jpg" />
-    <Content Remove="wwwroot\images\bg.jpg" />
-    <Content Remove="wwwroot\images\borrar.png" />
-    <Content Remove="wwwroot\images\cinetec.jpg" />
-    <Content Remove="wwwroot\images\editar.png" />
-    <Content Remove="wwwroot\images\menu.png" />
   </ItemGroup>
 
   <ItemGroup>
@@ -42,11 +37,33 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Resource Include="wwwroot\images\bg.jpg" />
-    <Resource Include="wwwroot\images\borrar.png" />
-    <Resource Include="wwwroot\images\cinetec.jpg" />
-    <Resource Include="wwwroot\images\editar.png" />
-    <Resource Include="wwwroot\images\menu.png" />
+    <Content Update="wwwroot\images\4.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="wwwroot\images\5.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="wwwroot\images\bg.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="wwwroot\images\borrar.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="wwwroot\images\cinetec.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="wwwroot\images\editar.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="wwwroot\images\menu.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="wwwroot\images\Pelicula.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="wwwroot\images\portada.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 
 </Project>
